@@ -15,11 +15,11 @@ class WeightModal extends StatefulWidget {
 
 class _WeightModalState extends State<WeightModal> {
   final List<double> _strengthLevels =
-      List.filled(Data.strengthStandards.length, 1.0);
+      List.filled(Data.workouts.length, 1.0);
 
   List<Widget> _exercises() {
     List<Widget> _exercises = [];
-    Data.strengthStandards.forEach((key, value) {
+    Data.workouts.forEach((key, value) {
       _exercises.add(
         Column(
           children: [

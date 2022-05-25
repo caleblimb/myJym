@@ -13,7 +13,7 @@ class _MuscleFocusState extends State<MuscleFocus> {
   var focusCategories = {
     'legs': {'label': 'Legs', 'level': 1.0},
     'core': {'label': 'Core', 'level': 1.0},
-    'torso': {'label': 'Torso', 'level': 1.0},
+    'upper': {'label': 'Upper', 'level': 1.0},
   };
   static const focusLevels = ["None", "Occasional", "Regular", "Focused"];
 
@@ -55,7 +55,7 @@ class _MuscleFocusState extends State<MuscleFocus> {
         children: [
           _muscleFocus(category: 'legs'),
           _muscleFocus(category: 'core'),
-          _muscleFocus(category: 'torso'),
+          _muscleFocus(category: 'upper'),
         ],
       ),
     );
