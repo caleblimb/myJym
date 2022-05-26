@@ -1,3 +1,7 @@
+import 'dart:html';
+import 'package:video_player/video_player.dart';
+import 'video.dart';
+
 import 'package:flutter/material.dart';
 
 import '../auxiliary/modal.dart';
@@ -30,8 +34,13 @@ class WorkoutView extends StatelessWidget {
               child: const Text("Get Started"),
             ),
           ),
+          // Container(
+            // child: Video('assets/ui/20220526_140742.mp4)
+          // )
         ],
       ),
     );
   }
 }
+
+// class
