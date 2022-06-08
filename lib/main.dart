@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myjym/schedule/schedule_view.dart';
 import 'package:myjym/tailor/tailor_view.dart';
-import 'package:myjym/workout/workout_view.dart';
+import 'workout/workout_view.dart';
 
 import 'auxiliary/bottom_bar.dart';
 import 'auxiliary/styles.dart';

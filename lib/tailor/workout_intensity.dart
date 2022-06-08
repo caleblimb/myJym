@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../auxiliary/styles.dart';
 
@@ -10,6 +11,11 @@ class WorkoutIntensity extends StatefulWidget {
 }
 
 class _WorkoutIntensityState extends State<WorkoutIntensity> {
+
+  _WorkoutIntensityState(){
+    _getPreferences();
+  }
+
   double restLevel = 2;
   static const restLevels = [
     {'label': 'Leisure', 'description': '~2min between workouts', 'rest': 120},
@@ -18,6 +24,19 @@ class _WorkoutIntensityState extends State<WorkoutIntensity> {
     {'label': 'Intense', 'description': '~30s between workouts', 'rest': 30},
     {'label': 'EXTREME', 'description': 'No rest between workouts', 'rest': 10},
   ];
+
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  Future<void> _getPreferences() async{
+    var prefs = await _prefs;
+    restLevel = prefs.getDouble('rest-level') ?? 0.0;
+    setState(() {});
+  }
+
+  Future<void> _setPreferences(value) async{
+    var prefs = await _prefs;
+    prefs.setDouble('rest-level', value );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +48,7 @@ class _WorkoutIntensityState extends State<WorkoutIntensity> {
           Slider(
             value: restLevel,
             onChanged: (newRest) {
+              _setPreferences(newRest);
               setState(() => restLevel = newRest);
             },
             min: 0,
