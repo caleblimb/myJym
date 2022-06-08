@@ -48,7 +48,7 @@ class _CalendarState extends State<Calendar> {
           },
         ),
         SizedBox(
-          height: 320,
+          height: 300,
           child: Workout(
               workout: getEventsForDay(_selectedDay).isNotEmpty
                   ? getEventsForDay(_selectedDay)[0]
