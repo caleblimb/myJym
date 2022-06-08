@@ -11,6 +11,15 @@ enum Units {
   kg
 }
 
+enum Equipment{
+  barbell,
+  bench,
+  rack,
+  bar,
+  dumbbell,
+  workoutPad
+}
+
 class Data {
   static const strengthLevels = [
     {'label': 'Beginner'},
@@ -150,11 +159,4 @@ class Data {
 
 }
 
-enum Equipment{
-  barbell,
-  bench,
-  rack,
-  bar,
-  dumbbell,
-  workoutPad
-}
+
