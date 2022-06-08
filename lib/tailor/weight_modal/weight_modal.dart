@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:myjym/tailor/body_info.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../auxiliary/data.dart';
 import '../../auxiliary/styles.dart';
@@ -14,12 +15,34 @@ class WeightModal extends StatefulWidget {
 }
 
 class _WeightModalState extends State<WeightModal> {
-  final List<double> _strengthLevels =
-      List.filled(Data.workouts.length, 1.0);
+  List<double> _strengthLevels =
+      List.filled(Data.workouts.length, 0.0);
+
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  /* * * * * * * * * * * * * * * * * * * * * * * *
+  * Set the preferences on change
+  * * * * * * * * * * * * * * * * * * * * * * * */
+  Future <void> _setPreference(key, value)async {
+    final prefs = await _prefs;
+    await prefs.setDouble(key, value);
+  }
+
+  /* * * * * * * * * * * * * * * * * * * * * * * *
+  * Get the preferences from the app shared preference
+  * Set _strengthLevels value from default
+  * * * * * * * * * * * * * * * * * * * * * * * */
+  Future <void> _getPreference(index, key) async{
+    final prefs = await _prefs;
+    _strengthLevels[index] = await prefs.getDouble(key) ?? 0.0;
+    setState(() {
+    });
+  }
 
   List<Widget> _exercises() {
     List<Widget> _exercises = [];
     Data.workouts.forEach((key, value) {
+      _getPreference(value['index'], value['key']);
       _exercises.add(
         Column(
           children: [
@@ -39,10 +62,13 @@ class _WeightModalState extends State<WeightModal> {
                         _strengthLevels[value['index'] as int].toInt()])
                     .toString() + 'x'),
             Slider(
+              // value: _getPreference(value['key'])/*_strengthLevels[value['index'] as int]*/,
               value: _strengthLevels[value['index'] as int],
               onChanged: (newLevel) {
+                _setPreference(value['key'], newLevel);
                 setState(
-                    () => _strengthLevels[value['index'] as int] = newLevel);
+                    () => _strengthLevels[value['index'] as int] = newLevel
+                );
               },
               min: 0,
               max: (Data.strengthLevels.length - 1).toDouble(),
