@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myjym/workout/workout.dart';
 
 import '../auxiliary/modal.dart';
 import '../quickstart/quickstart.dart';
@@ -30,6 +31,10 @@ class WorkoutView extends StatelessWidget {
               child: const Text("Get Started"),
             ),
           ),
+          Workout(
+              workout: getEventsForDay(DateTime.now()).isNotEmpty
+                  ? getEventsForDay(DateTime.now())[0]
+                  : null),
         ],
       ),
     );
