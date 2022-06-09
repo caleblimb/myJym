@@ -2,17 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:myjym/auxiliary/data.dart';
 import 'package:myjym/auxiliary/styles.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../tailor/workout_intensity.dart';
 
 class PlanWorkout extends StatefulWidget {
-  const PlanWorkout({Key? key, required DateTime this.day}) : super(key: key);
+  const PlanWorkout({Key? key, required DateTime this.date}) : super(key: key);
 
-  final DateTime day;
+  final DateTime date;
 
   @override
   State<PlanWorkout> createState() => _PlanWorkoutState();
 }
 
 class _PlanWorkoutState extends State<PlanWorkout> {
+  _PlanWorkoutState() {
+    _getPreferences();
+  }
+
   static const weekday = [
     'Monday',
     'Tuesday',
@@ -22,18 +29,41 @@ class _PlanWorkoutState extends State<PlanWorkout> {
     'Saturday',
     'Sunday',
   ];
+  static const month = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
   String _name = '';
   int _duration = 45;
+  double _restLevel = 2;
   List<Map<String, Object>> _exercises = [];
+
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  Future<void> _getPreferences() async{
+    var prefs = await _prefs;
+    _restLevel = prefs.getDouble('rest-level') ?? 0.0;
+    setState(() {});
+  }
 
   void addWorkout() {
     var _workout = {
-      'name': _name == '' ? weekday[widget.day.weekday] + "'s Workout" : _name,
+      'name':
+          _name == '' ? weekday[widget.date.weekday - 1] + "'s Workout" : _name,
       'duration': _duration.toDouble(),
-      'exercises': [],
+      'exercises': _exercises,
     };
 
-    workouts[getHashCode(widget.day)] = _workout;
+    workouts[getHashCode(widget.date)] = _workout;
   }
 
   @override
@@ -45,10 +75,19 @@ class _PlanWorkoutState extends State<PlanWorkout> {
             'Plan Workout',
             style: Styles.header1,
           ),
+          Text(
+              weekday[widget.date.weekday - 1] +
+                  ' - ' +
+                  month[widget.date.month] +
+                  ' ' +
+                  widget.date.day.toString() +
+                  ', ' +
+                  widget.date.year.toString(),
+              style: Styles.header3),
           TextField(
             decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: weekday[widget.day.weekday - 1] + "'s Workout",
+              border: const OutlineInputBorder(),
+              hintText: weekday[widget.date.weekday - 1] + "'s Workout",
             ),
             onChanged: (text) {
               _name = text;
@@ -71,13 +110,21 @@ class _PlanWorkoutState extends State<PlanWorkout> {
               const Text('minutes', style: Styles.header3),
             ],
           ),
-          ElevatedButton(
-            onPressed: () {
-              addWorkout();
-              Navigator.pop(context);
-            },
-            child: const Text('Add'),
+          Text(workoutIntensityRestLevels[_restLevel.toInt()]['description'].toString(),
+              style: Styles.header3),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  addWorkout();
+                  Navigator.pop(context);
+                },
+                child: const Text('Add'),
+              ),
+            ],
           ),
+
         ],
       ),
     );

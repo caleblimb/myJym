@@ -19,7 +19,7 @@ class Workout extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: (() {
-              Modal.open(context: context, child: PlanWorkout(day: day!));
+              Modal.open(context: context, child: PlanWorkout(date: day!));
             }),
             child: const Text('Plan Workout'),
           ),
