@@ -37,10 +37,17 @@ class Workout extends StatelessWidget {
               workout['name'] as String,
               style: Styles.header1,
             ),
+            Styles.horizontalRule(),
+            Text(
+              'Warm up for ' +
+                  (workout['duration_warmup']).toInt().toString() +
+                  ' minutes',
+              style: Styles.header2,
+            ),
             ...(workout['exercises']).map((exercise) {
               return Column(
                 children: [
-                  Styles.horizontalRule,
+                  Styles.horizontalRule(),
                   Text(
                     Data.exerciseInfo[exercise['type']]!['name'] as String,
                     style: Styles.header2,
@@ -67,6 +74,13 @@ class Workout extends StatelessWidget {
                 ],
               );
             }).toList(),
+            Styles.horizontalRule(),
+            Text(
+              'Cool down for ' +
+                  (workout['duration_cooldown']).toInt().toString() +
+                  ' minutes',
+              style: Styles.header2,
+            ),
           ],
         ),
       ),

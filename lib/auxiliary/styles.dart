@@ -38,16 +38,21 @@ class Styles {
     fontSize: 18,
   );
 
-  static final Container horizontalRule = Container(
-    width: double.infinity,
-    decoration: const BoxDecoration(
-      border: Border(
-        bottom: BorderSide(
-          width: 1,
-          color: brown,
+  static Container horizontalRule({double top = 0.0, double bottom = 0.0}) {
+    return Container(
+      padding: EdgeInsets.only(
+        top: top,
+        bottom: bottom,
+      ),
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            width: 1,
+            color: brown,
+          ),
         ),
       ),
-    ),
-  );
-
+    );
+  }
 }

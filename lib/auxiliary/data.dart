@@ -39,7 +39,9 @@ int getHashCode(DateTime key) {
 final workouts = {
   getHashCode(DateTime.utc(2022, 6, 8)): {
     'name': 'Upper Body',
-    'duration': 45.0,
+    'duration_warmup': 45.0,
+    'duration_lifting': 45.0,
+    'duration_cooldown': 45.0,
     'exercises': [
       {
         'type': Exercise.pushUps,
@@ -77,7 +79,9 @@ final workouts = {
   },
   getHashCode(DateTime.utc(2022, 6, 10)): {
     'name': 'Upper Body',
-    'duration': 45.0,
+    'duration_warmup': 45.0,
+    'duration_lifting': 45.0,
+    'duration_cooldown': 45.0,
     'exercises': [
       {
         'type': Exercise.deadLift,

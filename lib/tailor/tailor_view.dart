@@ -38,9 +38,9 @@ class TailorView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             _section(title: 'Available Equipment', child: const AvailableEquipment()),
-            Styles.horizontalRule,
+            Styles.horizontalRule(),
             _section(title: 'Workout Intensity', child: const WorkoutIntensity()),
-            Styles.horizontalRule,
+            Styles.horizontalRule(),
             _section(title: 'Weight Class', child: const WeightClass()),
           ],
         ),

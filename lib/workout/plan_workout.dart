@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myjym/auxiliary/data.dart';
 import 'package:myjym/auxiliary/styles.dart';
+import 'package:myjym/workout/category_select.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,12 +45,17 @@ class _PlanWorkoutState extends State<PlanWorkout> {
     'Dec',
   ];
   String _name = '';
-  int _duration = 45;
+
+  int _durationWarmup = 5;
+  int _durationLifting = 45;
+  int _durationCooldown = 5;
+
   double _restLevel = 2;
   List<Map<String, Object>> _exercises = [];
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  Future<void> _getPreferences() async{
+
+  Future<void> _getPreferences() async {
     var prefs = await _prefs;
     _restLevel = prefs.getDouble('rest-level') ?? 0.0;
     setState(() {});
@@ -59,7 +65,9 @@ class _PlanWorkoutState extends State<PlanWorkout> {
     var _workout = {
       'name':
           _name == '' ? weekday[widget.date.weekday - 1] + "'s Workout" : _name,
-      'duration': _duration.toDouble(),
+      'duration_warmup': _durationWarmup.toDouble(),
+      'duration_lifting': _durationLifting.toDouble(),
+      'duration_cooldown': _durationCooldown.toDouble(),
       'exercises': _exercises,
     };
 
@@ -93,38 +101,96 @@ class _PlanWorkoutState extends State<PlanWorkout> {
               _name = text;
             },
           ),
+          Styles.horizontalRule(
+            top: 4,
+            bottom: 8,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Duration', style: Styles.header3),
+              const Text('Warmup', style: Styles.header3),
+              NumberPicker(
+                  axis: Axis.horizontal,
+                  itemWidth: 46,
+                  minValue: 0,
+                  maxValue: 30,
+                  step: 1,
+                  value: _durationWarmup,
+                  onChanged: (newDuration) {
+                    setState(() => _durationWarmup = newDuration);
+                  }),
+              const Text('minutes', style: Styles.header3),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Lifting', style: Styles.header3),
               NumberPicker(
                   axis: Axis.horizontal,
                   itemWidth: 46,
                   minValue: 15,
                   maxValue: 120,
                   step: 1,
-                  value: _duration,
+                  value: _durationLifting,
                   onChanged: (newDuration) {
-                    setState(() => _duration = newDuration);
+                    setState(() => _durationLifting = newDuration);
                   }),
               const Text('minutes', style: Styles.header3),
             ],
           ),
-          Text(workoutIntensityRestLevels[_restLevel.toInt()]['description'].toString(),
-              style: Styles.header3),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  addWorkout();
-                  Navigator.pop(context);
-                },
-                child: const Text('Add'),
+              const Text('Cooldown', style: Styles.header3),
+              NumberPicker(
+                  axis: Axis.horizontal,
+                  itemWidth: 46,
+                  minValue: 0,
+                  maxValue: 30,
+                  step: 1,
+                  value: _durationCooldown,
+                  onChanged: (newDuration) {
+                    setState(() => _durationCooldown = newDuration);
+                  }),
+              const Text('minutes', style: Styles.header3),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Workout Duration: ' +
+                    (_durationWarmup + _durationLifting + _durationCooldown)
+                        .toString() +
+                    ' minutes',
+                style: Styles.header3,
+              )
+            ],
+          ),
+          Styles.horizontalRule(
+            top: 8,
+          ),
+          // Text(
+          //     workoutIntensityRestLevels[_restLevel.toInt()]['description']
+          //         .toString(),
+          //     style: Styles.header3),
+          CategorySelect(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(32),
+                child: ElevatedButton(
+                  onPressed: () {
+                    addWorkout();
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Add'),
+                ),
               ),
             ],
           ),
-
         ],
       ),
     );
