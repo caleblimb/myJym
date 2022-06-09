@@ -1,105 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:myjym/auxiliary/styles.dart';
+import 'package:myjym/workout/plan_workout.dart';
 
 import '../auxiliary/data.dart';
-
-int getHashCode(DateTime key) {
-  return key.day * 1000000 + key.month * 10000 + key.year;
-}
-
-final events = {
-  getHashCode(DateTime.utc(2022, 6, 8)): {
-    'name': 'Upper Body',
-    'duration': 45.0,
-    'exercises': [
-      {
-        'type': 'bench_press',
-        'sets': [
-          {'weight': 100.0, 'reps': 10},
-          {'weight': 100.0, 'reps': 10},
-          {'weight': 100.0, 'reps': 10},
-        ]
-      },
-      {
-        'type': 'shoulder_press',
-        'sets': [
-          {'weight': 120.0, 'reps': 12},
-          {'weight': 120.0, 'reps': 10},
-          {'weight': 120.0, 'reps': 8},
-        ]
-      },
-      {
-        'type': 'deadlift',
-        'sets': [
-          {'weight': 100.0, 'reps': 10},
-          {'weight': 100.0, 'reps': 10},
-          {'weight': 100.0, 'reps': 10},
-        ]
-      },
-      {
-        'type': 'barbell_curl',
-        'sets': [
-          {'weight': 120.0, 'reps': 12},
-          {'weight': 120.0, 'reps': 10},
-          {'weight': 120.0, 'reps': 8},
-        ]
-      },
-    ]
-  },
-  getHashCode(DateTime.utc(2022, 6, 10)): {
-    'name': 'Upper Body',
-    'duration': 45.0,
-    'exercises': [
-      {
-        'type': 'bench_press',
-        'sets': [
-          {'weight': 100.0, 'reps': 10},
-          {'weight': 100.0, 'reps': 10},
-          {'weight': 100.0, 'reps': 10},
-        ]
-      },
-      {
-        'type': 'shoulder_press',
-        'sets': [
-          {'weight': 120.0, 'reps': 12},
-          {'weight': 120.0, 'reps': 10},
-          {'weight': 120.0, 'reps': 8},
-        ]
-      },
-      {
-        'type': 'deadlift',
-        'sets': [
-          {'weight': 100.0, 'reps': 10},
-          {'weight': 100.0, 'reps': 10},
-          {'weight': 100.0, 'reps': 10},
-        ]
-      },
-      {
-        'type': 'barbell_curl',
-        'sets': [
-          {'weight': 120.0, 'reps': 12},
-          {'weight': 120.0, 'reps': 10},
-          {'weight': 120.0, 'reps': 8},
-        ]
-      },
-    ]
-  },
-};
-
-List<Map<String, Object>?> getEventsForDay(DateTime? day) {
-  return day == null
-      ? []
-      : events[getHashCode(day)] == null
-      ? []
-      : [events[getHashCode(day)]];
-}
+import '../auxiliary/modal.dart';
 
 class Workout extends StatelessWidget {
-  Workout({Key? key, required this.workout}) : super(key: key);
+  Workout({Key? key, required this.day}) : super(key: key);
+  final DateTime? day;
 
-  var workout;
-
-  Widget _noWorkout() {
+  Widget _noWorkout({required context}) {
     return Container(
       child: Column(
         children: [
@@ -108,7 +18,9 @@ class Workout extends StatelessWidget {
             style: Styles.header1,
           ),
           ElevatedButton(
-            onPressed: (() {}),
+            onPressed: (() {
+              Modal.open(context: context, child: PlanWorkout(day: day!));
+            }),
             child: const Text('Plan Workout'),
           ),
         ],
@@ -116,7 +28,7 @@ class Workout extends StatelessWidget {
     );
   }
 
-  Widget _workoutDisplay() {
+  Widget _workoutDisplay({required workout}) {
     return SingleChildScrollView(
       child: Container(
         child: Column(
@@ -130,7 +42,7 @@ class Workout extends StatelessWidget {
                 children: [
                   Styles.horizontalRule,
                   Text(
-                    Data.workouts[exercise['type']]!['name'] as String,
+                    Data.exerciseInfo[exercise['type']]!['name'] as String,
                     style: Styles.header2,
                   ),
                   ...(exercise['sets']).map((set) {
@@ -164,7 +76,14 @@ class Workout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: workout == null ? _noWorkout() : _workoutDisplay(),
-    );
+        child: day == null
+            ? const Text(
+                'No day selected',
+                style: Styles.header1,
+              )
+            : getWorkout(day).isNotEmpty
+                ? _workoutDisplay(
+                    workout: getWorkout(day)[0] as Map<String, Object>)
+                : _noWorkout(context: context));
   }
 }

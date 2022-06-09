@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:myjym/workout/workout.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../auxiliary/data.dart';
+
 class Calendar extends StatefulWidget {
   const Calendar({Key? key}) : super(key: key);
 
@@ -17,7 +19,7 @@ class _CalendarState extends State<Calendar> {
 
   final CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
+  DateTime? _selectedDay = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class _CalendarState extends State<Calendar> {
           focusedDay: _focusedDay,
           calendarFormat: _calendarFormat,
           eventLoader: (day) {
-            return getEventsForDay(day);
+            return getWorkout(day);
           },
           selectedDayPredicate: (day) {
             return isSameDay(_selectedDay, day);
@@ -50,9 +52,8 @@ class _CalendarState extends State<Calendar> {
         SizedBox(
           height: 300,
           child: Workout(
-              workout: getEventsForDay(_selectedDay).isNotEmpty
-                  ? getEventsForDay(_selectedDay)[0]
-                  : null),
+            day: _selectedDay,
+          ),
         ),
       ],
     ));

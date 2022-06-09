@@ -32,9 +32,8 @@ class WorkoutView extends StatelessWidget {
             ),
           ),
           Workout(
-              workout: getEventsForDay(DateTime.now()).isNotEmpty
-                  ? getEventsForDay(DateTime.now())[0]
-                  : null),
+            day: DateTime.now(),
+          ),
         ],
       ),
     );

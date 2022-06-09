@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:myjym/tailor/available_equipment.dart';
-import 'package:myjym/tailor/muscle_focus.dart';
 import 'package:myjym/tailor/weight_class.dart';
 import 'package:myjym/tailor/workout_intensity.dart';
 
@@ -32,15 +31,15 @@ class TailorView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
+      height: double.infinity,
       padding: const EdgeInsets.all(0),
       child: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             _section(title: 'Available Equipment', child: const AvailableEquipment()),
             Styles.horizontalRule,
             _section(title: 'Workout Intensity', child: const WorkoutIntensity()),
-            Styles.horizontalRule,
-            _section(title: 'Muscle Focus', child: const MuscleFocus()),
             Styles.horizontalRule,
             _section(title: 'Weight Class', child: const WeightClass()),
           ],

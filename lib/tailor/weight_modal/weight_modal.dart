@@ -16,7 +16,7 @@ class WeightModal extends StatefulWidget {
 
 class _WeightModalState extends State<WeightModal> {
   List<double> _strengthLevels =
-      List.filled(Data.workouts.length, 0.0);
+      List.filled(Data.exerciseInfo.length, 0.0);
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
@@ -41,7 +41,7 @@ class _WeightModalState extends State<WeightModal> {
 
   List<Widget> _exercises() {
     List<Widget> _exercises = [];
-    Data.workouts.forEach((key, value) {
+    Data.exerciseInfo.forEach((key, value) {
       _getPreference(value['index'], value['key']);
       _exercises.add(
         Column(
