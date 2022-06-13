@@ -51,15 +51,6 @@ class _AvailableEquipmentState extends State<AvailableEquipment> {
           _icon(0, text: 'None', iconData: Icons.grass),
           _icon(1, text: 'Basic', iconData: Icons.house),
           _icon(2, text: 'Gym', iconData: Icons.store),
-          _icon(3, text: 'Full', iconData: Icons.location_city),
-          Expanded(
-            child: IconButton(
-              onPressed: () {
-                Modal.open(context: context, child: const EquipmentModal());
-              },
-              icon: const Icon(Icons.tune),
-            ),
-          ),
         ],
       ),
     );
