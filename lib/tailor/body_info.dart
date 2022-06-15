@@ -95,7 +95,7 @@ class _BodyInfoState extends State<BodyInfo> {
               axis: Axis.horizontal,
               itemWidth: 46,
               value: _weight,
-              minValue: 50,
+              minValue: 20,
               maxValue: 300,
               step: 1,
               // onChanged: (newWeight) {
