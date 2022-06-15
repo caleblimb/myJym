@@ -95,12 +95,16 @@ class _BodyInfoState extends State<BodyInfo> {
               axis: Axis.horizontal,
               itemWidth: 46,
               value: _weight,
-              minValue: 0,
+              minValue: 50,
               maxValue: 300,
               step: 1,
-              onChanged: (newWeight) {
+              // onChanged: (newWeight) {
+              //   _setPreferences('weight', newWeight);
+              //   // setState(() => _weight = newWeight);
+              // },
+              onChanged: (newWeight){
                 _setPreferences('weight', newWeight);
-                // setState(() => _weight = newWeight);
+                setState(() => _weight = newWeight);
               },
             ),
             InkResponse(

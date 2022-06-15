@@ -51,9 +51,11 @@ class _WeightClassState extends State<WeightClass> {
               Expanded(
                 child: Slider(
                   value: _strengthLevel,
-                  onChanged: (newWeight) {
-                    _setPreferences(newWeight);
-                    setState(() => _strengthLevel = newWeight);
+                  onChanged: (newRest){
+                    setState(() => _strengthLevel = newRest);
+                  },
+                  onChangeEnd: (newRest) {
+                    _setPreferences(newRest);
                   },
                   min: 0,
                   max: (Data.strengthLevels.length - 1).toDouble(),

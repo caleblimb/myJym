@@ -15,12 +15,12 @@ class AvailableEquipment extends StatefulWidget {
 class _AvailableEquipmentState extends State<AvailableEquipment> {
   EquipmentLevels _equipmentSelected = EquipmentLevels.none;
 
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   _AvailableEquipmentState(){
     _getPreferences();
   }
   Future<void> _getPreferences() async{
-    var prefs = await _prefs;
+    final prefs = await SharedPreferences.getInstance();
     int SelectedEquip = prefs.getInt('EquipmentLevels') ?? 0;
     _equipmentSelected = EquipmentLevels.values[SelectedEquip];
     setState(() {
@@ -29,7 +29,7 @@ class _AvailableEquipmentState extends State<AvailableEquipment> {
   }
 
   Future<void> _setPreferences(value) async{
-    var prefs = await _prefs;
+    final prefs = await SharedPreferences.getInstance();
     prefs.setInt('EquipmentLevels', value);
   }
 

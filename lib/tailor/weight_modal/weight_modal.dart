@@ -62,11 +62,17 @@ class _WeightModalState extends State<WeightModal> {
             Slider(
               // value: _getPreference(value['key'])/*_strengthLevels[value['index'] as int]*/,
               value: _strengthLevels[value['index'] as int],
-              onChanged: (newLevel) {
+              // onChanged: (newLevel) {
+              //   _setPreference(value['key'], newLevel);
+              //   setState(
+              //       () => _strengthLevels[value['index'] as int] = newLevel
+              //   );
+              // },
+              onChanged: (newLevel){
+                setState(() => _strengthLevels[value['index'] as int] = newLevel);
+              },
+              onChangeEnd: (newLevel) {
                 _setPreference(value['key'], newLevel);
-                setState(
-                    () => _strengthLevels[value['index'] as int] = newLevel
-                );
               },
               min: 0,
               max: (Data.strengthLevels.length - 1).toDouble(),
