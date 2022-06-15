@@ -56,16 +56,27 @@ class Workout extends StatelessWidget {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        set['weight'] == 0.0
+                            ? const Text('')
+                            : Text(
+                                set['weight'].toStringAsFixed(1),
+                                style: Styles.header3,
+                              ),
+                        set['weight'] == 0.0
+                            ? const Text(
+                                'Body Weight * ',
+                                style: Styles.header3,
+                              )
+                            : const Text(
+                                ' lbs * ',
+                                style: Styles.header3,
+                              ),
                         Text(
-                          set['weight'].toString(),
+                          set['reps'].toString(),
                           style: Styles.header3,
                         ),
                         const Text(
-                          ' lbs * ',
-                          style: Styles.header3,
-                        ),
-                        Text(
-                          set['reps'].toString(),
+                          ' reps',
                           style: Styles.header3,
                         ),
                       ],

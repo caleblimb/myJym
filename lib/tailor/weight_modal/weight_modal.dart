@@ -56,9 +56,7 @@ class _WeightModalState extends State<WeightModal> {
                           .toInt()]['label']
                       .toString(),
             ),
-            Text((value['units'] as String) +
-                ': ' +
-                ((value['male_levels'] as List<double>)[
+            Text(((value['male_levels'] as List<double>)[
                         _strengthLevels[value['index'] as int].toInt()])
                     .toString() + 'x'),
             Slider(

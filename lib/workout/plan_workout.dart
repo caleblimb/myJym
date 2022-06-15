@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:myjym/auxiliary/data.dart';
 import 'package:myjym/auxiliary/styles.dart';
@@ -49,29 +51,126 @@ class _PlanWorkoutState extends State<PlanWorkout> {
   int _durationWarmup = 5;
   int _durationLifting = 45;
   int _durationCooldown = 5;
+  int _categorySelected = 0;
+  int _strengthLevel = 0;
+  int _gender = 0;
+  int _weight = 0;
+
+  var _categories = [
+    Category.legs,
+    Category.torso,
+  ];
 
   double _restLevel = 2;
-  List<Map<String, Object>> _exercises = [];
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   Future<void> _getPreferences() async {
     var prefs = await _prefs;
     _restLevel = prefs.getDouble('rest-level') ?? 0.0;
+    _strengthLevel = prefs.getDouble('strength-level')?.toInt() ?? 0;
+    _gender = prefs.getInt('gender') ?? 0;
+    _weight = prefs.getInt('weight') ?? 100;
     setState(() {});
   }
 
   void addWorkout() {
+    var duration = _durationLifting.toDouble();
+    var exercises = populateWorkout(duration);
+
     var _workout = {
       'name':
           _name == '' ? weekday[widget.date.weekday - 1] + "'s Workout" : _name,
       'duration_warmup': _durationWarmup.toDouble(),
-      'duration_lifting': _durationLifting.toDouble(),
+      'duration_lifting': duration,
       'duration_cooldown': _durationCooldown.toDouble(),
-      'exercises': _exercises,
+      'exercises': exercises,
     };
 
     workouts[getHashCode(widget.date)] = _workout;
+  }
+
+  List<Map<String, Object>> populateWorkout(double duration) {
+    List<Map<String, Object>> exercises = [];
+    var time = 0.0;
+    Category category = _categories[_categorySelected];
+    var possibleWorkouts = List.from(Data.categoryInfo[category] as List);
+    var rng = Random();
+
+    while (time < duration) {
+      if (possibleWorkouts.isNotEmpty) {
+        Exercise type = possibleWorkouts[rng.nextInt(possibleWorkouts.length)];
+
+        var multiplierList = (_gender == 0
+            ? Data.exerciseInfo[type]!['female_levels']
+            : Data.exerciseInfo[type]!['male_levels']) as List;
+        var multiplier = multiplierList[_strengthLevel];
+        List<Map<String, num?>> sets = [];
+
+        if (Data.exerciseInfo[type]!['units'] == repUnit.bodyWeightRatio) {
+          double maxRep = (_weight * multiplier).toDouble();
+          Data.setStyleInfo[setStyle.standard]?.forEach((set) {
+            sets.add(
+                {'weight': (set['weight']! * maxRep), 'reps': set['reps']});
+          });
+        } else if (Data.exerciseInfo[type]!['units'] == repUnit.count || true) {
+          Data.setStyleInfo[setStyle.standard]?.forEach((set) {
+            sets.add({'weight': 0.0, 'reps': multiplier});
+          });
+        }
+        exercises.add({'type': type, 'sets': sets});
+
+        possibleWorkouts.remove(type);
+        time += 5.0;
+      } else {
+        _durationCooldown += (duration - time).toInt();
+        duration = 0;
+      }
+    }
+    return exercises;
+  }
+
+  Widget _categoryIcon(int index,
+      {required String text, required IconData iconData}) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: InkResponse(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                iconData,
+                color: _categorySelected == index ? Styles.orange : null,
+              ),
+              Text(
+                text,
+                style: TextStyle(
+                    color: _categorySelected == index ? Styles.orange : null),
+              ),
+            ],
+          ),
+          onTap: () => setState(
+            () {
+              _categorySelected = index;
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _categorySelect() {
+    return Container(
+      child: Row(
+        children: [
+          _categoryIcon(0,
+              text: 'Legs', iconData: Icons.airline_seat_legroom_normal),
+          // _icon(1, text: 'Core', iconData: Icons.airline_seat_flat),
+          _categoryIcon(1, text: 'Torso', iconData: Icons.paragliding),
+        ],
+      ),
+    );
   }
 
   @override
@@ -175,7 +274,7 @@ class _PlanWorkoutState extends State<PlanWorkout> {
           //     workoutIntensityRestLevels[_restLevel.toInt()]['description']
           //         .toString(),
           //     style: Styles.header3),
-          CategorySelect(),
+          _categorySelect(),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
