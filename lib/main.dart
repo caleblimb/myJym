@@ -8,6 +8,16 @@ import 'auxiliary/styles.dart';
 
 void main() {
   runApp(const MyApp());
+//  hard code data into preference file if it doesn't already exist here
+
+//Make sure to check if preferences exist
+//if it doesn't, then write out the default similar as shown below
+//for example
+//final SharedPreferences prefs = await SharedPreferences.getInstance();
+//   prefs.setInt('weight', 100);
+//
+//all this is only good to avoid an error down the road
+// as long as ever shared preferences has a '?? default value'
 }
 
 class MyApp extends StatelessWidget {

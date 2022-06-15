@@ -26,16 +26,14 @@ class _WorkoutIntensityState extends State<WorkoutIntensity> {
 
   double restLevel = 2;
 
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
   Future<void> _getPreferences() async{
-    var prefs = await _prefs;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     restLevel = prefs.getDouble('rest-level') ?? 0.0;
     setState(() {});
   }
 
   Future<void> _setPreferences(value) async{
-    var prefs = await _prefs;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setDouble('rest-level', value );
   }
 
@@ -48,9 +46,11 @@ class _WorkoutIntensityState extends State<WorkoutIntensity> {
               style: Styles.header3),
           Slider(
             value: restLevel,
-            onChanged: (newRest) {
-              _setPreferences(newRest);
+            onChanged: (newRest){
               setState(() => restLevel = newRest);
+            },
+            onChangeEnd: (newRest) {
+              _setPreferences(newRest);
             },
             min: 0,
             max: (workoutIntensityRestLevels.length - 1).toDouble(),
