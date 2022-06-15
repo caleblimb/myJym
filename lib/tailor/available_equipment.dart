@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myjym/auxiliary/data.dart';
 import 'package:myjym/tailor/equipment_modal/equipment_modal.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../auxiliary/modal.dart';
 import '../auxiliary/styles.dart';
 
@@ -12,7 +13,25 @@ class AvailableEquipment extends StatefulWidget {
 }
 
 class _AvailableEquipmentState extends State<AvailableEquipment> {
-  int _equipmentSelected = 0;
+  EquipmentLevels _equipmentSelected = EquipmentLevels.none;
+
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  _AvailableEquipmentState(){
+    _getPreferences();
+  }
+  Future<void> _getPreferences() async{
+    var prefs = await _prefs;
+    int SelectedEquip = prefs.getInt('EquipmentLevels') ?? 0;
+    _equipmentSelected = EquipmentLevels.values[SelectedEquip];
+    setState(() {
+
+    });
+  }
+
+  Future<void> _setPreferences(value) async{
+    var prefs = await _prefs;
+    prefs.setInt('EquipmentLevels', value);
+  }
 
   Widget _icon(int index, {required String text, required IconData iconData}) {
     return Expanded(
@@ -24,18 +43,19 @@ class _AvailableEquipmentState extends State<AvailableEquipment> {
             children: [
               Icon(
                 iconData,
-                color: _equipmentSelected == index ? Styles.orange : null,
+                color: _equipmentSelected == EquipmentLevels.values[index] ? Styles.orange : null,
               ),
               Text(
                 text,
                 style: TextStyle(
-                    color: _equipmentSelected == index ? Styles.orange : null),
+                    color: _equipmentSelected == EquipmentLevels.values[index] ? Styles.orange : null),
               ),
             ],
           ),
           onTap: () => setState(
             () {
-              _equipmentSelected = index;
+              _setPreferences(index);
+              _equipmentSelected = EquipmentLevels.values[index];
             },
           ),
         ),
@@ -51,15 +71,6 @@ class _AvailableEquipmentState extends State<AvailableEquipment> {
           _icon(0, text: 'None', iconData: Icons.grass),
           _icon(1, text: 'Basic', iconData: Icons.house),
           _icon(2, text: 'Gym', iconData: Icons.store),
-          _icon(3, text: 'Full', iconData: Icons.location_city),
-          Expanded(
-            child: IconButton(
-              onPressed: () {
-                Modal.open(context: context, child: const EquipmentModal());
-              },
-              icon: const Icon(Icons.tune),
-            ),
-          ),
         ],
       ),
     );

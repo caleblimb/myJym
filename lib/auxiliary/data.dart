@@ -1,5 +1,11 @@
 enum Units { lbs, kg }
 
+enum EquipmentLevels{
+  none,
+  basic,
+  full
+}
+
 enum Equipment {
   barbell,
   bench,
