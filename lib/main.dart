@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myjym/auxiliary/preference_manager.dart';
 import 'package:myjym/schedule/schedule_view.dart';
 import 'package:myjym/tailor/tailor_view.dart';
 import 'workout/workout_view.dart';
@@ -25,6 +26,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!preferenceManager.gotPreferences) {
+      preferenceManager.getPreferences();
+      preferenceManager.gotPreferences = true;
+    }
     return MaterialApp(
       title: 'myJym',
       theme: ThemeData(

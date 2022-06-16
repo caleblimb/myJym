@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:myjym/auxiliary/preference_manager.dart';
 
 import '../auxiliary/styles.dart';
 
@@ -19,43 +19,25 @@ class WorkoutIntensity extends StatefulWidget {
 }
 
 class _WorkoutIntensityState extends State<WorkoutIntensity> {
-
-  _WorkoutIntensityState(){
-    _getPreferences();
-  }
-
-  double restLevel = 2;
-
-  Future<void> _getPreferences() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    restLevel = prefs.getDouble('rest-level') ?? 0.0;
-    setState(() {});
-  }
-
-  Future<void> _setPreferences(value) async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setDouble('rest-level', value );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: [
-          Text(workoutIntensityRestLevels[restLevel.toInt()]['description'].toString(),
+          Text(workoutIntensityRestLevels[preferenceManager.getRestLevel().toInt()]['description'].toString(),
               style: Styles.header3),
           Slider(
-            value: restLevel,
+            value: preferenceManager.getRestLevel(),
             onChanged: (newRest){
-              setState(() => restLevel = newRest);
+              setState(() => preferenceManager.setRestLevel(newRest, save: false));
             },
             onChangeEnd: (newRest) {
-              _setPreferences(newRest);
+              setState(() => preferenceManager.setRestLevel(newRest));
             },
             min: 0,
             max: (workoutIntensityRestLevels.length - 1).toDouble(),
             divisions: workoutIntensityRestLevels.length - 1,
-            label: workoutIntensityRestLevels[restLevel.toInt()]['label'].toString(),
+            label: workoutIntensityRestLevels[preferenceManager.getRestLevel().toInt()]['label'].toString(),
           ),
         ],
       ),
