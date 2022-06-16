@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myjym/auxiliary/data.dart';
-import 'package:myjym/tailor/equipment_modal/equipment_modal.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../auxiliary/modal.dart';
+import 'package:myjym/auxiliary/preference_manager.dart';
 import '../auxiliary/styles.dart';
 
 class AvailableEquipment extends StatefulWidget {
@@ -13,26 +11,6 @@ class AvailableEquipment extends StatefulWidget {
 }
 
 class _AvailableEquipmentState extends State<AvailableEquipment> {
-  EquipmentLevels _equipmentSelected = EquipmentLevels.none;
-
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  _AvailableEquipmentState(){
-    _getPreferences();
-  }
-  Future<void> _getPreferences() async{
-    var prefs = await _prefs;
-    int SelectedEquip = prefs.getInt('EquipmentLevels') ?? 0;
-    _equipmentSelected = EquipmentLevels.values[SelectedEquip];
-    setState(() {
-
-    });
-  }
-
-  Future<void> _setPreferences(value) async{
-    var prefs = await _prefs;
-    prefs.setInt('EquipmentLevels', value);
-  }
-
   Widget _icon(int index, {required String text, required IconData iconData}) {
     return Expanded(
       child: Padding(
@@ -43,19 +21,18 @@ class _AvailableEquipmentState extends State<AvailableEquipment> {
             children: [
               Icon(
                 iconData,
-                color: _equipmentSelected == EquipmentLevels.values[index] ? Styles.orange : null,
+                color: preferenceManager.getEquipmentLevels() == EquipmentLevels.values[index] ? Styles.orange : null,
               ),
               Text(
                 text,
                 style: TextStyle(
-                    color: _equipmentSelected == EquipmentLevels.values[index] ? Styles.orange : null),
+                    color: preferenceManager.getEquipmentLevels() == EquipmentLevels.values[index] ? Styles.orange : null),
               ),
             ],
           ),
           onTap: () => setState(
             () {
-              _setPreferences(index);
-              _equipmentSelected = EquipmentLevels.values[index];
+              preferenceManager.setEquipmentLevels(index);
             },
           ),
         ),
