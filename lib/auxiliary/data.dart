@@ -313,7 +313,7 @@ class Data {
   };
   static const equipmentInfo = {
     EquipmentLevels.none: [],
-    EquipmentLevels.basic:[
+    EquipmentLevels.basic: [
       Equipment.dumbbell,
       Equipment.workoutPad,
     ],
@@ -326,6 +326,7 @@ class Data {
       Equipment.workoutPad,
     ],
   };
+}
 
 
 
