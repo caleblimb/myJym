@@ -13,6 +13,7 @@ class preferenceManager {
   static double _strengthLevel = 0;
   static EquipmentLevels _equipmentSelected = EquipmentLevels.none;
   static double _restLevel = 2;
+  static bool _setup = true;
 
   static Future<void> getPreferences() async {
     final prefs = await SharedPreferences.getInstance();
@@ -23,6 +24,12 @@ class preferenceManager {
     int SelectedEquip = prefs.getInt('EquipmentLevels') ?? 0;
     _equipmentSelected = EquipmentLevels.values[SelectedEquip];
     _restLevel = prefs.getDouble('rest-level') ?? 0.0;
+    _setup = prefs.getBool('setup') ?? false;
+  }
+
+  static Future<void> setPreferenceBool(key, bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(key, value);
   }
 
   static Future<void> setPreferenceInt(key, int value) async {
@@ -64,6 +71,10 @@ class preferenceManager {
     return _restLevel;
   }
 
+  static bool getSetup(){
+    return _setup;
+  }
+
   //Setters
   static void setGender(int value) {
     _gender = value;
@@ -95,5 +106,10 @@ class preferenceManager {
     if (save) {
       setPreferenceDouble('rest-level', value);
     }
+  }
+  static void setSetup(bool value)
+  {
+    _setup = value;
+    setPreferenceBool('setup', value);
   }
 }
