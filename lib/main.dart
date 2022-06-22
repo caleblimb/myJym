@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:myjym/auxiliary/preference_manager.dart';
 import 'package:myjym/schedule/schedule_view.dart';
 import 'package:myjym/tailor/tailor_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'workout/workout_view.dart';
 
 import 'auxiliary/bottom_bar.dart';
 import 'auxiliary/styles.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  var prefs = await SharedPreferences.getInstance();
+  if (!PreferenceManager.gotPreferences) {
+    PreferenceManager.getPreferences(prefs);
+    PreferenceManager.gotPreferences = true;
+  }
   runApp(const MyApp());
 //  hard code data into preference file if it doesn't already exist here
 
@@ -26,10 +33,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!PreferenceManager.gotPreferences) {
-      PreferenceManager.getPreferences();
-      PreferenceManager.gotPreferences = true;
-    }
     return MaterialApp(
       title: 'myJym',
       theme: ThemeData(

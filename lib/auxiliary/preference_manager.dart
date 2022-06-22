@@ -18,8 +18,7 @@ class PreferenceManager {
   static bool _setup = true;
   static Map<String, dynamic> _workouts = {};
 
-  static Future<void> getPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
+  static Future<void> getPreferences(final prefs) async {
     _gender = prefs.getInt('gender') ?? 0;
     _weight = prefs.getInt('weight') ?? 100;
     _units = prefs.getInt('units') ?? Units.lbs.index;
