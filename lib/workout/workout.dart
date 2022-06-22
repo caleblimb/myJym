@@ -76,8 +76,8 @@ class _WorkoutState extends State<Workout> {
                       Column(
                         children: [
                           Text(
-                            Data.exerciseInfo[Exercise.values[exercise['type']]]!['name']
-                                as String,
+                            Data.exerciseInfo[Exercise
+                                .values[exercise['type']]]!['name'] as String,
                             style: Styles.header2,
                           ),
                           ...(exercise['sets']).map((set) {
@@ -116,9 +116,12 @@ class _WorkoutState extends State<Workout> {
                         bottom: 0,
                         right: 0,
                         child: FloatingActionButton.small(
-                          onPressed: () => Modal.open(
-                              context: context,
-                              child: Instruction(exercise: exercise['type'])),
+                          onPressed: () async {
+                            await Modal.open(
+                                context: context,
+                                child: Instruction(exercise: Exercise.values[exercise['type']]));
+                            setState(() {});
+                          },
                           child: const Icon(Icons.question_mark_rounded),
                         ),
                       ),
@@ -147,7 +150,8 @@ class _WorkoutState extends State<Workout> {
               )
             : PreferenceManager.getWorkout(widget.day).isNotEmpty
                 ? _workoutDisplay(
-                    workout: PreferenceManager.getWorkout(widget.day)[0] as Map<String, dynamic>,
+                    workout: PreferenceManager.getWorkout(widget.day)[0]
+                        as Map<String, dynamic>,
                     context: context)
                 : _noWorkout(context: context));
   }
