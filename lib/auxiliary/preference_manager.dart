@@ -39,7 +39,6 @@ class PreferenceManager {
     }
   }
 
-
   static Future<void> setPreferenceBool(key, bool value) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool(key, value);
@@ -53,6 +52,17 @@ class PreferenceManager {
   static Future<void> setPreferenceDouble(key, double value) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setDouble(key, value);
+  }
+
+  static Future<void> setPreferenceString(key, String value) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(key, value);
+  }
+
+  static addWorkout(String hashCode, Map<String, dynamic> workout)
+  {
+    _workouts[hashCode] = workout;
+    setPreferenceString('workout-events', jsonEncode(_workouts));
   }
 
   //Getters

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:myjym/auxiliary/data.dart';
+import 'package:myjym/auxiliary/preference_manager.dart';
 import 'package:myjym/auxiliary/styles.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -84,9 +85,8 @@ class _PlanWorkoutState extends State<PlanWorkout> {
       'duration_cooldown': _durationCooldown.toDouble(),
       'exercises': exercises,
     };
-
-    //TODO Set preferences and runtime variable
-    //workouts[getHashCode(widget.date).toString()] = _workout;
+    String hashCode = getHashCode(widget.date).toString();
+    PreferenceManager.addWorkout(hashCode, _workout);
   }
 
   List<Map<String, Object>> populateWorkout(double duration) {
@@ -117,7 +117,7 @@ class _PlanWorkoutState extends State<PlanWorkout> {
             sets.add({'weight': 0.0, 'reps': multiplier});
           });
         }
-        exercises.add({'type': type, 'sets': sets});
+        exercises.add({'type': type.index, 'sets': sets});
 
         possibleWorkouts.remove(type);
         time += 5.0;
