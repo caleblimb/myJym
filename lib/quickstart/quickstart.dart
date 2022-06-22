@@ -40,6 +40,7 @@ class _QuickStartState extends State<QuickStart> {
               onPressed: (){
                 //make something happen. Save bool to thingy
             PreferenceManager.setSetup(true);
+            Navigator.pop(context);
           },
               child: Text("Done")
           ),
