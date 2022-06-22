@@ -10,38 +10,7 @@ class WorkoutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(!preferenceManager.getSetup())
-      {
-        return Container(
-          child: Column(
-            children: [
-              Container(
-                child: const Image(
-                  image: AssetImage('assets/ui/myJym.png'),
-                ),
-                margin: const EdgeInsets.all(16),
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 64,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Modal.open(
-                      context: context,
-                      child: const QuickStart(),
-                    );
-                  },
-                  child: const Text("Get Started"),
-                ),
-              ),
-              Workout(
-                day: DateTime.now(),
-              ),
-            ],
-          ),
-        );
-      }
-    else{
+    if (!preferenceManager.getSetup()) {
       return Container(
         child: Column(
           children: [
@@ -51,13 +20,49 @@ class WorkoutView extends StatelessWidget {
               ),
               margin: const EdgeInsets.all(16),
             ),
-            Workout(
-              day: DateTime.now(),
+            SizedBox(
+              width: double.infinity,
+              height: 64,
+              child: ElevatedButton(
+                onPressed: () {
+                  Modal.open(
+                    context: context,
+                    child: const QuickStart(),
+                  );
+                },
+                child: const Text("Get Started"),
+              ),
+            ),
+            Flexible(
+              child: SingleChildScrollView(
+                child: Workout(
+                  day: DateTime.now(),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        child: Column(
+          children: [
+            Container(
+              child: const Image(
+                image: AssetImage('assets/ui/myJym.png'),
+              ),
+              margin: const EdgeInsets.all(16),
+            ),
+            Flexible(
+              child: SingleChildScrollView(
+                child: Workout(
+                  day: DateTime.now(),
+                ),
+              ),
             ),
           ],
         ),
       );
     }
-
   }
 }
