@@ -147,7 +147,7 @@ class _WorkoutState extends State<Workout> {
               )
             : PreferenceManager.getWorkout(widget.day).isNotEmpty
                 ? _workoutDisplay(
-                    workout: PreferenceManager.getWorkout(widget.day)[0] as Map<String, Object>,
+                    workout: PreferenceManager.getWorkout(widget.day)[0] as Map<String, dynamic>,
                     context: context)
                 : _noWorkout(context: context));
   }
