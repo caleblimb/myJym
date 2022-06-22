@@ -10,7 +10,7 @@ class WorkoutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!preferenceManager.getSetup()) {
+    if (!PreferenceManager.getSetup()) {
       return Container(
         child: Column(
           children: [
@@ -24,11 +24,12 @@ class WorkoutView extends StatelessWidget {
               width: double.infinity,
               height: 64,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   Modal.open(
                     context: context,
                     child: const QuickStart(),
                   );
+                  (context as Element).markNeedsBuild();
                 },
                 child: const Text("Get Started"),
               ),

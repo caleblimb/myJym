@@ -26,9 +26,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!preferenceManager.gotPreferences) {
-      preferenceManager.getPreferences();
-      preferenceManager.gotPreferences = true;
+    if (!PreferenceManager.gotPreferences) {
+      PreferenceManager.getPreferences();
+      PreferenceManager.gotPreferences = true;
     }
     return MaterialApp(
       title: 'myJym',

@@ -1,8 +1,10 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data.dart';
 
-class preferenceManager {
+class PreferenceManager {
   static bool gotPreferences = false;
 
   // 0 = Female, 1 = Male
@@ -14,6 +16,7 @@ class preferenceManager {
   static EquipmentLevels _equipmentSelected = EquipmentLevels.none;
   static double _restLevel = 2;
   static bool _setup = true;
+  static Map<String, dynamic> _workouts = {};
 
   static Future<void> getPreferences() async {
     final prefs = await SharedPreferences.getInstance();
@@ -25,6 +28,15 @@ class preferenceManager {
     _equipmentSelected = EquipmentLevels.values[SelectedEquip];
     _restLevel = prefs.getDouble('rest-level') ?? 0.0;
     _setup = prefs.getBool('setup') ?? false;
+
+    //Get Calendar Events from Preferences
+    String json = prefs.getString('workout-events') ?? "";
+    //convert from json to
+    if (json.isNotEmpty) {
+      _workouts = jsonDecode(json);
+    } else {
+      _workouts = {};
+    }
   }
 
   static Future<void> setPreferenceBool(key, bool value) async {
@@ -40,6 +52,17 @@ class preferenceManager {
   static Future<void> setPreferenceDouble(key, double value) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setDouble(key, value);
+  }
+
+  static Future<void> setPreferenceString(key, String value) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(key, value);
+  }
+
+  static addWorkout(String hashCode, Map<String, dynamic> workout)
+  {
+    _workouts[hashCode] = workout;
+    setPreferenceString('workout-events', jsonEncode(_workouts));
   }
 
   //Getters
@@ -71,10 +94,17 @@ class preferenceManager {
     return _restLevel;
   }
 
-  static bool getSetup(){
+  static bool getSetup() {
     return _setup;
   }
 
+  static List<Map<String, dynamic>?> getWorkout(DateTime? day) {
+    return day == null
+        ? []
+        : _workouts[getHashCode(day).toString()] == null
+        ? []
+        : [_workouts[getHashCode(day).toString()]];
+  }
   //Setters
   static void setGender(int value) {
     _gender = value;
@@ -107,8 +137,8 @@ class preferenceManager {
       setPreferenceDouble('rest-level', value);
     }
   }
-  static void setSetup(bool value)
-  {
+
+  static void setSetup(bool value) {
     _setup = value;
     setPreferenceBool('setup', value);
   }

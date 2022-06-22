@@ -21,21 +21,21 @@ class _WeightClassState extends State<WeightClass> {
           const BodyInfo(),
           Text(
             'Strength Level: ' +
-                Data.strengthLevels[preferenceManager.getStrengthLevel().toInt()]['label'].toString(),
+                Data.strengthLevels[PreferenceManager.getStrengthLevel().toInt()]['label'].toString(),
             style: Styles.header3,
           ),
           Row(
             children: <Widget>[
               Expanded(
                 child: Slider(
-                  value: preferenceManager.getStrengthLevel(),
+                  value: PreferenceManager.getStrengthLevel(),
                   onChanged: (newWeight) {
-                    setState(() => preferenceManager.setStrengthLevel(newWeight));
+                    setState(() => PreferenceManager.setStrengthLevel(newWeight));
                   },
                   min: 0,
                   max: (Data.strengthLevels.length - 1).toDouble(),
                   divisions: Data.strengthLevels.length - 1,
-                  label: Data.strengthLevels[preferenceManager.getStrengthLevel().toInt()]['label']
+                  label: Data.strengthLevels[PreferenceManager.getStrengthLevel().toInt()]['label']
                       .toString(),
                 ),
               ),
