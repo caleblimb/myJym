@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myjym/auxiliary/preference_manager.dart';
 import 'package:myjym/auxiliary/styles.dart';
 import 'package:myjym/workout/plan_workout.dart';
 
@@ -6,10 +7,24 @@ import '../auxiliary/data.dart';
 import '../auxiliary/modal.dart';
 import 'instruction.dart';
 
-class Workout extends StatelessWidget {
-  Workout({Key? key, required this.day}) : super(key: key);
+class Workout extends StatefulWidget {
+  const Workout({Key? key, required this.day}) : super(key: key);
   final DateTime? day;
 
+  static const _backgroundColor = Colors.white;
+  static const _margin = EdgeInsets.fromLTRB(8, 4, 8, 4);
+  static const _padding = EdgeInsets.fromLTRB(8, 4, 8, 4);
+  static const _borderRadius = BorderRadius.all(Radius.circular(20));
+  static final _border = Border.all(
+    width: 2,
+    color: Styles.brown,
+  );
+
+  @override
+  State<Workout> createState() => _WorkoutState();
+}
+
+class _WorkoutState extends State<Workout> {
   Widget _noWorkout({required context}) {
     return Container(
       child: Column(
@@ -19,24 +34,17 @@ class Workout extends StatelessWidget {
             style: Styles.header1,
           ),
           ElevatedButton(
-            onPressed: (() {
-              Modal.open(context: context, child: PlanWorkout(date: day!));
-            }),
+            onPressed: () async {
+              await Modal.open(
+                  context: context, child: PlanWorkout(date: widget.day!));
+              setState(() {});
+            },
             child: const Text('Plan Workout'),
           ),
         ],
       ),
     );
   }
-
-  static const _backgroundColor = Colors.white;
-  static const _margin = EdgeInsets.fromLTRB(8, 4, 8, 4);
-  static const _padding = EdgeInsets.fromLTRB(8, 4, 8, 4);
-  static const _borderRadius = BorderRadius.all(Radius.circular(20));
-  static var _border = Border.all(
-    width: 2,
-    color: Styles.brown,
-  );
 
   Widget _workoutDisplay({required workout, required context}) {
     return SingleChildScrollView(
@@ -56,19 +64,19 @@ class Workout extends StatelessWidget {
             ),
             ...(workout['exercises']).map((exercise) {
               return Container(
-                  margin: _margin,
-                  padding: _padding,
+                  margin: Workout._margin,
+                  padding: Workout._padding,
                   decoration: BoxDecoration(
-                    color: _backgroundColor,
-                    borderRadius: _borderRadius,
-                    border: _border,
+                    color: Workout._backgroundColor,
+                    borderRadius: Workout._borderRadius,
+                    border: Workout._border,
                   ),
                   child: Stack(
                     children: [
                       Column(
                         children: [
                           Text(
-                            Data.exerciseInfo[exercise['type']]!['name']
+                            Data.exerciseInfo[Exercise.values[exercise['type']]]!['name']
                                 as String,
                             style: Styles.header2,
                           ),
@@ -109,7 +117,8 @@ class Workout extends StatelessWidget {
                         right: 0,
                         child: FloatingActionButton.small(
                           onPressed: () => Modal.open(
-                              context: context, child: Instruction(exercise: exercise['type'])),
+                              context: context,
+                              child: Instruction(exercise: exercise['type'])),
                           child: const Icon(Icons.question_mark_rounded),
                         ),
                       ),
@@ -131,14 +140,14 @@ class Workout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: day == null
+        child: widget.day == null
             ? const Text(
                 'No day selected',
                 style: Styles.header1,
               )
-            : getWorkout(day).isNotEmpty
+            : PreferenceManager.getWorkout(widget.day).isNotEmpty
                 ? _workoutDisplay(
-                    workout: getWorkout(day)[0] as Map<String, Object>,
+                    workout: PreferenceManager.getWorkout(widget.day)[0] as Map<String, dynamic>,
                     context: context)
                 : _noWorkout(context: context));
   }

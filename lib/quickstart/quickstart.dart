@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:myjym/auxiliary/preference_manager.dart';
-import 'package:myjym/auxiliary/styles.dart';
 import 'package:myjym/quickstart/step1.dart';
 import 'package:myjym/quickstart/step2.dart';
 import 'package:myjym/quickstart/step3.dart';
@@ -40,7 +39,8 @@ class _QuickStartState extends State<QuickStart> {
           ElevatedButton(
               onPressed: (){
                 //make something happen. Save bool to thingy
-            preferenceManager.setSetup(true);
+            PreferenceManager.setSetup(true);
+            Navigator.pop(context);
           },
               child: Text("Done")
           ),

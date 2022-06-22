@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
 
@@ -7,8 +9,8 @@ class Modal {
   static const _padding = EdgeInsets.fromLTRB(8, 8, 8, 8);
   static const _borderRadius = BorderRadius.all(Radius.circular(20));
 
-  static open({required BuildContext context, required Widget child}) {
-    showPlatformDialog(
+  static Future<void> open({required BuildContext context, required Widget child}) async {
+    await showPlatformDialog(
       context: context,
       builder: (context) => Material(
         color: const Color.fromRGBO(0, 0, 0, 0),

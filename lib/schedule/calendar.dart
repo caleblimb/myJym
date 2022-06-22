@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myjym/workout/workout.dart';
 import 'package:table_calendar/table_calendar.dart';
-
-import '../auxiliary/data.dart';
+import '../auxiliary/preference_manager.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({Key? key}) : super(key: key);
@@ -32,7 +31,7 @@ class _CalendarState extends State<Calendar> {
           focusedDay: _focusedDay,
           calendarFormat: _calendarFormat,
           eventLoader: (day) {
-            return getWorkout(day);
+            return PreferenceManager.getWorkout(day);
           },
           selectedDayPredicate: (day) {
             return isSameDay(_selectedDay, day);
