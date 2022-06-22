@@ -24,20 +24,20 @@ class _WorkoutIntensityState extends State<WorkoutIntensity> {
     return Container(
       child: Column(
         children: [
-          Text(workoutIntensityRestLevels[preferenceManager.getRestLevel().toInt()]['description'].toString(),
+          Text(workoutIntensityRestLevels[PreferenceManager.getRestLevel().toInt()]['description'].toString(),
               style: Styles.header3),
           Slider(
-            value: preferenceManager.getRestLevel(),
+            value: PreferenceManager.getRestLevel(),
             onChanged: (newRest){
-              setState(() => preferenceManager.setRestLevel(newRest, save: false));
+              setState(() => PreferenceManager.setRestLevel(newRest, save: false));
             },
             onChangeEnd: (newRest) {
-              setState(() => preferenceManager.setRestLevel(newRest));
+              setState(() => PreferenceManager.setRestLevel(newRest));
             },
             min: 0,
             max: (workoutIntensityRestLevels.length - 1).toDouble(),
             divisions: workoutIntensityRestLevels.length - 1,
-            label: workoutIntensityRestLevels[preferenceManager.getRestLevel().toInt()]['label'].toString(),
+            label: workoutIntensityRestLevels[PreferenceManager.getRestLevel().toInt()]['label'].toString(),
           ),
         ],
       ),

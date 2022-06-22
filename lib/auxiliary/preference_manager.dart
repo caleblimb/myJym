@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data.dart';
 
-class preferenceManager {
+class PreferenceManager {
   static bool gotPreferences = false;
 
   // 0 = Female, 1 = Male
@@ -33,7 +33,7 @@ class preferenceManager {
     String json = prefs.getString('workout-events') ?? "";
     //convert from json to
     if (json.isNotEmpty) {
-      _workouts = jsonDecode(json) as Map<String, dynamic>;
+      _workouts = jsonDecode(json);
     } else {
       _workouts = {};
     }
@@ -88,10 +88,13 @@ class preferenceManager {
     return _setup;
   }
 
-  static Map<String, dynamic> getWorkouts() {
-    return _workouts;
+  static List<Map<String, dynamic>?> getWorkout(DateTime? day) {
+    return day == null
+        ? []
+        : _workouts[getHashCode(day).toString()] == null
+        ? []
+        : [_workouts[getHashCode(day).toString()]];
   }
-
   //Setters
   static void setGender(int value) {
     _gender = value;

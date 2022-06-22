@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myjym/auxiliary/preference_manager.dart';
 import 'package:myjym/auxiliary/styles.dart';
 import 'package:myjym/workout/plan_workout.dart';
 
@@ -136,9 +137,9 @@ class Workout extends StatelessWidget {
                 'No day selected',
                 style: Styles.header1,
               )
-            : getWorkout(day).isNotEmpty
+            : PreferenceManager.getWorkout(day).isNotEmpty
                 ? _workoutDisplay(
-                    workout: getWorkout(day)[0] as Map<String, Object>,
+                    workout: PreferenceManager.getWorkout(day)[0] as Map<String, dynamic>,
                     context: context)
                 : _noWorkout(context: context));
   }

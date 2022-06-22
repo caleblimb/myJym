@@ -85,7 +85,8 @@ class _PlanWorkoutState extends State<PlanWorkout> {
       'exercises': exercises,
     };
 
-    workouts[getHashCode(widget.date).toString()] = _workout;
+    //TODO Set preferences and runtime variable
+    //workouts[getHashCode(widget.date).toString()] = _workout;
   }
 
   List<Map<String, Object>> populateWorkout(double duration) {

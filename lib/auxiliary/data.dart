@@ -1,5 +1,3 @@
-import './preference_manager.dart';
-
 enum Units { lbs, kg }
 
 enum EquipmentLevels{
@@ -139,14 +137,7 @@ String getHashCode(DateTime key) {
 //     ]
 //   },
 // };
-Map <String, dynamic>workouts = preferenceManager.getWorkouts();
-List<Map<String, Object>?> getWorkout(DateTime? day) {
-  return day == null
-      ? []
-      : workouts[getHashCode(day).toString()] == null
-      ? []
-      : [workouts[getHashCode(day).toString()]];
-}
+
 
 class Data {
   static const strengthLevels = [

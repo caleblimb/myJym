@@ -21,12 +21,12 @@ class _BodyInfoState extends State<BodyInfo> {
             Icon(
               iconData,
               color:
-                  preferenceManager.getGender() == index ? Styles.orange : null,
+                  PreferenceManager.getGender() == index ? Styles.orange : null,
             ),
             Text(
               text,
               style: TextStyle(
-                  color: preferenceManager.getGender() == index
+                  color: PreferenceManager.getGender() == index
                       ? Styles.orange
                       : null),
             ),
@@ -34,7 +34,7 @@ class _BodyInfoState extends State<BodyInfo> {
         ),
         onTap: () => setState(
           () {
-            preferenceManager.setGender(index);
+            PreferenceManager.setGender(index);
           },
         ),
       ),
@@ -68,23 +68,23 @@ class _BodyInfoState extends State<BodyInfo> {
               axis: Axis.horizontal,
               itemWidth: 46,
 
-              value: preferenceManager.getWeight(),
+              value: PreferenceManager.getWeight(),
               minValue: 0,
               maxValue: 300,
               step: 1,
               onChanged: (newWeight) {
-                setState(() => preferenceManager.setWeight(newWeight));
+                setState(() => PreferenceManager.setWeight(newWeight));
               },
             ),
             InkResponse(
               child: Text(
-                preferenceManager.getUnitTypes()[preferenceManager.getUnits()],
+                PreferenceManager.getUnitTypes()[PreferenceManager.getUnits()],
                 style: const TextStyle(color: Styles.orange, fontSize: 24),
               ),
               onTap: () => setState(
                 () {
-                  preferenceManager
-                      .setUnits(preferenceManager.getUnits() == 0 ? 1 : 0);
+                  PreferenceManager
+                      .setUnits(PreferenceManager.getUnits() == 0 ? 1 : 0);
                 },
               ),
             ),

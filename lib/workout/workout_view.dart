@@ -10,7 +10,7 @@ class WorkoutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(!preferenceManager.getSetup())
+    if(!PreferenceManager.getSetup())
       {
         return Container(
           child: Column(
