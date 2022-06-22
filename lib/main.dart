@@ -11,10 +11,7 @@ import 'auxiliary/styles.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var prefs = await SharedPreferences.getInstance();
-  if (!PreferenceManager.gotPreferences) {
-    PreferenceManager.getPreferences(prefs);
-    PreferenceManager.gotPreferences = true;
-  }
+  await PreferenceManager.getPreferences(prefs);
   runApp(const MyApp());
 //  hard code data into preference file if it doesn't already exist here
 
