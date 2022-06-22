@@ -3,11 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:myjym/auxiliary/data.dart';
 import 'package:myjym/auxiliary/styles.dart';
-import 'package:myjym/workout/category_select.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../tailor/workout_intensity.dart';
 
 class PlanWorkout extends StatefulWidget {
   const PlanWorkout({Key? key, required DateTime this.date}) : super(key: key);
@@ -87,7 +85,7 @@ class _PlanWorkoutState extends State<PlanWorkout> {
       'exercises': exercises,
     };
 
-    workouts[getHashCode(widget.date)] = _workout;
+    workouts[getHashCode(widget.date).toString()] = _workout;
   }
 
   List<Map<String, Object>> populateWorkout(double duration) {

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data.dart';
@@ -14,6 +16,7 @@ class preferenceManager {
   static EquipmentLevels _equipmentSelected = EquipmentLevels.none;
   static double _restLevel = 2;
   static bool _setup = true;
+  static Map<String, dynamic> _workouts = {};
 
   static Future<void> getPreferences() async {
     final prefs = await SharedPreferences.getInstance();
@@ -25,7 +28,17 @@ class preferenceManager {
     _equipmentSelected = EquipmentLevels.values[SelectedEquip];
     _restLevel = prefs.getDouble('rest-level') ?? 0.0;
     _setup = prefs.getBool('setup') ?? false;
+
+    //Get Calendar Events from Preferences
+    String json = prefs.getString('workout-events') ?? "";
+    //convert from json to
+    if (json.isNotEmpty) {
+      _workouts = jsonDecode(json) as Map<String, dynamic>;
+    } else {
+      _workouts = {};
+    }
   }
+
 
   static Future<void> setPreferenceBool(key, bool value) async {
     final prefs = await SharedPreferences.getInstance();
@@ -71,8 +84,12 @@ class preferenceManager {
     return _restLevel;
   }
 
-  static bool getSetup(){
+  static bool getSetup() {
     return _setup;
+  }
+
+  static Map<String, dynamic> getWorkouts() {
+    return _workouts;
   }
 
   //Setters
@@ -107,8 +124,8 @@ class preferenceManager {
       setPreferenceDouble('rest-level', value);
     }
   }
-  static void setSetup(bool value)
-  {
+
+  static void setSetup(bool value) {
     _setup = value;
     setPreferenceBool('setup', value);
   }

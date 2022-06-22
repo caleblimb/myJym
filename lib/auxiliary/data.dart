@@ -1,3 +1,5 @@
+import './preference_manager.dart';
+
 enum Units { lbs, kg }
 
 enum EquipmentLevels{
@@ -54,95 +56,96 @@ String getHashCode(DateTime key) {
   return (key.day * 1000000 + key.month * 10000 + key.year).toString();
 }
 
-final workouts = {
-  getHashCode(DateTime.utc(2022, 6, 8)): {
-    'name': 'Upper Body',
-    'duration_warmup': 45.0,
-    'duration_lifting': 45.0,
-    'duration_cooldown': 45.0,
-    'exercises': [
-      {
-        'type': Exercise.pushUps,
-        'sets': [
-          {'weight': 100.0, 'reps': 10},
-          {'weight': 100.0, 'reps': 10},
-          {'weight': 100.0, 'reps': 10},
-        ]
-      },
-      {
-        'type': Exercise.benchPress,
-        'sets': [
-          {'weight': 120.0, 'reps': 12},
-          {'weight': 120.0, 'reps': 10},
-          {'weight': 120.0, 'reps': 8},
-        ]
-      },
-      {
-        'type': Exercise.bentOverRow,
-        'sets': [
-          {'weight': 100.0, 'reps': 10},
-          {'weight': 100.0, 'reps': 10},
-          {'weight': 100.0, 'reps': 10},
-        ]
-      },
-      {
-        'type': Exercise.deadLift,
-        'sets': [
-          {'weight': 120.0, 'reps': 12},
-          {'weight': 120.0, 'reps': 10},
-          {'weight': 120.0, 'reps': 8},
-        ]
-      },
-    ]
-  },
-  getHashCode(DateTime.utc(2022, 6, 10)): {
-    'name': 'Upper Body',
-    'duration_warmup': 45.0,
-    'duration_lifting': 45.0,
-    'duration_cooldown': 45.0,
-    'exercises': [
-      {
-        'type': Exercise.deadLift,
-        'sets': [
-          {'weight': 100.0, 'reps': 10},
-          {'weight': 100.0, 'reps': 10},
-          {'weight': 100.0, 'reps': 10},
-        ]
-      },
-      {
-        'type': Exercise.deadLift,
-        'sets': [
-          {'weight': 120.0, 'reps': 12},
-          {'weight': 120.0, 'reps': 10},
-          {'weight': 120.0, 'reps': 8},
-        ]
-      },
-      {
-        'type': Exercise.pushUps,
-        'sets': [
-          {'weight': 100.0, 'reps': 10},
-          {'weight': 100.0, 'reps': 10},
-          {'weight': 100.0, 'reps': 10},
-        ]
-      },
-      {
-        'type': Exercise.dumbbellShoulderPress,
-        'sets': [
-          {'weight': 120.0, 'reps': 12},
-          {'weight': 120.0, 'reps': 10},
-          {'weight': 120.0, 'reps': 8},
-        ]
-      },
-    ]
-  },
-};
 
+// final workouts = {
+//   getHashCode(DateTime.utc(2022, 6, 8)).toString(): {
+//     'name': 'Upper Body',
+//     'duration_warmup': 45.0,
+//     'duration_lifting': 45.0,
+//     'duration_cooldown': 45.0,
+//     'exercises': [
+//       {
+//         'type': Exercise.pushUps.index,
+//         'sets': [
+//           {'weight': 100.0, 'reps': 10},
+//           {'weight': 100.0, 'reps': 10},
+//           {'weight': 100.0, 'reps': 10},
+//         ]
+//       },
+//       {
+//         'type': Exercise.benchPress.index,
+//         'sets': [
+//           {'weight': 120.0, 'reps': 12},
+//           {'weight': 120.0, 'reps': 10},
+//           {'weight': 120.0, 'reps': 8},
+//         ]
+//       },
+//       {
+//         'type': Exercise.bentOverRow.index,
+//         'sets': [
+//           {'weight': 100.0, 'reps': 10},
+//           {'weight': 100.0, 'reps': 10},
+//           {'weight': 100.0, 'reps': 10},
+//         ]
+//       },
+//       {
+//         'type': Exercise.deadLift.index,
+//         'sets': [
+//           {'weight': 120.0, 'reps': 12},
+//           {'weight': 120.0, 'reps': 10},
+//           {'weight': 120.0, 'reps': 8},
+//         ]
+//       },
+//     ]
+//   },
+//   getHashCode(DateTime.utc(2022, 6, 10)).toString(): {
+//     'name': 'Upper Body',
+//     'duration_warmup': 45.0,
+//     'duration_lifting': 45.0,
+//     'duration_cooldown': 45.0,
+//     'exercises': [
+//       {
+//         'type': Exercise.deadLift.index,
+//         'sets': [
+//           {'weight': 100.0, 'reps': 10},
+//           {'weight': 100.0, 'reps': 10},
+//           {'weight': 100.0, 'reps': 10},
+//         ]
+//       },
+//       {
+//         'type': Exercise.deadLift.index,
+//         'sets': [
+//           {'weight': 120.0, 'reps': 12},
+//           {'weight': 120.0, 'reps': 10},
+//           {'weight': 120.0, 'reps': 8},
+//         ]
+//       },
+//       {
+//         'type': Exercise.pushUps.index,
+//         'sets': [
+//           {'weight': 100.0, 'reps': 10},
+//           {'weight': 100.0, 'reps': 10},
+//           {'weight': 100.0, 'reps': 10},
+//         ]
+//       },
+//       {
+//         'type': Exercise.dumbbellShoulderPress.index,
+//         'sets': [
+//           {'weight': 120.0, 'reps': 12},
+//           {'weight': 120.0, 'reps': 10},
+//           {'weight': 120.0, 'reps': 8},
+//         ]
+//       },
+//     ]
+//   },
+// };
+Map <String, dynamic>workouts = preferenceManager.getWorkouts();
 List<Map<String, Object>?> getWorkout(DateTime? day) {
   return day == null
       ? []
-      : workouts[getHashCode(day)] == null
+      : workouts[getHashCode(day).toString()] == null
       ? []
-      : [workouts[getHashCode(day)]];
+      : [workouts[getHashCode(day).toString()]];
 }
 
 class Data {

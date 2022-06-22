@@ -68,7 +68,7 @@ class Workout extends StatelessWidget {
                       Column(
                         children: [
                           Text(
-                            Data.exerciseInfo[exercise['type']]!['name']
+                            Data.exerciseInfo[Exercise.values[exercise['type']]]!['name']
                                 as String,
                             style: Styles.header2,
                           ),
