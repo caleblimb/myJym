@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myjym/auxiliary/preference_manager.dart';
 import 'package:myjym/auxiliary/styles.dart';
 import 'package:myjym/workout/plan_workout.dart';
 
@@ -75,7 +76,7 @@ class _WorkoutState extends State<Workout> {
                       Column(
                         children: [
                           Text(
-                            Data.exerciseInfo[exercise['type']]!['name']
+                            Data.exerciseInfo[Exercise.values[exercise['type']]]!['name']
                                 as String,
                             style: Styles.header2,
                           ),
@@ -144,9 +145,9 @@ class _WorkoutState extends State<Workout> {
                 'No day selected',
                 style: Styles.header1,
               )
-            : getWorkout(widget.day).isNotEmpty
+            : PreferenceManager.getWorkout(widget.day).isNotEmpty
                 ? _workoutDisplay(
-                    workout: getWorkout(widget.day)[0] as Map<String, Object>,
+                    workout: PreferenceManager.getWorkout(widget.day)[0] as Map<String, Object>,
                     context: context)
                 : _noWorkout(context: context));
   }
