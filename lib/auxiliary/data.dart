@@ -220,4 +220,24 @@ class Data {
       {'weight': 0.70, 'reps': 10,},
     ],
   };
+  static const equipmentInfo = {
+    EquipmentLevels.none: [],
+    EquipmentLevels.basic: [
+      Equipment.dumbbell,
+      Equipment.workoutPad,
+    ],
+    EquipmentLevels.full: [
+      Equipment.barbell,
+      Equipment.bench,
+      Equipment.rack,
+      Equipment.bar,
+      Equipment.dumbbell,
+      Equipment.workoutPad,
+    ],
+  };
 }
+
+
+
+
+
