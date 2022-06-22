@@ -21,18 +21,18 @@ class _AvailableEquipmentState extends State<AvailableEquipment> {
             children: [
               Icon(
                 iconData,
-                color: preferenceManager.getEquipmentLevels() == EquipmentLevels.values[index] ? Styles.orange : null,
+                color: PreferenceManager.getEquipmentLevels() == EquipmentLevels.values[index] ? Styles.orange : null,
               ),
               Text(
                 text,
                 style: TextStyle(
-                    color: preferenceManager.getEquipmentLevels() == EquipmentLevels.values[index] ? Styles.orange : null),
+                    color: PreferenceManager.getEquipmentLevels() == EquipmentLevels.values[index] ? Styles.orange : null),
               ),
             ],
           ),
           onTap: () => setState(
             () {
-              preferenceManager.setEquipmentLevels(index);
+              PreferenceManager.setEquipmentLevels(index);
             },
           ),
         ),
