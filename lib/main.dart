@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Container(
-          child: currentView['content'] as StatelessWidget,
+          child: currentView['content'] as Widget,
           margin: const EdgeInsets.only(
             left: 16,
             right: 16,

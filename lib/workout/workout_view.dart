@@ -5,9 +5,14 @@ import '../auxiliary/modal.dart';
 import '../quickstart/quickstart.dart';
 import '../auxiliary/preference_manager.dart';
 
-class WorkoutView extends StatelessWidget {
+class WorkoutView extends StatefulWidget {
   const WorkoutView({Key? key}) : super(key: key);
 
+  @override
+  State<WorkoutView> createState() => _WorkoutViewState();
+}
+
+class _WorkoutViewState extends State<WorkoutView> {
   @override
   Widget build(BuildContext context) {
     if (!PreferenceManager.getSetup()) {
@@ -29,16 +34,9 @@ class WorkoutView extends StatelessWidget {
                     context: context,
                     child: const QuickStart(),
                   );
-                  (context as Element).markNeedsBuild();
+                  setState((){});
                 },
                 child: const Text("Get Started"),
-              ),
-            ),
-            Flexible(
-              child: SingleChildScrollView(
-                child: Workout(
-                  day: DateTime.now(),
-                ),
               ),
             ),
           ],
@@ -65,5 +63,14 @@ class WorkoutView extends StatelessWidget {
         ),
       );
     }
+    }
   }
-}
+
+// class WorkoutView extends StatelessWidget {
+//   const WorkoutView({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//
+//   }
+// }

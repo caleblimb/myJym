@@ -38,7 +38,6 @@ class _QuickStartState extends State<QuickStart> {
           ),
           ElevatedButton(
               onPressed: (){
-                //make something happen. Save bool to thingy
             PreferenceManager.setSetup(true);
             Navigator.pop(context);
           },
