@@ -30,7 +30,7 @@ class _WorkoutViewState extends State<WorkoutView> {
               height: 64,
               child: ElevatedButton(
                 onPressed: () async {
-                  Modal.open(
+                  await Modal.open(
                     context: context,
                     child: const QuickStart(),
                   );
