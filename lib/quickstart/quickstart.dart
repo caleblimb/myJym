@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myjym/auxiliary/preference_manager.dart';
-import 'package:myjym/quickstart/step1.dart';
-import 'package:myjym/quickstart/step2.dart';
-import 'package:myjym/quickstart/step3.dart';
-
+import 'package:myjym/quickstart/qsInstructions.dart';
+import 'package:myjym/quickstart/qsGeneralInfo.dart';
 class QuickStart extends StatefulWidget {
   const QuickStart({Key? key}) : super(key: key);
 
@@ -28,13 +26,10 @@ class _QuickStartState extends State<QuickStart> {
             margin: const EdgeInsets.all(16),
           ),
           Container(
-            child: Step1(),
+            child: Instructions(),
           ),
           Container(
-            child: Step2(),
-          ),
-          Container(
-            child: Step3(),
+            child: GeneralInfo(),
           ),
           ElevatedButton(
               onPressed: (){
