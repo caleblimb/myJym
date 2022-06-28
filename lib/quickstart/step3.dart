@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myjym/tailor/strength_level.dart';
 import 'package:myjym/tailor/workout_intensity.dart';
 
 import '../auxiliary/styles.dart';
@@ -16,6 +17,11 @@ class Step3 extends StatelessWidget {
           style: Styles.header1,
         ),
         WorkoutIntensity(),
+        Text(
+          'Strength Level',
+          style: Styles.header1,
+        ),
+        StreangthLevel(),
       ],
     ));
   }
