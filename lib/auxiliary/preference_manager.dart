@@ -157,4 +157,25 @@ class PreferenceManager {
     String json = jsonEncode(map);
     return json;
   }
+
+  static String fromJson(String json){
+    Map map = jsonDecode(json);
+    try{
+      _gender = map["gender"];
+      _weight = map["weight"];
+      _unitTypes = map["unitTypes"];
+      _units = map[_units];
+      _strengthLevel = map["strengthLevel"];
+      _equipmentSelected = EquipmentLevels.values[map["equipmentSelected"]];
+      _restLevel = map["equipmentSelected"];
+      _setup = map["setup"];
+      _workouts = map["workouts"];
+    }
+    catch(e){
+      //do something based off of the error
+      //Print Error to screen?
+      return "ERROR: Make sure you have the right file";
+    }
+    return "Information Uploaded Successfully";
+  }
 }
