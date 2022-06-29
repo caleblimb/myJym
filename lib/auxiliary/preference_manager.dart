@@ -146,10 +146,9 @@ class PreferenceManager {
     Map map = {
       "gender" : _gender,
       "weight" : _weight,
-      "unitTypes" : _unitTypes,
       "units" : _units,
       "strengthLevel" : _strengthLevel,
-      "equipmentSelected" : _equipmentSelected.index,
+      "equipmentSelected" : _equipmentLevel.index,
       "restLevel" : _restLevel,
       "setup" : _setup,
       "workouts" : _workouts
@@ -163,10 +162,9 @@ class PreferenceManager {
     try{
       _gender = map["gender"];
       _weight = map["weight"];
-      _unitTypes = map["unitTypes"];
       _units = map[_units];
       _strengthLevel = map["strengthLevel"];
-      _equipmentSelected = EquipmentLevels.values[map["equipmentSelected"]];
+      _equipmentLevel = EquipmentLevel.values[map["equipmentSelected"]];
       _restLevel = map["equipmentSelected"];
       _setup = map["setup"];
       _workouts = map["workouts"];
