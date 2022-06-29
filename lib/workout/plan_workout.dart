@@ -6,7 +6,7 @@ import 'package:myjym/auxiliary/preference_manager.dart';
 import 'package:myjym/auxiliary/styles.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:myjym/auxiliary/icons.dart';
+import 'package:myjym/auxiliary/myjym_icons.dart';
 
 
 class PlanWorkout extends StatefulWidget {
@@ -165,9 +165,9 @@ class _PlanWorkoutState extends State<PlanWorkout> {
       child: Row(
         children: [
           _categoryIcon(0,
-              text: 'Arm', iconData: MyFlutterApp.arm),
+              text: 'Arm', iconData: MyJymIcons.arm),
           // _icon(1, text: 'Core', iconData: Icons.airline_seat_flat),
-          _categoryIcon(1, text: 'Leg', iconData: MyFlutterApp.leg),
+          _categoryIcon(1, text: 'Leg', iconData: MyJymIcons.leg),
         ],
       ),
     );

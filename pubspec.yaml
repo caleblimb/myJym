@@ -22,15 +22,19 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 
 flutter:
   uses-material-design: true
   assets:
     - assets/
     - assets/ui/
-
-fonts:
-  - family: MyFlutterApp
+  fonts:
+    -family: MyFlutterApp
     fonts:
-      - asset: fonts/MyFlutterApp.ttf
+      -asset:fonts/MyFlutterApp.ttf
+
+#fonts:
+#  - family: MyFlutterApp
+#    fonts:
+#      - asset: fonts/MyFlutterApp.ttf
