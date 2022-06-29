@@ -141,4 +141,20 @@ class PreferenceManager {
     _setup = value;
     setPreferenceBool('setup', value);
   }
+
+  static String toJson(){
+    Map map = {
+      "gender" : _gender,
+      "weight" : _weight,
+      "unitTypes" : _unitTypes,
+      "units" : _units,
+      "strengthLevel" : _strengthLevel,
+      "equipmentSelected" : _equipmentSelected.index,
+      "restLevel" : _restLevel,
+      "setup" : _setup,
+      "workouts" : _workouts
+    };
+    String json = jsonEncode(map);
+    return json;
+  }
 }
