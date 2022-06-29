@@ -1,9 +1,9 @@
 enum Units { lbs, kg }
 
-enum EquipmentLevels{
+enum EquipmentLevel {
   none,
   basic,
-  full
+  full,
 }
 
 enum Equipment {
@@ -189,9 +189,9 @@ class Data {
       'name': 'Push Ups',
       'units': repUnit.count,
       'key': 'push_ups',
-      'male_levels': [0.0, 5.0, 16.0, 26.0, 40.0, 52.0, 68.0, 82.0, 100.0],
-      'female_levels': [0.0, 1.0, .0, 10.0, 18.0, 25.0, 35.0, 44.0, 54.0],
-      'equipment': [Equipment.workoutPad]
+      'male_levels': [1.0, 8.0, 18.0, 30.0, 41.0, 54.0, 68.0, 72.0, 99.0],
+      'female_levels': [1.0, 2.0, 5.0, 11.0, 19.0, 26.0, 35.0, 42.0, 56.0],
+      'equipment': []
     },
     Exercise.dumbbellShoulderPress: {
       'index': 10,
@@ -215,18 +215,27 @@ class Data {
 
   static const setStyleInfo = {
     setStyle.standard: [
-      {'weight': 0.70, 'reps': 10,},
-      {'weight': 0.70, 'reps': 10,},
-      {'weight': 0.70, 'reps': 10,},
+      {
+        'weight': 0.70,
+        'reps': 10,
+      },
+      {
+        'weight': 0.70,
+        'reps': 10,
+      },
+      {
+        'weight': 0.70,
+        'reps': 10,
+      },
     ],
   };
   static const equipmentInfo = {
-    EquipmentLevels.none: [],
-    EquipmentLevels.basic: [
+    EquipmentLevel.none: [],
+    EquipmentLevel.basic: [
       Equipment.dumbbell,
       Equipment.workoutPad,
     ],
-    EquipmentLevels.full: [
+    EquipmentLevel.full: [
       Equipment.barbell,
       Equipment.bench,
       Equipment.rack,
@@ -236,8 +245,3 @@ class Data {
     ],
   };
 }
-
-
-
-
-

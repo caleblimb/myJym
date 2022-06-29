@@ -10,10 +10,10 @@ class PreferenceManager {
   // 0 = Female, 1 = Male
   static int _gender = 0;
   static int _weight = 100;
-  static var _unitTypes = ['lbs', 'kg'];
+  static final _unitTypes = ['lbs', 'kg'];
   static var _units = Units.lbs.index;
   static double _strengthLevel = 0;
-  static EquipmentLevels _equipmentSelected = EquipmentLevels.none;
+  static EquipmentLevel _equipmentLevel = EquipmentLevel.none;
   static double _restLevel = 2;
   static bool _setup = true;
   static Map<String, dynamic> _workouts = {};
@@ -23,8 +23,8 @@ class PreferenceManager {
     _weight = prefs.getInt('weight') ?? 100;
     _units = prefs.getInt('units') ?? Units.lbs.index;
     _strengthLevel = prefs.getDouble('strength-level') ?? 0.0;
-    int SelectedEquip = prefs.getInt('EquipmentLevels') ?? 0;
-    _equipmentSelected = EquipmentLevels.values[SelectedEquip];
+    int selectedEquip = prefs.getInt('EquipmentLevels') ?? 0;
+    _equipmentLevel = EquipmentLevel.values[selectedEquip];
     _restLevel = prefs.getDouble('rest-level') ?? 0.0;
     _setup = prefs.getBool('setup') ?? false;
 
@@ -58,8 +58,7 @@ class PreferenceManager {
     prefs.setString(key, value);
   }
 
-  static addWorkout(String hashCode, Map<String, dynamic> workout)
-  {
+  static addWorkout(String hashCode, Map<String, dynamic> workout) {
     _workouts[hashCode] = workout;
     setPreferenceString('workout-events', jsonEncode(_workouts));
   }
@@ -85,8 +84,8 @@ class PreferenceManager {
     return _strengthLevel;
   }
 
-  static EquipmentLevels getEquipmentLevels() {
-    return _equipmentSelected;
+  static EquipmentLevel getEquipmentLevel() {
+    return _equipmentLevel;
   }
 
   static double getRestLevel() {
@@ -101,9 +100,10 @@ class PreferenceManager {
     return day == null
         ? []
         : _workouts[getHashCode(day).toString()] == null
-        ? []
-        : [_workouts[getHashCode(day).toString()]];
+            ? []
+            : [_workouts[getHashCode(day).toString()]];
   }
+
   //Setters
   static void setGender(int value) {
     _gender = value;
@@ -125,8 +125,8 @@ class PreferenceManager {
     setPreferenceDouble('strength-level', value);
   }
 
-  static void setEquipmentLevels(int value) {
-    _equipmentSelected = EquipmentLevels.values[value];
+  static void setEquipmentLevel(int value) {
+    _equipmentLevel = EquipmentLevel.values[value];
     setPreferenceInt('EquipmentLevels', value);
   }
 
