@@ -13,7 +13,7 @@ class PreferenceManager {
   static var _unitTypes = ['lbs', 'kg'];
   static var _units = Units.lbs.index;
   static double _strengthLevel = 0;
-  static EquipmentLevels _equipmentSelected = EquipmentLevels.none;
+  static EquipmentLevel _equipmentSelected = EquipmentLevel.none;
   static double _restLevel = 2;
   static bool _setup = true;
   static Map<String, dynamic> _workouts = {};
@@ -23,8 +23,8 @@ class PreferenceManager {
     _weight = prefs.getInt('weight') ?? 100;
     _units = prefs.getInt('units') ?? Units.lbs.index;
     _strengthLevel = prefs.getDouble('strength-level') ?? 0.0;
-    int SelectedEquip = prefs.getInt('EquipmentLevels') ?? 0;
-    _equipmentSelected = EquipmentLevels.values[SelectedEquip];
+    int SelectedEquip = prefs.getInt('EquipmentLevel') ?? 0;
+    _equipmentSelected = EquipmentLevel.values[SelectedEquip];
     _restLevel = prefs.getDouble('rest-level') ?? 0.0;
     _setup = prefs.getBool('setup') ?? false;
 
@@ -85,7 +85,7 @@ class PreferenceManager {
     return _strengthLevel;
   }
 
-  static EquipmentLevels getEquipmentLevels() {
+  static EquipmentLevel getEquipmentLevel() {
     return _equipmentSelected;
   }
 
@@ -125,9 +125,9 @@ class PreferenceManager {
     setPreferenceDouble('strength-level', value);
   }
 
-  static void setEquipmentLevels(int value) {
-    _equipmentSelected = EquipmentLevels.values[value];
-    setPreferenceInt('EquipmentLevels', value);
+  static void setEquipmentLevel(int value) {
+    _equipmentSelected = EquipmentLevel.values[value];
+    setPreferenceInt('EquipmentLevel', value);
   }
 
   static void setRestLevel(double value, {bool save = true}) {
@@ -166,7 +166,7 @@ class PreferenceManager {
       _unitTypes = map["unitTypes"];
       _units = map[_units];
       _strengthLevel = map["strengthLevel"];
-      _equipmentSelected = EquipmentLevels.values[map["equipmentSelected"]];
+      _equipmentSelected = EquipmentLevel.values[map["equipmentSelected"]];
       _restLevel = map["equipmentSelected"];
       _setup = map["setup"];
       _workouts = map["workouts"];
