@@ -7,8 +7,8 @@ import '../auxiliary/data.dart';
 import '../auxiliary/modal.dart';
 import 'instruction.dart';
 
-class Workout extends StatefulWidget {
-  const Workout({Key? key, required this.day}) : super(key: key);
+class DeprecatedWorkout extends StatefulWidget {
+  const DeprecatedWorkout({Key? key, required this.day}) : super(key: key);
   final DateTime? day;
 
   static const _backgroundColor = Colors.white;
@@ -21,10 +21,10 @@ class Workout extends StatefulWidget {
   );
 
   @override
-  State<Workout> createState() => _WorkoutState();
+  State<DeprecatedWorkout> createState() => _DeprecatedWorkoutState();
 }
 
-class _WorkoutState extends State<Workout> {
+class _DeprecatedWorkoutState extends State<DeprecatedWorkout> {
   Widget _noWorkout({required context}) {
     return Container(
       child: Column(
@@ -64,12 +64,12 @@ class _WorkoutState extends State<Workout> {
             ),
             ...(workout['exercises']).map((exercise) {
               return Container(
-                  margin: Workout._margin,
-                  padding: Workout._padding,
+                  margin: DeprecatedWorkout._margin,
+                  padding: DeprecatedWorkout._padding,
                   decoration: BoxDecoration(
-                    color: Workout._backgroundColor,
-                    borderRadius: Workout._borderRadius,
-                    border: Workout._border,
+                    color: DeprecatedWorkout._backgroundColor,
+                    borderRadius: DeprecatedWorkout._borderRadius,
+                    border: DeprecatedWorkout._border,
                   ),
                   child: Stack(
                     children: [

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'calendar.dart';
+import 'deprecated_calendar.dart';
 
 class ScheduleView extends StatelessWidget {
   const ScheduleView({Key? key}) : super(key: key);
@@ -10,7 +10,7 @@ class ScheduleView extends StatelessWidget {
     return Container(
       child: Column(
         children: const [
-          Calendar(),
+          DeprecatedCalendar(),
         ],
       ),
     );

@@ -23,8 +23,8 @@ class PreferenceManager {
     _weight = prefs.getInt('weight') ?? 100;
     _units = prefs.getInt('units') ?? Units.lbs.index;
     _strengthLevel = prefs.getDouble('strength-level') ?? 0.0;
-    int SelectedEquip = prefs.getInt('EquipmentLevel') ?? 0;
-    _equipmentSelected = EquipmentLevel.values[SelectedEquip];
+    int selectedEquip = prefs.getInt('EquipmentLevel') ?? 0;
+    _equipmentSelected = EquipmentLevel.values[selectedEquip];
     _restLevel = prefs.getDouble('rest-level') ?? 0.0;
     _setup = prefs.getBool('setup') ?? false;
 
@@ -58,8 +58,7 @@ class PreferenceManager {
     prefs.setString(key, value);
   }
 
-  static addWorkout(String hashCode, Map<String, dynamic> workout)
-  {
+  static addWorkout(String hashCode, Map<String, dynamic> workout) {
     _workouts[hashCode] = workout;
     setPreferenceString('workout-events', jsonEncode(_workouts));
   }
@@ -101,9 +100,10 @@ class PreferenceManager {
     return day == null
         ? []
         : _workouts[getHashCode(day).toString()] == null
-        ? []
-        : [_workouts[getHashCode(day).toString()]];
+            ? []
+            : [_workouts[getHashCode(day).toString()]];
   }
+
   //Setters
   static void setGender(int value) {
     _gender = value;
@@ -142,25 +142,25 @@ class PreferenceManager {
     setPreferenceBool('setup', value);
   }
 
-  static String toJson(){
+  static String toJson() {
     Map map = {
-      "gender" : _gender,
-      "weight" : _weight,
-      "unitTypes" : _unitTypes,
-      "units" : _units,
-      "strengthLevel" : _strengthLevel,
-      "equipmentSelected" : _equipmentSelected.index,
-      "restLevel" : _restLevel,
-      "setup" : _setup,
-      "workouts" : _workouts
+      "gender": _gender,
+      "weight": _weight,
+      "unitTypes": _unitTypes,
+      "units": _units,
+      "strengthLevel": _strengthLevel,
+      "equipmentSelected": _equipmentSelected.index,
+      "restLevel": _restLevel,
+      "setup": _setup,
+      "workouts": _workouts
     };
     String json = jsonEncode(map);
     return json;
   }
 
-  static String fromJson(String json){
+  static String fromJson(String json) {
     Map map = jsonDecode(json);
-    try{
+    try {
       _gender = map["gender"];
       _weight = map["weight"];
       _unitTypes = map["unitTypes"];
@@ -170,8 +170,7 @@ class PreferenceManager {
       _restLevel = map["equipmentSelected"];
       _setup = map["setup"];
       _workouts = map["workouts"];
-    }
-    catch(e){
+    } catch (e) {
       //do something based off of the error
       //Print Error to screen?
       return "ERROR: Make sure you have the right file";
