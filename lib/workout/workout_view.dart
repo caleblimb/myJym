@@ -6,6 +6,7 @@ import '../auxiliary/modal.dart';
 import '../quickstart/quickstart.dart';
 import '../auxiliary/preference_manager.dart';
 
+
 class WorkoutView extends StatefulWidget {
   const WorkoutView({Key? key}) : super(key: key);
 

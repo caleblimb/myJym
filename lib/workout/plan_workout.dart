@@ -1,10 +1,11 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:myjym/auxiliary/data.dart';
 import 'package:myjym/auxiliary/preference_manager.dart';
 import 'package:myjym/auxiliary/styles.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:myjym/auxiliary/myjym_icons.dart';
 
 class PlanWorkout extends StatefulWidget {
   const PlanWorkout({Key? key, required this.date}) : super(key: key);
@@ -174,9 +175,9 @@ class _PlanWorkoutState extends State<PlanWorkout> {
       child: Row(
         children: [
           _categoryIcon(0,
-              text: 'Legs', iconData: Icons.airline_seat_legroom_normal),
+              text: 'Arm', iconData: MyJymIcons.arm),
           // _icon(1, text: 'Core', iconData: Icons.airline_seat_flat),
-          _categoryIcon(1, text: 'Torso', iconData: Icons.paragliding),
+          _categoryIcon(1, text: 'Leg', iconData: MyJymIcons.leg),
         ],
       ),
     );

@@ -10,17 +10,19 @@ dependencies:
   flutter:
     sdk: flutter
 
+
 #  cupertino_icons: ^1.0.2
   flutter_dialogs: ^2.1.1
   numberpicker: ^2.0.1
   shared_preferences: ^2.0.15
   table_calendar: ^3.0.6
+  flutter_emoji: ">= 2.0.0"
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 
 flutter:
   uses-material-design: true
@@ -28,3 +30,8 @@ flutter:
   assets:
     - assets/
     - assets/ui/
+
+  fonts:
+    - family: MyJymIcons
+      fonts:
+        - asset: assets/fonts/MyFlutterApp.ttf
