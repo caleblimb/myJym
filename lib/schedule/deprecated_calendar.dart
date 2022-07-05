@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:myjym/workout/workout.dart';
+import 'package:myjym/workout/deprecated_workout.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../auxiliary/preference_manager.dart';
 
-class Calendar extends StatefulWidget {
-  const Calendar({Key? key}) : super(key: key);
+class DeprecatedCalendar extends StatefulWidget {
+  const DeprecatedCalendar({Key? key}) : super(key: key);
 
   @override
-  State<Calendar> createState() => _CalendarState();
+  State<DeprecatedCalendar> createState() => _DeprecatedCalendarState();
 }
 
-class _CalendarState extends State<Calendar> {
+class _DeprecatedCalendarState extends State<DeprecatedCalendar> {
   // var workout =;
 
   final DateTime _firstDay = DateTime.utc(2022, 5, 22);
@@ -50,7 +50,7 @@ class _CalendarState extends State<Calendar> {
         ),
         SizedBox(
           height: 300,
-          child: Workout(
+          child: DeprecatedWorkout(
             day: _selectedDay,
           ),
         ),

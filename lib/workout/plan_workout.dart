@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:myjym/auxiliary/data.dart';
 import 'package:myjym/auxiliary/preference_manager.dart';
@@ -8,9 +7,8 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:myjym/auxiliary/myjym_icons.dart';
 
-
 class PlanWorkout extends StatefulWidget {
-  const PlanWorkout({Key? key, required DateTime this.date}) : super(key: key);
+  const PlanWorkout({Key? key, required this.date}) : super(key: key);
 
   final DateTime date;
 
@@ -19,10 +17,6 @@ class PlanWorkout extends StatefulWidget {
 }
 
 class _PlanWorkoutState extends State<PlanWorkout> {
-  _PlanWorkoutState() {
-    _getPreferences();
-  }
-
   static const weekday = [
     'Monday',
     'Tuesday',
@@ -52,27 +46,13 @@ class _PlanWorkoutState extends State<PlanWorkout> {
   int _durationLifting = 45;
   int _durationCooldown = 5;
   int _categorySelected = 0;
-  int _strengthLevel = 0;
-  int _gender = 0;
-  int _weight = 0;
 
-  var _categories = [
+  final _categories = [
     Category.legs,
     Category.torso,
   ];
 
   double _restLevel = 2;
-
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
-  Future<void> _getPreferences() async {
-    var prefs = await _prefs;
-    _restLevel = prefs.getDouble('rest-level') ?? 0.0;
-    _strengthLevel = prefs.getDouble('strength-level')?.toInt() ?? 0;
-    _gender = prefs.getInt('gender') ?? 0;
-    _weight = prefs.getInt('weight') ?? 100;
-    setState(() {});
-  }
 
   void addWorkout() {
     var duration = _durationLifting.toDouble();
@@ -101,27 +81,57 @@ class _PlanWorkoutState extends State<PlanWorkout> {
       if (possibleWorkouts.isNotEmpty) {
         Exercise type = possibleWorkouts[rng.nextInt(possibleWorkouts.length)];
 
-        var multiplierList = (_gender == 0
-            ? Data.exerciseInfo[type]!['female_levels']
-            : Data.exerciseInfo[type]!['male_levels']) as List;
-        var multiplier = multiplierList[_strengthLevel];
-        List<Map<String, num?>> sets = [];
+        var hasEquipment = true;
+        List<dynamic> equipNeed =
+            Data.exerciseInfo[type]!['equipment'] as List<dynamic>;
+        var equipLevel = PreferenceManager.getEquipmentLevel();
+        List<dynamic> equipHave =
+            Data.equipmentInfo[equipLevel] as List<dynamic>;
 
-        if (Data.exerciseInfo[type]!['units'] == repUnit.bodyWeightRatio) {
-          double maxRep = (_weight * multiplier).toDouble();
-          Data.setStyleInfo[setStyle.standard]?.forEach((set) {
-            sets.add(
-                {'weight': (set['weight']! * maxRep), 'reps': set['reps']});
-          });
-        } else if (Data.exerciseInfo[type]!['units'] == repUnit.count || true) {
-          Data.setStyleInfo[setStyle.standard]?.forEach((set) {
-            sets.add({'weight': 0.0, 'reps': multiplier});
-          });
+        if (equipNeed.isNotEmpty) {
+          if (equipHave.isEmpty) {
+            hasEquipment = false;
+          } else {
+            for (var need in equipNeed) {
+              var found = false;
+              for (var have in equipHave) {
+                if (have == need) {
+                  found = true;
+                  break;
+                }
+              }
+              if (!found) {
+                hasEquipment = false;
+                break;
+              }
+            }
+          }
         }
-        exercises.add({'type': type.index, 'sets': sets});
+        if (hasEquipment) {
+          var multiplierList = (PreferenceManager.getGender() == 0
+              ? Data.exerciseInfo[type]!['female_levels']
+              : Data.exerciseInfo[type]!['male_levels']) as List;
+          var multiplier =
+              multiplierList[PreferenceManager.getStrengthLevel().toInt()];
+          List<Map<String, num?>> sets = [];
+
+          if (Data.exerciseInfo[type]!['units'] == repUnit.bodyWeightRatio) {
+            double maxRep =
+                (PreferenceManager.getWeight() * multiplier).toDouble();
+            Data.setStyleInfo[setStyle.standard]?.forEach((set) {
+              sets.add(
+                  {'weight': (set['weight']! * maxRep), 'reps': set['reps']});
+            });
+          } else if (Data.exerciseInfo[type]!['units'] == repUnit.count) {
+            Data.setStyleInfo[setStyle.standard]?.forEach((set) {
+              sets.add({'weight': 0.0, 'reps': set['weight']! * multiplier});
+            });
+          }
+          exercises.add({'type': type.index, 'sets': sets});
+          time += 5.0;
+        }
 
         possibleWorkouts.remove(type);
-        time += 5.0;
       } else {
         _durationCooldown += (duration - time).toInt();
         duration = 0;

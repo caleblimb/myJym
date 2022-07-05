@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myjym/workout/workout.dart';
+import 'package:myjym/workout/deprecated_workout.dart';
+import 'package:myjym/workout/interactive_page_view_workout.dart';
 
 import '../auxiliary/modal.dart';
 import '../quickstart/quickstart.dart';
@@ -35,7 +36,7 @@ class _WorkoutViewState extends State<WorkoutView> {
                     context: context,
                     child: const QuickStart(),
                   );
-                  setState((){});
+                  setState(() {});
                 },
                 child: const Text("Get Started"),
               ),
@@ -53,19 +54,22 @@ class _WorkoutViewState extends State<WorkoutView> {
               ),
               margin: const EdgeInsets.all(16),
             ),
-            Flexible(
-              child: SingleChildScrollView(
-                child: Workout(
-                  day: DateTime.now(),
-                ),
-              ),
+            // Flexible(
+            //   child: SingleChildScrollView(
+            //     child: InteractivePageViewWorkout(
+            //       day: DateTime.now(),
+            //     ),
+            //   ),
+            // ),
+            InteractivePageViewWorkout(
+              day: DateTime.now(),
             ),
           ],
         ),
       );
     }
-    }
   }
+}
 
 // class WorkoutView extends StatelessWidget {
 //   const WorkoutView({Key? key}) : super(key: key);
