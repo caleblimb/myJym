@@ -26,15 +26,12 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
   assets:
     - assets/
     - assets/ui/
-  fonts:
-    -family: MyFlutterApp
-    fonts:
-      -asset:fonts/MyFlutterApp.ttf
 
-#fonts:
-#  - family: MyFlutterApp
-#    fonts:
-#      - asset: fonts/MyFlutterApp.ttf
+  fonts:
+    - family: MyJymIcons
+      fonts:
+        - asset: assets/fonts/MyFlutterApp.ttf
