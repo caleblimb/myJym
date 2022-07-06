@@ -174,10 +174,10 @@ class _PlanWorkoutState extends State<PlanWorkout> {
     return Container(
       child: Row(
         children: [
-          _categoryIcon(0,
-              text: 'Arm', iconData: MyJymIcons.arm),
-          // _icon(1, text: 'Core', iconData: Icons.airline_seat_flat),
+          _categoryIcon(0, text: 'Arm', iconData: MyJymIcons.arm),
           _categoryIcon(1, text: 'Leg', iconData: MyJymIcons.leg),
+          _categoryIcon(2, text: 'Push', iconData: MyJymIcons.push),
+          _categoryIcon(3, text: 'Pull', iconData: MyJymIcons.pull),
         ],
       ),
     );
