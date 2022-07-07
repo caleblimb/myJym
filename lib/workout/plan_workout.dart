@@ -176,8 +176,26 @@ class _PlanWorkoutState extends State<PlanWorkout> {
         children: [
           _categoryIcon(0, text: 'Arm', iconData: MyJymIcons.arm),
           _categoryIcon(1, text: 'Leg', iconData: MyJymIcons.leg),
+        ],
+      ),
+    );
+  }
+
+  Widget _categorySelect2() {
+    return Container(
+      child: Row(
+        children: [
           _categoryIcon(2, text: 'Push', iconData: MyJymIcons.push),
           _categoryIcon(3, text: 'Pull', iconData: MyJymIcons.pull),
+        ],
+      ),
+    );
+  }
+
+  Widget _categorySelect3() {
+    return Container(
+      child: Row(
+        children: [
           _categoryIcon(4, text: 'Core', iconData: MyJymIcons.accessibility)
         ],
       ),
@@ -286,6 +304,8 @@ class _PlanWorkoutState extends State<PlanWorkout> {
           //         .toString(),
           //     style: Styles.header3),
           _categorySelect(),
+          _categorySelect2(),
+          _categorySelect3(),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
