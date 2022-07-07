@@ -178,6 +178,7 @@ class _PlanWorkoutState extends State<PlanWorkout> {
           _categoryIcon(1, text: 'Leg', iconData: MyJymIcons.leg),
           _categoryIcon(2, text: 'Push', iconData: MyJymIcons.push),
           _categoryIcon(3, text: 'Pull', iconData: MyJymIcons.pull),
+          _categoryIcon(4, text: 'Core', iconData: MyJymIcons.accessibility)
         ],
       ),
     );
