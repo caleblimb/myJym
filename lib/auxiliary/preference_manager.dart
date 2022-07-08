@@ -17,6 +17,7 @@ class PreferenceManager {
   static double _restLevel = 2;
   static bool _setup = true;
   static Map<String, dynamic> _workouts = {};
+  static bool _workoutViewIsVertical = false;
 
   static Future<void> getPreferences(final prefs) async {
     _gender = prefs.getInt('gender') ?? 0;
@@ -27,6 +28,7 @@ class PreferenceManager {
     _equipmentSelected = EquipmentLevel.values[selectedEquip];
     _restLevel = prefs.getDouble('rest-level') ?? 0.0;
     _setup = prefs.getBool('setup') ?? false;
+    _workoutViewIsVertical = prefs.getBool('workout_view_is_vertical') ?? false;
 
     //Get Calendar Events from Preferences
     String json = prefs.getString('workout-events') ?? "";
@@ -104,6 +106,10 @@ class PreferenceManager {
             : [_workouts[getHashCode(day).toString()]];
   }
 
+  static bool getWorkoutViewIsVertical() {
+    return _workoutViewIsVertical;
+  }
+
   //Setters
   static void setGender(int value) {
     _gender = value;
@@ -140,6 +146,11 @@ class PreferenceManager {
   static void setSetup(bool value) {
     _setup = value;
     setPreferenceBool('setup', value);
+  }
+
+  static void toggleWorkoutViewIsVertical() {
+    _workoutViewIsVertical = !_workoutViewIsVertical;
+    setPreferenceBool('workout_view_is_vertical', _workoutViewIsVertical);
   }
 
   static String toJson() {

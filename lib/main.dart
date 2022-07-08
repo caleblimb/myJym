@@ -66,14 +66,18 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(currentView['title'] as String),
+        actions: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: const Image(
+              image: AssetImage('assets/ui/myJym_outlined.png'),
+            ),
+          ),
+        ],
       ),
       body: Center(
         child: Container(
           child: currentView['content'] as Widget,
-          margin: const EdgeInsets.only(
-            left: 16,
-            right: 16,
-          ),
         ),
       ),
       bottomNavigationBar: BottomBar(

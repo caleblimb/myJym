@@ -127,7 +127,10 @@ class _PlanWorkoutState extends State<PlanWorkout> {
             });
           } else if (Data.exerciseInfo[type]!['units'] == repUnit.count) {
             Data.setStyleInfo[setStyle.standard]?.forEach((set) {
-              sets.add({'weight': 0.0, 'reps': set['weight']! * multiplier});
+              sets.add({
+                'weight': 0.0,
+                'reps': (set['weight']! * multiplier).toInt()
+              });
             });
           }
           exercises.add({'type': type.index, 'sets': sets});

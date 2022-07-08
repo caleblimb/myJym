@@ -40,12 +40,12 @@ class _WorkoutViewState extends State<WorkoutView> {
       return Container(
         child: Column(
           children: [
-            Container(
-              child: const Image(
-                image: AssetImage('assets/ui/myJym.png'),
-              ),
-              margin: const EdgeInsets.all(16),
-            ),
+            // Container(
+            //   child: const Image(
+            //     image: AssetImage('assets/ui/myJym.png'),
+            //   ),
+            //   margin: const EdgeInsets.all(16),
+            // ),
             // Flexible(
             //   child: SingleChildScrollView(
             //     child: InteractivePageViewWorkout(
