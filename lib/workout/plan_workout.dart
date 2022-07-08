@@ -48,8 +48,11 @@ class _PlanWorkoutState extends State<PlanWorkout> {
   int _categorySelected = 0;
 
   final _categories = [
-    Category.legs,
     Category.torso,
+    Category.push,
+    Category.pull,
+    Category.legs,
+    Category.full,
   ];
 
   double _restLevel = 2;
@@ -174,8 +177,9 @@ class _PlanWorkoutState extends State<PlanWorkout> {
     return Container(
       child: Row(
         children: [
-          _categoryIcon(0, text: 'Arm', iconData: MyJymIcons.arm),
-          _categoryIcon(1, text: 'Leg', iconData: MyJymIcons.leg),
+          _categoryIcon(0, text: 'Torso', iconData: MyJymIcons.arm),
+          _categoryIcon(1, text: 'Push', iconData: MyJymIcons.push),
+          _categoryIcon(2, text: 'Pull', iconData: MyJymIcons.pull),
         ],
       ),
     );
@@ -185,8 +189,9 @@ class _PlanWorkoutState extends State<PlanWorkout> {
     return Container(
       child: Row(
         children: [
-          _categoryIcon(2, text: 'Push', iconData: MyJymIcons.push),
-          _categoryIcon(3, text: 'Pull', iconData: MyJymIcons.pull),
+          _categoryIcon(3, text: 'Leg', iconData: MyJymIcons.leg),
+          _categoryIcon(4,
+              text: 'Full Body', iconData: MyJymIcons.accessibility)
         ],
       ),
     );
@@ -195,9 +200,7 @@ class _PlanWorkoutState extends State<PlanWorkout> {
   Widget _categorySelect3() {
     return Container(
       child: Row(
-        children: [
-          _categoryIcon(4, text: 'Core', iconData: MyJymIcons.accessibility)
-        ],
+        children: [],
       ),
     );
   }

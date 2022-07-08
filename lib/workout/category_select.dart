@@ -48,7 +48,7 @@ class _CategorySelectState extends State<CategorySelect> {
         children: [
           _icon(0, text: 'Legs', iconData: Icons.airline_seat_legroom_normal),
           // _icon(1, text: 'Core', iconData: Icons.airline_seat_flat),
-          _icon(1, text: 'Torso', iconData: Icons.paragliding),
+          _icon(1, text: 'Arms', iconData: Icons.paragliding),
         ],
       ),
     );
