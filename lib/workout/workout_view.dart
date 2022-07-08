@@ -18,6 +18,7 @@ class _WorkoutViewState extends State<WorkoutView> {
     if (!PreferenceManager.getSetup()) {
       return Expanded(
         child: new ListView(
+          padding: EdgeInsets.all(25),
           shrinkWrap: false,
           children: [
             QuickStart(),
