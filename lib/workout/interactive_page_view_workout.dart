@@ -33,7 +33,8 @@ class _InteractivePageViewWorkoutState
 
   void _completeWorkout() {
     //Set workout to complete
-    var workout = PreferenceManager.getWorkout(widget.day)[0] as Map<String, dynamic>;
+    var workout =
+        PreferenceManager.getWorkout(widget.day)[0] as Map<String, dynamic>;
     DateTime day = widget.day ?? DateTime.now();
     workout['completed'] = true;
     PreferenceManager.addWorkout(getHashCode(day).toString(), workout);
@@ -78,25 +79,23 @@ class _InteractivePageViewWorkoutState
       width: double.infinity,
       child: _card(
         child: Text(
-          'Warm up for ' +
-              (workout['duration_warmup']).toInt().toString() +
-              ' minutes',
+          'Warm up for ${(workout['duration_warmup']).toInt()} minutes',
           style: Styles.header2,
           textAlign: TextAlign.center,
         ),
       ),
     );
   }
+
   //TODO Remove this check
-check(workout){
-    if(workout['completed'])
-      {
-        return Text("COMPLETED");
-      }
-    else{
+  check(workout) {
+    if (workout['completed']) {
+      return Text("COMPLETED");
+    } else {
       return Text("NOT COMPLETED");
     }
-}
+  }
+
   Widget _listWorkout({required workout, required context}) {
     return SingleChildScrollView(
       child: Column(
@@ -167,9 +166,7 @@ check(workout){
             child: Column(
               children: [
                 Text(
-                  'Cool down for ' +
-                      (workout['duration_cooldown']).toInt().toString() +
-                      ' minutes',
+                  'Cool down for ${(workout['duration_cooldown']).toInt()} minutes',
                   style: Styles.header2,
                 ),
                 ElevatedButton(
@@ -258,9 +255,7 @@ check(workout){
           child: Column(
             children: [
               Text(
-                'Cool down for ' +
-                    (workout['duration_cooldown']).toInt().toString() +
-                    ' minutes',
+                'Cool down for ${(workout['duration_cooldown']).toInt()} minutes',
                 style: Styles.header2,
               ),
               Flexible(

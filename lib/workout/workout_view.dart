@@ -17,17 +17,17 @@ class _WorkoutViewState extends State<WorkoutView> {
   Widget build(BuildContext context) {
     if (!PreferenceManager.getSetup()) {
       return Expanded(
-        child: new ListView(
-          padding: EdgeInsets.all(25),
+        child: ListView(
+          padding: const EdgeInsets.all(25),
           shrinkWrap: false,
           children: [
-            QuickStart(),
+            const QuickStart(),
             ElevatedButton(
                 onPressed: (){
                   PreferenceManager.setSetup(true);
                   setState(() {});
                 },
-                child: Text("Done")
+                child: const Text("Done")
             ),
           ],
         ),

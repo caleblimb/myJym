@@ -62,7 +62,7 @@ class _PlanWorkoutState extends State<PlanWorkout> {
 
     var _workout = {
       'name':
-          _name == '' ? weekday[widget.date.weekday - 1] + "'s Workout" : _name,
+          _name == '' ? "${weekday[widget.date.weekday - 1]}'s Workout" : _name,
       'duration_warmup': _durationWarmup.toDouble(),
       'duration_lifting': duration,
       'duration_cooldown': _durationCooldown.toDouble(),
@@ -218,18 +218,12 @@ class _PlanWorkoutState extends State<PlanWorkout> {
             style: Styles.header1,
           ),
           Text(
-              weekday[widget.date.weekday - 1] +
-                  ' - ' +
-                  month[widget.date.month] +
-                  ' ' +
-                  widget.date.day.toString() +
-                  ', ' +
-                  widget.date.year.toString(),
+              '${weekday[widget.date.weekday - 1]} - ${month[widget.date.month]} ${widget.date.day}, ${widget.date.year}',
               style: Styles.header3),
           TextField(
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
-              hintText: weekday[widget.date.weekday - 1] + "'s Workout",
+              hintText: "${weekday[widget.date.weekday - 1]}'s Workout",
             ),
             onChanged: (text) {
               _name = text;
@@ -294,10 +288,7 @@ class _PlanWorkoutState extends State<PlanWorkout> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Workout Duration: ' +
-                    (_durationWarmup + _durationLifting + _durationCooldown)
-                        .toString() +
-                    ' minutes',
+                'Workout Duration: ${_durationWarmup + _durationLifting + _durationCooldown} minutes',
                 style: Styles.header3,
               )
             ],
