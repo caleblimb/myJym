@@ -49,7 +49,6 @@ class _DeprecatedCalendarState extends State<DeprecatedCalendar> {
           },
         ),
         Expanded(
-
           child: new ListView(
             children: [
               DeprecatedWorkout(day: _selectedDay)

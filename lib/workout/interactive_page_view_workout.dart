@@ -87,11 +87,21 @@ class _InteractivePageViewWorkoutState
       ),
     );
   }
-
+  //TODO Remove this check
+check(workout){
+    if(workout['completed'])
+      {
+        return Text("COMPLETED");
+      }
+    else{
+      return Text("NOT COMPLETED");
+    }
+}
   Widget _listWorkout({required workout, required context}) {
     return SingleChildScrollView(
       child: Column(
         children: [
+          check(workout),
           _warmup(workout: workout),
           ...(workout['exercises']).map((exercise) {
             return _card(
