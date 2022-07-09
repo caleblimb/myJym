@@ -12,7 +12,6 @@ class InteractivePageViewWorkout extends StatefulWidget {
       : super(key: key);
   final DateTime? day;
 
-  static const _backgroundColor = Colors.white;
   static const _margin = EdgeInsets.fromLTRB(8, 4, 8, 4);
   static const _padding = EdgeInsets.fromLTRB(8, 4, 8, 4);
   static const _borderRadius = BorderRadius.all(Radius.circular(20));
@@ -36,7 +35,7 @@ class _InteractivePageViewWorkoutState
     var workout =
         PreferenceManager.getWorkout(widget.day)[0] as Map<String, dynamic>;
     DateTime day = widget.day ?? DateTime.now();
-    workout['completed'] = true;
+    workout['completed'] = !workout['completed'];
     PreferenceManager.addWorkout(getHashCode(day).toString(), workout);
   }
 
@@ -61,13 +60,25 @@ class _InteractivePageViewWorkoutState
     );
   }
 
-  Widget _card({required child}) {
+  Widget _completeButton({required workout}) {
+    return ElevatedButton(
+      onPressed: () {
+        _completeWorkout();
+        setState(() {});
+      },
+      child: workout['completed']
+          ? const Text('Completed')
+          : const Text('Complete Workout'),
+    );
+  }
+
+  Widget _card({required child, Color? color}) {
     return Container(
         width: double.infinity,
         margin: InteractivePageViewWorkout._margin,
         padding: InteractivePageViewWorkout._padding,
         decoration: BoxDecoration(
-          color: InteractivePageViewWorkout._backgroundColor,
+          color: color ?? Colors.white,
           borderRadius: InteractivePageViewWorkout._borderRadius,
           border: InteractivePageViewWorkout._border,
         ),
@@ -77,106 +88,116 @@ class _InteractivePageViewWorkoutState
   Widget _warmup({required workout}) {
     return SizedBox(
       width: double.infinity,
-      child: _card(
-        child: Text(
-          'Warm up for ${(workout['duration_warmup']).toInt()} minutes',
-          style: Styles.header2,
-          textAlign: TextAlign.center,
+      child: InkResponse(
+        onTap: () {
+          setState(() {
+            workout['warmup_completed'] = !workout['warmup_completed'];
+          });
+        },
+        child: _card(
+          color: workout['warmup_completed'] ? Styles.blue : Styles.yellow,
+          child: Text(
+            'Warm up for ${(workout['duration_warmup']).toInt()} minutes',
+            style: Styles.header2,
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );
-  }
-
-  //TODO Remove this check
-  check(workout) {
-    if (workout['completed']) {
-      return Text("COMPLETED");
-    } else {
-      return Text("NOT COMPLETED");
-    }
   }
 
   Widget _listWorkout({required workout, required context}) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          check(workout),
           _warmup(workout: workout),
           ...(workout['exercises']).map((exercise) {
-            return _card(
+            return InkResponse(
+              onTap: () {
+                setState(() {
+                  exercise['completed'] = !exercise['completed'];
+                });
+              },
+              child: _card(
+                color: exercise['completed'] ? Styles.blue : Styles.yellow,
                 child: Stack(
-              children: [
-                Column(
                   children: [
-                    Text(
-                      Data.exerciseInfo[Exercise.values[exercise['type']]]![
-                          'name'] as String,
-                      style: Styles.header2,
+                    Column(
+                      children: [
+                        Text(
+                          Data.exerciseInfo[Exercise.values[exercise['type']]]![
+                              'name'] as String,
+                          style: Styles.header2,
+                        ),
+                        ...(exercise['sets']).map((set) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              set['weight'] == 0.0
+                                  ? const Text('')
+                                  : Text(
+                                      set['weight'].toStringAsFixed(1),
+                                      style: Styles.header3,
+                                    ),
+                              set['weight'] == 0.0
+                                  ? const Text(
+                                      'Body Weight * ',
+                                      style: Styles.header3,
+                                    )
+                                  : const Text(
+                                      ' lbs * ',
+                                      style: Styles.header3,
+                                    ),
+                              Text(
+                                set['reps'].toString(),
+                                style: Styles.header3,
+                              ),
+                              const Text(
+                                ' reps',
+                                style: Styles.header3,
+                              ),
+                            ],
+                          );
+                        }).toList(),
+                      ],
                     ),
-                    ...(exercise['sets']).map((set) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          set['weight'] == 0.0
-                              ? const Text('')
-                              : Text(
-                                  set['weight'].toStringAsFixed(1),
-                                  style: Styles.header3,
-                                ),
-                          set['weight'] == 0.0
-                              ? const Text(
-                                  'Body Weight * ',
-                                  style: Styles.header3,
-                                )
-                              : const Text(
-                                  ' lbs * ',
-                                  style: Styles.header3,
-                                ),
-                          Text(
-                            set['reps'].toString(),
-                            style: Styles.header3,
-                          ),
-                          const Text(
-                            ' reps',
-                            style: Styles.header3,
-                          ),
-                        ],
-                      );
-                    }).toList(),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: FloatingActionButton.small(
+                        onPressed: () async {
+                          await Modal.open(
+                              context: context,
+                              child: Instruction(
+                                  exercise: Exercise.values[exercise['type']]));
+                          setState(() {});
+                        },
+                        child: const Icon(Icons.question_mark_rounded),
+                      ),
+                    ),
                   ],
                 ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: FloatingActionButton.small(
-                    onPressed: () async {
-                      await Modal.open(
-                          context: context,
-                          child: Instruction(
-                              exercise: Exercise.values[exercise['type']]));
-                      setState(() {});
-                    },
-                    child: const Icon(Icons.question_mark_rounded),
-                  ),
-                ),
-              ],
-            ));
+              ),
+            );
           }).toList(),
-          _card(
-            child: Column(
-              children: [
-                Text(
-                  'Cool down for ${(workout['duration_cooldown']).toInt()} minutes',
-                  style: Styles.header2,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    _completeWorkout();
-                    setState(() {});
-                  },
-                  child: const Text('Complete Workout'),
-                ),
-              ],
+          InkResponse(
+            onTap: () {
+              setState(() {
+                workout['cooldown_completed'] = !workout['cooldown_completed'];
+              });
+            },
+            child: _card(
+              color:
+                  workout['cooldown_completed'] ? Styles.blue : Styles.yellow,
+              child: Column(
+                children: [
+                  Text(
+                    'Cool down for ${(workout['duration_cooldown']).toInt()} minutes',
+                    style: Styles.header2,
+                  ),
+                  _completeButton(workout: workout),
+                ],
+              ),
             ),
           ),
         ],
@@ -192,87 +213,96 @@ class _InteractivePageViewWorkoutState
       children: [
         _warmup(workout: workout),
         ...(workout['exercises']).map((exercise) {
-          return _card(
+          return InkResponse(
+            onTap: () {
+              setState(() {
+                exercise['completed'] = !exercise['completed'];
+              });
+            },
+            child: _card(
+              color: exercise['completed'] ? Styles.blue : Styles.yellow,
               child: Stack(
-            children: [
-              Column(
                 children: [
-                  Text(
-                    Data.exerciseInfo[Exercise.values[exercise['type']]]![
-                        'name'] as String,
-                    style: Styles.header2,
+                  Column(
+                    children: [
+                      Text(
+                        Data.exerciseInfo[Exercise.values[exercise['type']]]![
+                            'name'] as String,
+                        style: Styles.header2,
+                      ),
+                      ...(exercise['sets']).map((set) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            set['weight'] == 0.0
+                                ? const Text('')
+                                : Text(
+                                    set['weight'].toStringAsFixed(1),
+                                    style: Styles.header3,
+                                  ),
+                            set['weight'] == 0.0
+                                ? const Text(
+                                    'Body Weight * ',
+                                    style: Styles.header3,
+                                  )
+                                : const Text(
+                                    ' lbs * ',
+                                    style: Styles.header3,
+                                  ),
+                            Text(
+                              set['reps'].toString(),
+                              style: Styles.header3,
+                            ),
+                            const Text(
+                              ' reps',
+                              style: Styles.header3,
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    ],
                   ),
-                  ...(exercise['sets']).map((set) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        set['weight'] == 0.0
-                            ? const Text('')
-                            : Text(
-                                set['weight'].toStringAsFixed(1),
-                                style: Styles.header3,
-                              ),
-                        set['weight'] == 0.0
-                            ? const Text(
-                                'Body Weight * ',
-                                style: Styles.header3,
-                              )
-                            : const Text(
-                                ' lbs * ',
-                                style: Styles.header3,
-                              ),
-                        Text(
-                          set['reps'].toString(),
-                          style: Styles.header3,
-                        ),
-                        const Text(
-                          ' reps',
-                          style: Styles.header3,
-                        ),
-                      ],
-                    );
-                  }).toList(),
-                ],
-              ),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: FloatingActionButton.small(
-                  onPressed: () async {
-                    await Modal.open(
-                        context: context,
-                        child: Instruction(
-                            exercise: Exercise.values[exercise['type']]));
-                    setState(() {});
-                  },
-                  child: const Icon(Icons.question_mark_rounded),
-                ),
-              ),
-            ],
-          ));
-        }).toList(),
-        _card(
-          child: Column(
-            children: [
-              Text(
-                'Cool down for ${(workout['duration_cooldown']).toInt()} minutes',
-                style: Styles.header2,
-              ),
-              Flexible(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        _completeWorkout();
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: FloatingActionButton.small(
+                      onPressed: () async {
+                        await Modal.open(
+                            context: context,
+                            child: Instruction(
+                                exercise: Exercise.values[exercise['type']]));
                         setState(() {});
                       },
-                      child: const Text('Complete Workout'),
+                      child: const Icon(Icons.question_mark_rounded),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
+          );
+        }).toList(),
+        InkResponse(
+          onTap: () {
+            setState(() {
+              workout['cooldown_completed'] = !workout['cooldown_completed'];
+            });
+          },
+          child: _card(
+            color: workout['cooldown_completed'] ? Styles.blue : Styles.yellow,
+            child: Column(
+              children: [
+                Text(
+                  'Cool down for ${(workout['duration_cooldown']).toInt()} minutes',
+                  style: Styles.header2,
+                ),
+                Flexible(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [_completeButton(workout: workout)],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
@@ -280,43 +310,44 @@ class _InteractivePageViewWorkoutState
   }
 
   Widget _workoutDisplay({required workout, required context}) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FloatingActionButton.small(
-              onPressed: () {
-                setState(() {});
-              },
-              child: const Icon(Icons.delete),
-            ),
-            Expanded(
-              child: Text(
-                workout['name'] as String,
-                style: Styles.header1,
-                textAlign: TextAlign.center,
+    return Expanded(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FloatingActionButton.small(
+                onPressed: () {
+                  setState(() {});
+                },
+                child: const Icon(Icons.delete),
               ),
-            ),
-            FloatingActionButton.small(
-              onPressed: () {
-                setState(() {
-                  PreferenceManager.toggleWorkoutViewIsVertical();
-                });
-              },
-              child: PreferenceManager.getWorkoutViewIsVertical()
-                  ? const Icon(Icons.swap_vert)
-                  : const Icon(Icons.swap_horiz),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 600,
-          child: PreferenceManager.getWorkoutViewIsVertical()
-              ? _listWorkout(workout: workout, context: context)
-              : _pagedWorkout(workout: workout, context: context),
-        ),
-      ],
+              Expanded(
+                child: Text(
+                  workout['name'] as String,
+                  style: Styles.header1,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              FloatingActionButton.small(
+                onPressed: () {
+                  setState(() {
+                    PreferenceManager.toggleWorkoutViewIsVertical();
+                  });
+                },
+                child: PreferenceManager.getWorkoutViewIsVertical()
+                    ? const Icon(Icons.swap_vert)
+                    : const Icon(Icons.swap_horiz),
+              ),
+            ],
+          ),
+          Expanded(
+            child: PreferenceManager.getWorkoutViewIsVertical()
+                ? _listWorkout(workout: workout, context: context)
+                : _pagedWorkout(workout: workout, context: context),
+          ),
+        ],
+      ),
     );
   }
 

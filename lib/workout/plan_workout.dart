@@ -60,17 +60,19 @@ class _PlanWorkoutState extends State<PlanWorkout> {
     var duration = _durationLifting.toDouble();
     var exercises = populateWorkout(duration);
 
-    var _workout = {
+    var workout = {
       'name':
           _name == '' ? "${weekday[widget.date.weekday - 1]}'s Workout" : _name,
       'duration_warmup': _durationWarmup.toDouble(),
+      'warmup_completed': false,
       'duration_lifting': duration,
       'duration_cooldown': _durationCooldown.toDouble(),
+      'cooldown_completed': false,
       'exercises': exercises,
-      'completed' : false,
+      'completed': false,
     };
     String hashCode = getHashCode(widget.date).toString();
-    PreferenceManager.addWorkout(hashCode, _workout);
+    PreferenceManager.addWorkout(hashCode, workout);
   }
 
   List<Map<String, Object>> populateWorkout(double duration) {
@@ -133,7 +135,7 @@ class _PlanWorkoutState extends State<PlanWorkout> {
               });
             });
           }
-          exercises.add({'type': type.index, 'sets': sets});
+          exercises.add({'type': type.index, 'sets': sets, 'completed': false});
           time += 5.0;
         }
 
