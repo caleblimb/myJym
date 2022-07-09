@@ -19,7 +19,7 @@ class _QuickStartState extends State<QuickStart> {
       child: Column(
         children: [
           Container(
-            margin: const EdgeInsets.all(16),
+            margin: const EdgeInsets.fromLTRB(10, 3, 10, 0),
           ),
           Container(
             child: Instructions(),
