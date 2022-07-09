@@ -31,7 +31,13 @@ class _InteractivePageViewWorkoutState
   final PageController _controllerHorizontal =
       PageController(viewportFraction: 0.9);
 
-  void _completeWorkout() {}
+  void _completeWorkout() {
+    //Set workout to complete
+    var workout = PreferenceManager.getWorkout(widget.day)[0] as Map<String, dynamic>;
+    DateTime day = widget.day ?? DateTime.now();
+    workout['completed'] = true;
+    PreferenceManager.addWorkout(getHashCode(day).toString(), workout);
+  }
 
   Widget _noWorkout({required context}) {
     return Container(
@@ -159,6 +165,7 @@ class _InteractivePageViewWorkoutState
                 ElevatedButton(
                   onPressed: () {
                     _completeWorkout();
+                    setState(() {});
                   },
                   child: const Text('Complete Workout'),
                 ),
@@ -253,6 +260,7 @@ class _InteractivePageViewWorkoutState
                     ElevatedButton(
                       onPressed: () {
                         _completeWorkout();
+                        setState(() {});
                       },
                       child: const Text('Complete Workout'),
                     ),

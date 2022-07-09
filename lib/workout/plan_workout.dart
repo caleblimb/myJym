@@ -4,7 +4,6 @@ import 'package:myjym/auxiliary/data.dart';
 import 'package:myjym/auxiliary/preference_manager.dart';
 import 'package:myjym/auxiliary/styles.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:myjym/auxiliary/myjym_icons.dart';
 
 class PlanWorkout extends StatefulWidget {
@@ -68,6 +67,7 @@ class _PlanWorkoutState extends State<PlanWorkout> {
       'duration_lifting': duration,
       'duration_cooldown': _durationCooldown.toDouble(),
       'exercises': exercises,
+      'completed' : false,
     };
     String hashCode = getHashCode(widget.date).toString();
     PreferenceManager.addWorkout(hashCode, _workout);
