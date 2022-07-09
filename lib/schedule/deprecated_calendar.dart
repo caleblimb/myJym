@@ -22,7 +22,7 @@ class _DeprecatedCalendarState extends State<DeprecatedCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Expanded(
         child: Column(
       children: [
         TableCalendar(
@@ -48,11 +48,17 @@ class _DeprecatedCalendarState extends State<DeprecatedCalendar> {
             _focusedDay = focusedDay;
           },
         ),
-        SizedBox(
-          height: 300,
-          child: DeprecatedWorkout(
-            day: _selectedDay,
+        Expanded(
+
+          child: new ListView(
+            children: [
+              DeprecatedWorkout(day: _selectedDay)
+            ],
           ),
+          // height: 300,
+          // child: DeprecatedWorkout(
+          //   day: _selectedDay,
+          // ),
         ),
       ],
     ));
