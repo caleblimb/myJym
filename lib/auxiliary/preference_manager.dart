@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,7 +15,7 @@ class PreferenceManager {
   static var _units = Units.lbs.index;
   static double _strengthLevel = 0;
   static EquipmentLevel _equipmentSelected = EquipmentLevel.none;
-  static double _restLevel = 2;
+  static double _restLevel = 2.0;
   static bool _setup = true;
   static Map<String, dynamic> _workouts = {};
   static bool _workoutViewIsVertical = false;
@@ -157,7 +158,6 @@ class PreferenceManager {
     Map map = {
       "gender": _gender,
       "weight": _weight,
-      "unitTypes": _unitTypes,
       "units": _units,
       "strengthLevel": _strengthLevel,
       "equipmentSelected": _equipmentSelected.index,
@@ -174,16 +174,13 @@ class PreferenceManager {
     try {
       _gender = map["gender"];
       _weight = map["weight"];
-      _unitTypes = map["unitTypes"];
-      _units = map[_units];
+      _units = map["units"];
       _strengthLevel = map["strengthLevel"];
       _equipmentSelected = EquipmentLevel.values[map["equipmentSelected"]];
-      _restLevel = map["equipmentSelected"];
+      _restLevel = (map["equipmentSelected"] as int).toDouble();
       _setup = map["setup"];
       _workouts = map["workouts"];
     } catch (e) {
-      //do something based off of the error
-      //Print Error to screen?
       return false;
     }
     return true;
