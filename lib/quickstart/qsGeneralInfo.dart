@@ -28,7 +28,7 @@ class GeneralInfo extends StatelessWidget {
             'Workout Intensity',
             style: Styles.header1,
           ),
-          WorkoutIntensity(),
+          // WorkoutIntensity(),
           StreangthLevel(),
         ],
       ),

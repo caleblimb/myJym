@@ -60,6 +60,40 @@ class _InteractivePageViewWorkoutState
     );
   }
 
+  Widget _questionMarkButton({required exercise}) {
+    return Positioned(
+      bottom: 0,
+      left: 0,
+      child: FloatingActionButton.small(
+        onPressed: () async {
+          await Modal.open(
+              context: context,
+              child: Instruction(exercise: Exercise.values[exercise['type']]));
+          setState(() {});
+        },
+        child: const Icon(Icons.question_mark_rounded),
+      ),
+    );
+  }
+
+  Widget _exerciseCheckmark({required exercise}) {
+    return Positioned(
+      bottom: 0,
+      right: 0,
+      child: FloatingActionButton.small(
+        onPressed: () {
+          setState(() {
+            exercise['completed'] = !exercise['completed'];
+          });
+        },
+        child: Icon(
+          Icons.done,
+          color: exercise['completed'] ? Colors.green : Colors.white,
+        ),
+      ),
+    );
+  }
+
   Widget _completeButton({required workout}) {
     return ElevatedButton(
       onPressed: () {
@@ -72,13 +106,12 @@ class _InteractivePageViewWorkoutState
     );
   }
 
-  Widget _card({required child, Color? color}) {
+  Widget _card({required child}) {
     return Container(
         width: double.infinity,
         margin: InteractivePageViewWorkout._margin,
         padding: InteractivePageViewWorkout._padding,
         decoration: BoxDecoration(
-          color: color ?? Colors.white,
           borderRadius: InteractivePageViewWorkout._borderRadius,
           border: InteractivePageViewWorkout._border,
         ),
@@ -95,11 +128,45 @@ class _InteractivePageViewWorkoutState
           });
         },
         child: _card(
-          color: workout['warmup_completed'] ? Styles.blue : Styles.yellow,
-          child: Text(
-            'Warm up for ${(workout['duration_warmup']).toInt()} minutes',
-            style: Styles.header2,
-            textAlign: TextAlign.center,
+          child: Stack(
+            fit: StackFit.passthrough,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    'Warm up for ${(workout['duration_warmup']).toInt()} minutes',
+                    style: Styles.header2,
+                    textAlign: TextAlign.center,
+                  ),
+                  const Text(
+                    'Stretch your muscles to prevent injury.',
+                    style: Styles.header3,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 46,
+                  )
+                ],
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: FloatingActionButton.small(
+                  onPressed: () {
+                    setState(() {
+                      workout['warmup_completed'] =
+                          !workout['warmup_completed'];
+                    });
+                  },
+                  child: Icon(
+                    Icons.done,
+                    color: workout['warmup_completed']
+                        ? Colors.green
+                        : Colors.white,
+                  ),
+                ),
+              )
+            ],
           ),
         ),
       ),
@@ -118,8 +185,14 @@ class _InteractivePageViewWorkoutState
                   exercise['completed'] = !exercise['completed'];
                 });
               },
+              onDoubleTap: () async {
+                await Modal.open(
+                    context: context,
+                    child: Instruction(
+                        exercise: Exercise.values[exercise['type']]));
+                setState(() {});
+              },
               child: _card(
-                color: exercise['completed'] ? Styles.blue : Styles.yellow,
                 child: Stack(
                   children: [
                     Column(
@@ -161,43 +234,22 @@ class _InteractivePageViewWorkoutState
                         }).toList(),
                       ],
                     ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: FloatingActionButton.small(
-                        onPressed: () async {
-                          await Modal.open(
-                              context: context,
-                              child: Instruction(
-                                  exercise: Exercise.values[exercise['type']]));
-                          setState(() {});
-                        },
-                        child: const Icon(Icons.question_mark_rounded),
-                      ),
-                    ),
+                    _exerciseCheckmark(exercise: exercise),
+                    _questionMarkButton(exercise: exercise),
                   ],
                 ),
               ),
             );
           }).toList(),
-          InkResponse(
-            onTap: () {
-              setState(() {
-                workout['cooldown_completed'] = !workout['cooldown_completed'];
-              });
-            },
-            child: _card(
-              color:
-                  workout['cooldown_completed'] ? Styles.blue : Styles.yellow,
-              child: Column(
-                children: [
-                  Text(
-                    'Cool down for ${(workout['duration_cooldown']).toInt()} minutes',
-                    style: Styles.header2,
-                  ),
-                  _completeButton(workout: workout),
-                ],
-              ),
+          _card(
+            child: Column(
+              children: [
+                Text(
+                  'Cool down for ${(workout['duration_cooldown']).toInt()} minutes',
+                  style: Styles.header2,
+                ),
+                _completeButton(workout: workout),
+              ],
             ),
           ),
         ],
@@ -219,8 +271,14 @@ class _InteractivePageViewWorkoutState
                 exercise['completed'] = !exercise['completed'];
               });
             },
+            onDoubleTap: () async {
+              await Modal.open(
+                  context: context,
+                  child:
+                      Instruction(exercise: Exercise.values[exercise['type']]));
+              setState(() {});
+            },
             child: _card(
-              color: exercise['completed'] ? Styles.blue : Styles.yellow,
               child: Stack(
                 children: [
                   Column(
@@ -262,20 +320,8 @@ class _InteractivePageViewWorkoutState
                       }).toList(),
                     ],
                   ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: FloatingActionButton.small(
-                      onPressed: () async {
-                        await Modal.open(
-                            context: context,
-                            child: Instruction(
-                                exercise: Exercise.values[exercise['type']]));
-                        setState(() {});
-                      },
-                      child: const Icon(Icons.question_mark_rounded),
-                    ),
-                  ),
+                  _exerciseCheckmark(exercise: exercise),
+                  _questionMarkButton(exercise: exercise),
                 ],
               ),
             ),
@@ -288,7 +334,6 @@ class _InteractivePageViewWorkoutState
             });
           },
           child: _card(
-            color: workout['cooldown_completed'] ? Styles.blue : Styles.yellow,
             child: Column(
               children: [
                 Text(
@@ -336,8 +381,11 @@ class _InteractivePageViewWorkoutState
                   });
                 },
                 child: PreferenceManager.getWorkoutViewIsVertical()
-                    ? const Icon(Icons.swap_vert)
-                    : const Icon(Icons.swap_horiz),
+                    ? const Icon(Icons.view_agenda)
+                    : const Icon(Icons.view_array),
+                // child: PreferenceManager.getWorkoutViewIsVertical()
+                //     ? const Icon(Icons.swap_vert)
+                //     : const Icon(Icons.swap_horiz),
               ),
             ],
           ),

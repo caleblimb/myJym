@@ -15,7 +15,7 @@ class Instructions extends StatelessWidget {
             style: Styles.header1,
           ),
           Text(
-            "Set your preferences here. All preferences can be set later in tailor workout",
+            "All settings can be changed later",
             style: TextStyle(
                 fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
           ),
