@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myjym/tailor/available_equipment.dart';
+import 'package:myjym/tailor/ex_im_modal/ex_im_buttons.dart';
 import 'package:myjym/tailor/weight_class.dart';
 import 'package:myjym/tailor/workout_intensity.dart';
 
@@ -42,7 +43,11 @@ class TailorView extends StatelessWidget {
             _section(title: 'Workout Intensity', child: const WorkoutIntensity()),
             Styles.horizontalRule(),
             _section(title: 'Weight Class', child: const WeightClass()),
+            Styles.horizontalRule(),
+            _section(title: 'Export/Import Preferences', child: const ExImButtons()),
           ],
+
+
         ),
       )
     );
