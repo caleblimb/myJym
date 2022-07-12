@@ -169,7 +169,7 @@ class PreferenceManager {
     return json;
   }
 
-  static String fromJson(String json) {
+  static bool fromJson(String json) {
     Map map = jsonDecode(json);
     try {
       _gender = map["gender"];
@@ -184,8 +184,8 @@ class PreferenceManager {
     } catch (e) {
       //do something based off of the error
       //Print Error to screen?
-      return "ERROR: Make sure you have the right file";
+      return false;
     }
-    return "Information Uploaded Successfully";
+    return true;
   }
 }
