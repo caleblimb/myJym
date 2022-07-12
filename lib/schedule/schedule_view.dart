@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myjym/workout/deprecated_workout.dart';
+import 'package:myjym/workout/workout_summary.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../auxiliary/preference_manager.dart';
 import '../auxiliary/styles.dart';
@@ -66,12 +66,8 @@ class _ScheduleViewState extends State<ScheduleView> {
         ),
         Expanded(
           child: new ListView(
-            children: [DeprecatedWorkout(day: _selectedDay)],
+            children: [WorkoutSummary(day: _selectedDay)],
           ),
-          // height: 300,
-          // child: DeprecatedWorkout(
-          //   day: _selectedDay,
-          // ),
         ),
       ],
     ));

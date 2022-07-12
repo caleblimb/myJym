@@ -7,8 +7,8 @@ import '../auxiliary/preference_manager.dart';
 import '../auxiliary/styles.dart';
 import 'instruction.dart';
 
-class InteractivePageViewWorkout extends StatefulWidget {
-  const InteractivePageViewWorkout({Key? key, required this.day})
+class WorkoutInteractive extends StatefulWidget {
+  const WorkoutInteractive({Key? key, required this.day})
       : super(key: key);
   final DateTime? day;
 
@@ -21,12 +21,12 @@ class InteractivePageViewWorkout extends StatefulWidget {
   );
 
   @override
-  State<InteractivePageViewWorkout> createState() =>
-      _InteractivePageViewWorkoutState();
+  State<WorkoutInteractive> createState() =>
+      _WorkoutInteractiveState();
 }
 
-class _InteractivePageViewWorkoutState
-    extends State<InteractivePageViewWorkout> {
+class _WorkoutInteractiveState
+    extends State<WorkoutInteractive> {
   final PageController _controllerHorizontal =
       PageController(viewportFraction: 0.9);
 
@@ -40,20 +40,31 @@ class _InteractivePageViewWorkoutState
   }
 
   Widget _noWorkout({required context}) {
-    return Container(
+    return Flexible(
       child: Column(
         children: [
           const Text(
             'No Workout Planned',
             style: Styles.header1,
           ),
-          ElevatedButton(
-            onPressed: () async {
-              await Modal.open(
-                  context: context, child: PlanWorkout(date: widget.day!));
-              setState(() {});
-            },
-            child: const Text('Plan Workout'),
+          Flexible(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    await Modal.open(
+                        context: context,
+                        child: PlanWorkout(date: widget.day!));
+                    setState(() {});
+                  },
+                  child: const Text('Plan Workout'),
+                ),
+                const SizedBox(
+                  height: 32,
+                )
+              ],
+            ),
           ),
         ],
       ),
@@ -71,12 +82,13 @@ class _InteractivePageViewWorkoutState
               child: Instruction(exercise: Exercise.values[exercise['type']]));
           setState(() {});
         },
+        // child: const Icon(Icons.question_mark_rounded),
         child: const Icon(Icons.question_mark_rounded),
       ),
     );
   }
 
-  Widget _exerciseCheckmark({required exercise}) {
+  Widget _exerciseCheckmarkButton({required exercise}) {
     return Positioned(
       bottom: 0,
       right: 0,
@@ -94,7 +106,7 @@ class _InteractivePageViewWorkoutState
     );
   }
 
-  Widget _completeButton({required workout}) {
+  Widget _completeWorkoutButton({required workout}) {
     return ElevatedButton(
       onPressed: () {
         _completeWorkout();
@@ -109,11 +121,11 @@ class _InteractivePageViewWorkoutState
   Widget _card({required child}) {
     return Container(
         width: double.infinity,
-        margin: InteractivePageViewWorkout._margin,
-        padding: InteractivePageViewWorkout._padding,
+        margin: WorkoutInteractive._margin,
+        padding: WorkoutInteractive._padding,
         decoration: BoxDecoration(
-          borderRadius: InteractivePageViewWorkout._borderRadius,
-          border: InteractivePageViewWorkout._border,
+          borderRadius: WorkoutInteractive._borderRadius,
+          border: WorkoutInteractive._border,
         ),
         child: child);
   }
@@ -135,7 +147,7 @@ class _InteractivePageViewWorkoutState
                 children: [
                   Text(
                     'Warm up for ${(workout['duration_warmup']).toInt()} minutes',
-                    style: Styles.header2,
+                    style: Styles.header1,
                     textAlign: TextAlign.center,
                   ),
                   const Text(
@@ -173,6 +185,82 @@ class _InteractivePageViewWorkoutState
     );
   }
 
+  Widget _cooldown({required workout}) {
+    return InkResponse(
+      onTap: () {
+        setState(() {
+          workout['cooldown_completed'] = !workout['cooldown_completed'];
+        });
+      },
+      child: _card(
+        child: Column(
+          children: [
+            Text(
+              'Cool down for ${(workout['duration_cooldown']).toInt()} minutes',
+              style: Styles.header1,
+              textAlign: TextAlign.center,
+            ),
+            PreferenceManager.getWorkoutViewIsVertical()
+                ? _completeWorkoutButton(workout: workout)
+                : Flexible(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [_completeWorkoutButton(workout: workout)],
+                    ),
+                  ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _exerciseInfo({
+    required exercise,
+    titleFont = Styles.header2,
+    setFont = Styles.header3,
+  }) {
+    return Column(
+      children: [
+        Text(
+          Data.exerciseInfo[Exercise.values[exercise['type']]]!['name']
+              as String,
+          textAlign: TextAlign.center,
+          style: titleFont,
+        ),
+        ...(exercise['sets']).map((set) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              set['weight'] == 0.0
+                  ? const Text('')
+                  : Text(
+                      set['weight'].toStringAsFixed(1),
+                      style: setFont,
+                    ),
+              set['weight'] == 0.0
+                  ? Text(
+                      'Body Weight * ',
+                      style: setFont,
+                    )
+                  : Text(
+                      ' lbs * ',
+                      style: setFont,
+                    ),
+              Text(
+                set['reps'].toString(),
+                style: setFont,
+              ),
+              Text(
+                ' reps',
+                style: setFont,
+              ),
+            ],
+          );
+        }).toList(),
+      ],
+    );
+  }
+
   Widget _listWorkout({required workout, required context}) {
     return SingleChildScrollView(
       child: Column(
@@ -195,63 +283,15 @@ class _InteractivePageViewWorkoutState
               child: _card(
                 child: Stack(
                   children: [
-                    Column(
-                      children: [
-                        Text(
-                          Data.exerciseInfo[Exercise.values[exercise['type']]]![
-                              'name'] as String,
-                          style: Styles.header2,
-                        ),
-                        ...(exercise['sets']).map((set) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              set['weight'] == 0.0
-                                  ? const Text('')
-                                  : Text(
-                                      set['weight'].toStringAsFixed(1),
-                                      style: Styles.header3,
-                                    ),
-                              set['weight'] == 0.0
-                                  ? const Text(
-                                      'Body Weight * ',
-                                      style: Styles.header3,
-                                    )
-                                  : const Text(
-                                      ' lbs * ',
-                                      style: Styles.header3,
-                                    ),
-                              Text(
-                                set['reps'].toString(),
-                                style: Styles.header3,
-                              ),
-                              const Text(
-                                ' reps',
-                                style: Styles.header3,
-                              ),
-                            ],
-                          );
-                        }).toList(),
-                      ],
-                    ),
-                    _exerciseCheckmark(exercise: exercise),
+                    _exerciseInfo(exercise: exercise),
+                    _exerciseCheckmarkButton(exercise: exercise),
                     _questionMarkButton(exercise: exercise),
                   ],
                 ),
               ),
             );
           }).toList(),
-          _card(
-            child: Column(
-              children: [
-                Text(
-                  'Cool down for ${(workout['duration_cooldown']).toInt()} minutes',
-                  style: Styles.header2,
-                ),
-                _completeButton(workout: workout),
-              ],
-            ),
-          ),
+          _cooldown(workout: workout),
         ],
       ),
     );
@@ -281,75 +321,46 @@ class _InteractivePageViewWorkoutState
             child: _card(
               child: Stack(
                 children: [
-                  Column(
-                    children: [
-                      Text(
-                        Data.exerciseInfo[Exercise.values[exercise['type']]]![
-                            'name'] as String,
-                        style: Styles.header2,
-                      ),
-                      ...(exercise['sets']).map((set) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            set['weight'] == 0.0
-                                ? const Text('')
-                                : Text(
-                                    set['weight'].toStringAsFixed(1),
-                                    style: Styles.header3,
-                                  ),
-                            set['weight'] == 0.0
-                                ? const Text(
-                                    'Body Weight * ',
-                                    style: Styles.header3,
-                                  )
-                                : const Text(
-                                    ' lbs * ',
-                                    style: Styles.header3,
-                                  ),
-                            Text(
-                              set['reps'].toString(),
-                              style: Styles.header3,
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(child: Container()),
+                        _exerciseInfo(
+                            exercise: exercise,
+                            titleFont: const TextStyle(
+                              color: Styles.brown,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 40,
                             ),
-                            const Text(
-                              ' reps',
-                              style: Styles.header3,
-                            ),
-                          ],
-                        );
-                      }).toList(),
-                    ],
+                            setFont: const TextStyle(
+                              color: Styles.brown,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 28,
+                            )),
+                        Expanded(child: Container()),
+                        Container(
+                          padding: const EdgeInsets.only(
+                            left: 16,
+                          ),
+                          child: Instruction.exerciseTips(
+                            exerciseType: Exercise.values[exercise['type']],
+                            textStyle: const TextStyle(fontSize: 18),
+                            iconTop: 4,
+                          ),
+                        ),
+                        Expanded(child: Container()),
+                      ],
+                    ),
                   ),
-                  _exerciseCheckmark(exercise: exercise),
+                  _exerciseCheckmarkButton(exercise: exercise),
                   _questionMarkButton(exercise: exercise),
                 ],
               ),
             ),
           );
         }).toList(),
-        InkResponse(
-          onTap: () {
-            setState(() {
-              workout['cooldown_completed'] = !workout['cooldown_completed'];
-            });
-          },
-          child: _card(
-            child: Column(
-              children: [
-                Text(
-                  'Cool down for ${(workout['duration_cooldown']).toInt()} minutes',
-                  style: Styles.header2,
-                ),
-                Flexible(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [_completeButton(workout: workout)],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        _cooldown(workout: workout),
       ],
     );
   }
@@ -383,9 +394,6 @@ class _InteractivePageViewWorkoutState
                 child: PreferenceManager.getWorkoutViewIsVertical()
                     ? const Icon(Icons.view_agenda)
                     : const Icon(Icons.view_array),
-                // child: PreferenceManager.getWorkoutViewIsVertical()
-                //     ? const Icon(Icons.swap_vert)
-                //     : const Icon(Icons.swap_horiz),
               ),
             ],
           ),

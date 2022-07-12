@@ -4,11 +4,11 @@ import '../auxiliary/data.dart';
 import '../auxiliary/styles.dart';
 
 class Instruction extends StatelessWidget {
-  Instruction({Key? key, required this.exercise}) : super(key: key);
+  const Instruction({Key? key, required this.exercise}) : super(key: key);
 
   final Exercise exercise;
 
-  final Map<Object, Map<String, Object>> instructions = {
+  static final Map<Object, Map<String, Object>> exerciseInstructions = {
     Exercise.benchPress: {
       'title': 'Bench Press',
       'tips': [
@@ -119,44 +119,52 @@ class Instruction extends StatelessWidget {
     },
   };
 
+  static Widget exerciseTips({required exerciseType, TextStyle? textStyle, double? iconTop}) {
+    return Column(
+      children: [
+        ...(exerciseInstructions[exerciseType]!['tips'] as List<String>).map(
+          (tip) {
+            return Stack(children: [
+              Positioned(
+                top: iconTop ?? 2,
+                left: 0,
+                child: const Icon(Icons.task_alt),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Flexible(
+                      child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                    child: Text(
+                      tip,
+                      style: textStyle ?? const TextStyle(),
+                    ),
+                  )),
+                ],
+              ),
+            ]);
+          },
+        ).toList(),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: [
             Text(
-              instructions[exercise]!['title'] as String,
+              exerciseInstructions[exercise]!['title'] as String,
               style: Styles.header1,
             ),
             Container(
-                padding: EdgeInsets.all(30),
-                child: Column(
-                  children: [
-                    ...(instructions[exercise]!['tips'] as List<String>).map(
-                      (tip) {
-                        return Stack(children: [
-                          const Positioned(
-                          top: 1,
-                          left: 0,
-                          child: Icon(Icons.task_alt),
-                        ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Flexible(
-                                  child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
-                                child: Text(tip),
-                              )),
-                            ],
-                          ),
-                        ]
-                        );
-                      },
-                    ).toList(),
-                  ],
-                ))
+              padding: const EdgeInsets.all(30),
+              child: exerciseTips(exerciseType: exercise),
+            ),
           ],
         ));
   }

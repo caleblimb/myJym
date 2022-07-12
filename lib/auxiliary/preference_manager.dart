@@ -8,11 +8,11 @@ class PreferenceManager {
   static bool gotPreferences = false;
 
   // 0 = Female, 1 = Male
-  static int _gender = 0;
-  static int _weight = 100;
+  static int _gender = 1;
+  static int _weight = 150;
   static var _unitTypes = ['lbs', 'kg'];
   static var _units = Units.lbs.index;
-  static double _strengthLevel = 0;
+  static double _strengthLevel = 4;
   static EquipmentLevel _equipmentSelected = EquipmentLevel.none;
   static double _restLevel = 2;
   static bool _setup = true;
@@ -20,13 +20,13 @@ class PreferenceManager {
   static bool _workoutViewIsVertical = false;
 
   static Future<void> getPreferences(final prefs) async {
-    _gender = prefs.getInt('gender') ?? 0;
-    _weight = prefs.getInt('weight') ?? 100;
+    _gender = prefs.getInt('gender') ?? 1;
+    _weight = prefs.getInt('weight') ?? 150;
     _units = prefs.getInt('units') ?? Units.lbs.index;
-    _strengthLevel = prefs.getDouble('strength-level') ?? 0.0;
-    int selectedEquip = prefs.getInt('EquipmentLevel') ?? 0;
+    _strengthLevel = prefs.getDouble('strength-level') ?? 4.0;
+    int selectedEquip = prefs.getInt('EquipmentLevel') ?? 2;
     _equipmentSelected = EquipmentLevel.values[selectedEquip];
-    _restLevel = prefs.getDouble('rest-level') ?? 0.0;
+    _restLevel = prefs.getDouble('rest-level') ?? 2.0;
     _setup = prefs.getBool('setup') ?? false;
     _workoutViewIsVertical = prefs.getBool('workout_view_is_vertical') ?? false;
 
