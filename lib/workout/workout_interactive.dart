@@ -374,6 +374,8 @@ class _WorkoutInteractiveState
             children: [
               FloatingActionButton.small(
                 onPressed: () {
+                  DateTime day = widget.day ?? DateTime.now();
+                  PreferenceManager.deleteWorkout(getHashCode(day).toString());
                   setState(() {});
                 },
                 child: const Icon(Icons.delete),

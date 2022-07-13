@@ -6,7 +6,6 @@ import 'package:myjym/workout/workout_detailed.dart';
 
 import '../auxiliary/data.dart';
 import '../auxiliary/modal.dart';
-import 'instruction.dart';
 
 class WorkoutSummary extends StatefulWidget {
   const WorkoutSummary({Key? key, required this.day}) : super(key: key);
@@ -74,6 +73,8 @@ class _WorkoutSummaryState extends State<WorkoutSummary> {
                     children: [
                       FloatingActionButton.small(
                         onPressed: () {
+                          DateTime day = widget.day ?? DateTime.now();
+                          PreferenceManager.deleteWorkout(getHashCode(day).toString());
                           setState(() {});
                         },
                         child: const Icon(Icons.delete),
