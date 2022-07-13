@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: Center(
+      body: SizedBox.expand(
           child:currentView['content'] as Widget,
       ),
       bottomNavigationBar: BottomBar(
