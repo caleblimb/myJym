@@ -54,8 +54,6 @@ class _PlanWorkoutState extends State<PlanWorkout> {
     Category.full,
   ];
 
-  double _restLevel = 2;
-
   void addWorkout() {
     var duration = _durationLifting.toDouble();
     var exercises = populateWorkout(duration);
@@ -136,7 +134,9 @@ class _PlanWorkoutState extends State<PlanWorkout> {
             });
           }
           exercises.add({'type': type.index, 'sets': sets, 'completed': false});
-          time += 5.0;
+          time += 5.0 +
+              (workoutIntensityRestLevels[
+                  PreferenceManager.getRestLevel().toInt()]['rest'] as double);
         }
 
         possibleWorkouts.remove(type);

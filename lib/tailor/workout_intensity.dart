@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myjym/auxiliary/preference_manager.dart';
 
+import '../auxiliary/data.dart';
 import '../auxiliary/styles.dart';
-
-const workoutIntensityRestLevels = [
-   {'label': 'Leisure', 'description': '~2min between workouts', 'rest': 120},
-   {'label': 'Paced', 'description': '~1.5min between workouts', 'rest': 90},
-   {'label': 'Dedicated', 'description': '~45s between workouts', 'rest': 45},
-   {'label': 'Intense', 'description': '~30s between workouts', 'rest': 30},
-   {'label': 'EXTREME', 'description': 'No rest between workouts', 'rest': 10},
-];
 
 class WorkoutIntensity extends StatefulWidget {
   const WorkoutIntensity({Key? key}) : super(key: key);

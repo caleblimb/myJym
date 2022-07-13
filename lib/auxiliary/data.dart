@@ -54,6 +54,14 @@ String getHashCode(DateTime key) {
   return (key.day * 1000000 + key.month * 10000 + key.year).toString();
 }
 
+const workoutIntensityRestLevels = [
+  {'label': 'Leisure', 'description': '~2min between workouts', 'rest': 2.0},
+  {'label': 'Paced', 'description': '~1.5min between workouts', 'rest': 1.5},
+  {'label': 'Dedicated', 'description': '~45s between workouts', 'rest': .75},
+  {'label': 'Intense', 'description': '~30s between workouts', 'rest': .5},
+  {'label': 'EXTREME', 'description': 'No rest between workouts', 'rest': 0.167},
+];
+
 class Data {
   static const strengthLevels = [
     {'label': 'Beginner'},
