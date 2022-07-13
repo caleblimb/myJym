@@ -20,18 +20,18 @@ class PreferenceManager {
   static bool _workoutViewIsVertical = false;
 
   static Future<void> getPreferences(final prefs) async {
-    _gender = prefs.getInt('gender') ?? 1;
-    _weight = prefs.getInt('weight') ?? 150;
-    _units = prefs.getInt('units') ?? Units.lbs.index;
-    _strengthLevel = prefs.getDouble('strength-level') ?? 4.0;
-    int selectedEquip = prefs.getInt('EquipmentLevel') ?? 2;
+    _gender = await prefs.getInt('gender') ?? 1;
+    _weight = await prefs.getInt('weight') ?? 150;
+    _units = await prefs.getInt('units') ?? Units.lbs.index;
+    _strengthLevel = await prefs.getDouble('strength-level') ?? 4.0;
+    int selectedEquip = await prefs.getInt('EquipmentLevel') ?? 2;
     _equipmentSelected = EquipmentLevel.values[selectedEquip];
-    _restLevel = prefs.getDouble('rest-level') ?? 2.0;
-    _setup = prefs.getBool('setup') ?? false;
-    _workoutViewIsVertical = prefs.getBool('workout_view_is_vertical') ?? false;
+    _restLevel = await prefs.getDouble('rest-level') ?? 2.0;
+    _setup = await prefs.getBool('setup') ?? false;
+    _workoutViewIsVertical = await prefs.getBool('workout_view_is_vertical') ?? false;
 
     //Get Calendar Events from Preferences
-    String json = prefs.getString('workout-events') ?? "";
+    String json = await prefs.getString('workout-events') ?? "";
     //convert from json to
     if (json.isNotEmpty) {
       _workouts = jsonDecode(json);
