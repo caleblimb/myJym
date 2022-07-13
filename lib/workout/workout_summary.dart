@@ -16,23 +16,21 @@ class WorkoutSummary extends StatefulWidget {
 
 class _WorkoutSummaryState extends State<WorkoutSummary> {
   Widget _noWorkout({required context}) {
-    return Container(
-      child: Column(
-        children: [
-          const Text(
-            'No Workout Planned',
-            style: Styles.header1,
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              await Modal.openFull(
-                  context: context, child: PlanWorkout(date: widget.day!));
-              setState(() {});
-            },
-            child: const Text('Plan Workout'),
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        const Text(
+          'No Workout Planned',
+          style: Styles.header1,
+        ),
+        ElevatedButton(
+          onPressed: () async {
+            await Modal.openFull(
+                context: context, child: PlanWorkout(date: widget.day!));
+            setState(() {});
+          },
+          child: const Text('Plan Workout'),
+        ),
+      ],
     );
   }
 
@@ -105,17 +103,16 @@ class _WorkoutSummaryState extends State<WorkoutSummary> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: widget.day == null
-            ? const Text(
-                'No day selected',
-                style: Styles.header1,
-              )
-            : PreferenceManager.getWorkout(widget.day).isNotEmpty
-                ? _workoutDisplay(
-                    workout: PreferenceManager.getWorkout(widget.day)[0]
-                        as Map<String, dynamic>,
-                    context: context)
-                : _noWorkout(context: context));
+    return widget.day == null
+        ? const Text(
+            'No day selected',
+            style: Styles.header1,
+          )
+        : PreferenceManager.getWorkout(widget.day).isNotEmpty
+            ? _workoutDisplay(
+                workout: PreferenceManager.getWorkout(widget.day)[0]
+                    as Map<String, dynamic>,
+                context: context)
+            : _noWorkout(context: context);
   }
 }

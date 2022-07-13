@@ -12,8 +12,6 @@ class ScheduleView extends StatefulWidget {
 }
 
 class _ScheduleViewState extends State<ScheduleView> {
-  // var workout =;
-
   final DateTime _firstDay = DateTime.utc(2022, 5, 22);
   final DateTime _lastDay = DateTime.utc(2022, 9, 11);
 
@@ -65,8 +63,8 @@ class _ScheduleViewState extends State<ScheduleView> {
           },
         ),
         Expanded(
-          child: new ListView(
-            children: [WorkoutSummary(day: _selectedDay)],
+          child: SingleChildScrollView(
+            child: WorkoutSummary(day: _selectedDay),
           ),
         ),
       ],

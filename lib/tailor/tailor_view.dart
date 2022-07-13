@@ -31,25 +31,27 @@ class TailorView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      height: double.infinity,
-      padding: const EdgeInsets.all(0),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            _section(title: 'Available Equipment', child: const AvailableEquipment()),
-            Styles.horizontalRule(),
-            _section(title: 'Workout Intensity', child: const WorkoutIntensity()),
-            Styles.horizontalRule(),
-            _section(title: 'Weight Class', child: const WeightClass()),
-            Styles.horizontalRule(),
-            _section(title: 'Export/Import Preferences', child: const ExImButtons()),
-          ],
-
-
-        ),
-      )
-    );
+        width: double.infinity,
+        height: double.infinity,
+        padding: const EdgeInsets.all(0),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              _section(
+                  title: 'Available Equipment',
+                  child: const AvailableEquipment()),
+              Styles.horizontalRule(),
+              _section(
+                  title: 'Workout Intensity', child: const WorkoutIntensity()),
+              Styles.horizontalRule(),
+              _section(title: 'Weight Class', child: const WeightClass()),
+              Styles.horizontalRule(),
+              _section(
+                  title: 'Export/Import Preferences',
+                  child: const ExImButtons()),
+            ],
+          ),
+        ));
   }
 }

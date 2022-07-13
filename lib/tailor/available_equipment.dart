@@ -21,12 +21,18 @@ class _AvailableEquipmentState extends State<AvailableEquipment> {
             children: [
               Icon(
                 iconData,
-                color: PreferenceManager.getEquipmentLevel() == EquipmentLevel.values[index] ? Styles.orange : null,
+                color: PreferenceManager.getEquipmentLevel() ==
+                        EquipmentLevel.values[index]
+                    ? Styles.orange
+                    : null,
               ),
               Text(
                 text,
                 style: TextStyle(
-                    color: PreferenceManager.getEquipmentLevel() == EquipmentLevel.values[index] ? Styles.orange : null),
+                    color: PreferenceManager.getEquipmentLevel() ==
+                            EquipmentLevel.values[index]
+                        ? Styles.orange
+                        : null),
               ),
             ],
           ),
@@ -42,14 +48,12 @@ class _AvailableEquipmentState extends State<AvailableEquipment> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: <Widget>[
-          _icon(0, text: 'None', iconData: Icons.grass),
-          _icon(1, text: 'Basic', iconData: Icons.house),
-          _icon(2, text: 'Gym', iconData: Icons.store),
-        ],
-      ),
+    return Row(
+      children: <Widget>[
+        _icon(0, text: 'None', iconData: Icons.grass),
+        _icon(1, text: 'Basic', iconData: Icons.house),
+        _icon(2, text: 'Gym', iconData: Icons.store),
+      ],
     );
   }
 }

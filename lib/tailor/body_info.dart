@@ -43,7 +43,6 @@ class _BodyInfoState extends State<BodyInfo> {
 
   @override
   Widget build(BuildContext context) {
-    //_getPreferences();
     return Column(
       children: [
         Row(
@@ -67,7 +66,6 @@ class _BodyInfoState extends State<BodyInfo> {
             NumberPicker(
               axis: Axis.horizontal,
               itemWidth: 46,
-
               value: PreferenceManager.getWeight(),
               minValue: 0,
               maxValue: 300,
@@ -83,8 +81,8 @@ class _BodyInfoState extends State<BodyInfo> {
               ),
               onTap: () => setState(
                 () {
-                  PreferenceManager
-                      .setUnits(PreferenceManager.getUnits() == 0 ? 1 : 0);
+                  PreferenceManager.setUnits(
+                      PreferenceManager.getUnits() == 0 ? 1 : 0);
                 },
               ),
             ),

@@ -8,10 +8,12 @@ class Instruction extends StatelessWidget {
 
   final Exercise exercise;
 
-  static Widget exerciseTips({required exerciseType, TextStyle? textStyle, double? iconTop}) {
+  static Widget exerciseTips(
+      {required exerciseType, TextStyle? textStyle, double? iconTop}) {
     return Column(
       children: [
-        ...(Data.exerciseInstructions[exerciseType]!['tips'] as List<String>).map(
+        ...(Data.exerciseInstructions[exerciseType]!['tips'] as List<String>)
+            .map(
           (tip) {
             return Stack(children: [
               Positioned(

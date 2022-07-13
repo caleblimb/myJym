@@ -16,7 +16,7 @@ class _WeightClassState extends State<WeightClass> {
       child: Column(
         children: [
           const BodyInfo(),
-          const StreangthLevel()
+          const StrengthLevel()
         ],
       ),
     );

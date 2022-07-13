@@ -51,7 +51,7 @@ class _QuickStartState extends State<QuickStart> {
             style: Styles.header1,
           ),
           const WorkoutIntensity(),
-          const StreangthLevel(),
+          const StrengthLevel(),
           Expanded(child: Container()),
           SizedBox(
             width: double.infinity,

@@ -4,23 +4,20 @@ import '../auxiliary/data.dart';
 
 import '../auxiliary/styles.dart';
 
-class StreangthLevel extends StatefulWidget {
-  const StreangthLevel({Key? key}) : super(key: key);
+class StrengthLevel extends StatefulWidget {
+  const StrengthLevel({Key? key}) : super(key: key);
 
   @override
-  State<StreangthLevel> createState() => _StreangthLevelState();
+  State<StrengthLevel> createState() => _StrengthLevelState();
 }
 
-class _StreangthLevelState extends State<StreangthLevel> {
+class _StrengthLevelState extends State<StrengthLevel> {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Text(
-          'Strength Level: ' +
-              Data.strengthLevels[PreferenceManager.getStrengthLevel().toInt()]
-                      ['label']
-                  .toString(),
+          'Strength Level: ${Data.strengthLevels[PreferenceManager.getStrengthLevel().toInt()]['label']}',
           style: Styles.header3,
         ),
         Row(
@@ -39,12 +36,6 @@ class _StreangthLevelState extends State<StreangthLevel> {
                     .toString(),
               ),
             ),
-            // IconButton(
-            //   onPressed: () {
-            //     Modal.open(context: context, child: const WeightModal());
-            //   },
-            //   icon: const Icon(Icons.tune),
-            // ),
           ],
         ),
       ],

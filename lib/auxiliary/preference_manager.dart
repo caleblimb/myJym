@@ -10,7 +10,7 @@ class PreferenceManager {
   // 0 = Female, 1 = Male
   static int _gender = 1;
   static int _weight = 150;
-  static var _unitTypes = ['lbs', 'kg'];
+  static final _unitTypes = ['lbs', 'kg'];
   static var _units = Units.lbs.index;
   static double _strengthLevel = 4;
   static EquipmentLevel _equipmentSelected = EquipmentLevel.none;

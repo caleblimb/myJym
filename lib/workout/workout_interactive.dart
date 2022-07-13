@@ -96,7 +96,9 @@ class _WorkoutInteractiveState extends State<WorkoutInteractive> {
         },
         child: Icon(
           Icons.done,
-          color: exercise['completed'] || workout['completed'] ? Colors.green : Colors.white,
+          color: exercise['completed'] || workout['completed']
+              ? Colors.green
+              : Colors.white,
         ),
       ),
     );
@@ -280,7 +282,8 @@ class _WorkoutInteractiveState extends State<WorkoutInteractive> {
                 child: Stack(
                   children: [
                     _exerciseInfo(exercise: exercise),
-                    _exerciseCheckmarkButton(exercise: exercise, workout: workout),
+                    _exerciseCheckmarkButton(
+                        exercise: exercise, workout: workout),
                     _questionMarkButton(exercise: exercise),
                   ],
                 ),
@@ -358,7 +361,8 @@ class _WorkoutInteractiveState extends State<WorkoutInteractive> {
                       ],
                     ),
                   ),
-                  _exerciseCheckmarkButton(exercise: exercise, workout: workout),
+                  _exerciseCheckmarkButton(
+                      exercise: exercise, workout: workout),
                   _questionMarkButton(exercise: exercise),
                 ],
               ),
@@ -430,17 +434,16 @@ class _WorkoutInteractiveState extends State<WorkoutInteractive> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: widget.day == null
-            ? const Text(
-                'No day selected',
-                style: Styles.header1,
-              )
-            : PreferenceManager.getWorkout(widget.day).isNotEmpty
-                ? _workoutDisplay(
-                    workout: PreferenceManager.getWorkout(widget.day)[0]
-                        as Map<String, dynamic>,
-                    context: context)
-                : _noWorkout(context: context));
+    return widget.day == null
+        ? const Text(
+            'No day selected',
+            style: Styles.header1,
+          )
+        : PreferenceManager.getWorkout(widget.day).isNotEmpty
+            ? _workoutDisplay(
+                workout: PreferenceManager.getWorkout(widget.day)[0]
+                    as Map<String, dynamic>,
+                context: context)
+            : _noWorkout(context: context);
   }
 }

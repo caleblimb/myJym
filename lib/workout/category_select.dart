@@ -43,14 +43,12 @@ class _CategorySelectState extends State<CategorySelect> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          _icon(0, text: 'Legs', iconData: Icons.airline_seat_legroom_normal),
-          // _icon(1, text: 'Core', iconData: Icons.airline_seat_flat),
-          _icon(1, text: 'Arms', iconData: Icons.paragliding),
-        ],
-      ),
+    return Row(
+      children: [
+        _icon(0, text: 'Legs', iconData: Icons.airline_seat_legroom_normal),
+        // _icon(1, text: 'Core', iconData: Icons.airline_seat_flat),
+        _icon(1, text: 'Arms', iconData: Icons.paragliding),
+      ],
     );
   }
 }

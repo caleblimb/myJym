@@ -14,26 +14,24 @@ class WorkoutIntensity extends StatefulWidget {
 class _WorkoutIntensityState extends State<WorkoutIntensity> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Text(workoutIntensityRestLevels[PreferenceManager.getRestLevel().toInt()]['description'].toString(),
-              style: Styles.header3),
-          Slider(
-            value: PreferenceManager.getRestLevel(),
-            onChanged: (newRest){
-              setState(() => PreferenceManager.setRestLevel(newRest, save: false));
-            },
-            onChangeEnd: (newRest) {
-              setState(() => PreferenceManager.setRestLevel(newRest));
-            },
-            min: 0,
-            max: (workoutIntensityRestLevels.length - 1).toDouble(),
-            divisions: workoutIntensityRestLevels.length - 1,
-            label: workoutIntensityRestLevels[PreferenceManager.getRestLevel().toInt()]['label'].toString(),
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        Text(workoutIntensityRestLevels[PreferenceManager.getRestLevel().toInt()]['description'].toString(),
+            style: Styles.header3),
+        Slider(
+          value: PreferenceManager.getRestLevel(),
+          onChanged: (newRest){
+            setState(() => PreferenceManager.setRestLevel(newRest, save: false));
+          },
+          onChangeEnd: (newRest) {
+            setState(() => PreferenceManager.setRestLevel(newRest));
+          },
+          min: 0,
+          max: (workoutIntensityRestLevels.length - 1).toDouble(),
+          divisions: workoutIntensityRestLevels.length - 1,
+          label: workoutIntensityRestLevels[PreferenceManager.getRestLevel().toInt()]['label'].toString(),
+        ),
+      ],
     );
   }
 }

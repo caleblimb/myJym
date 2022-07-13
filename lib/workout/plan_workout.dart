@@ -118,15 +118,15 @@ class _PlanWorkoutState extends State<PlanWorkout> {
               multiplierList[PreferenceManager.getStrengthLevel().toInt()];
           List<Map<String, num?>> sets = [];
 
-          if (Data.exerciseInfo[type]!['units'] == repUnit.bodyWeightRatio) {
+          if (Data.exerciseInfo[type]!['units'] == RepUnit.bodyWeightRatio) {
             double maxRep =
                 (PreferenceManager.getWeight() * multiplier).toDouble();
-            Data.setStyleInfo[setStyle.standard]?.forEach((set) {
+            Data.setStyleInfo[SetStyle.standard]?.forEach((set) {
               sets.add(
                   {'weight': (set['weight']! * maxRep), 'reps': set['reps']});
             });
-          } else if (Data.exerciseInfo[type]!['units'] == repUnit.count) {
-            Data.setStyleInfo[setStyle.standard]?.forEach((set) {
+          } else if (Data.exerciseInfo[type]!['units'] == RepUnit.count) {
+            Data.setStyleInfo[SetStyle.standard]?.forEach((set) {
               sets.add({
                 'weight': 0.0,
                 'reps': (set['weight']! * multiplier).toInt()
@@ -179,14 +179,12 @@ class _PlanWorkoutState extends State<PlanWorkout> {
   }
 
   Widget _categorySelect() {
-    return Container(
-      child: Row(
-        children: [
-          _categoryIcon(0, text: 'Torso', iconData: MyJymIcons.arm),
-          _categoryIcon(1, text: 'Push', iconData: MyJymIcons.push),
-          _categoryIcon(2, text: 'Pull', iconData: MyJymIcons.pull),
-        ],
-      ),
+    return Row(
+      children: [
+        _categoryIcon(0, text: 'Torso', iconData: MyJymIcons.arm),
+        _categoryIcon(1, text: 'Push', iconData: MyJymIcons.push),
+        _categoryIcon(2, text: 'Pull', iconData: MyJymIcons.pull),
+      ],
     );
   }
 
@@ -202,126 +200,111 @@ class _PlanWorkoutState extends State<PlanWorkout> {
     );
   }
 
-  Widget _categorySelect3() {
-    return Container(
-      child: Row(
-        children: [],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          const Text(
-            'Plan Workout',
-            style: Styles.header1,
+    return Column(
+      children: [
+        const Text(
+          'Plan Workout',
+          style: Styles.header1,
+        ),
+        Text(
+            '${weekday[widget.date.weekday - 1]} - ${month[widget.date.month]} ${widget.date.day}, ${widget.date.year}',
+            style: Styles.header3),
+        TextField(
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            hintText: "${weekday[widget.date.weekday - 1]}'s Workout",
           ),
-          Text(
-              '${weekday[widget.date.weekday - 1]} - ${month[widget.date.month]} ${widget.date.day}, ${widget.date.year}',
-              style: Styles.header3),
-          TextField(
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              hintText: "${weekday[widget.date.weekday - 1]}'s Workout",
-            ),
-            onChanged: (text) {
-              _name = text;
-            },
-          ),
-          Styles.horizontalRule(
-            top: 4,
-            bottom: 8,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Warmup', style: Styles.header3),
-              NumberPicker(
-                  axis: Axis.horizontal,
-                  itemWidth: 46,
-                  minValue: 0,
-                  maxValue: 30,
-                  step: 1,
-                  value: _durationWarmup,
-                  onChanged: (newDuration) {
-                    setState(() => _durationWarmup = newDuration);
-                  }),
-              const Text('minutes', style: Styles.header3),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Lifting', style: Styles.header3),
-              NumberPicker(
-                  axis: Axis.horizontal,
-                  itemWidth: 46,
-                  minValue: 15,
-                  maxValue: 120,
-                  step: 1,
-                  value: _durationLifting,
-                  onChanged: (newDuration) {
-                    setState(() => _durationLifting = newDuration);
-                  }),
-              const Text('minutes', style: Styles.header3),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Cooldown', style: Styles.header3),
-              NumberPicker(
-                  axis: Axis.horizontal,
-                  itemWidth: 46,
-                  minValue: 0,
-                  maxValue: 30,
-                  step: 1,
-                  value: _durationCooldown,
-                  onChanged: (newDuration) {
-                    setState(() => _durationCooldown = newDuration);
-                  }),
-              const Text('minutes', style: Styles.header3),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Workout Duration: ${_durationWarmup + _durationLifting + _durationCooldown} minutes',
-                style: Styles.header3,
-              )
-            ],
-          ),
-          Styles.horizontalRule(
-            top: 8,
-          ),
-          // Text(
-          //     workoutIntensityRestLevels[_restLevel.toInt()]['description']
-          //         .toString(),
-          //     style: Styles.header3),
-          _categorySelect(),
-          _categorySelect2(),
-          _categorySelect3(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(32),
-                child: ElevatedButton(
-                  onPressed: () {
-                    addWorkout();
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Add'),
-                ),
+          onChanged: (text) {
+            _name = text;
+          },
+        ),
+        Styles.horizontalRule(
+          top: 4,
+          bottom: 8,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Warmup', style: Styles.header3),
+            NumberPicker(
+                axis: Axis.horizontal,
+                itemWidth: 46,
+                minValue: 0,
+                maxValue: 30,
+                step: 1,
+                value: _durationWarmup,
+                onChanged: (newDuration) {
+                  setState(() => _durationWarmup = newDuration);
+                }),
+            const Text('minutes', style: Styles.header3),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Lifting', style: Styles.header3),
+            NumberPicker(
+                axis: Axis.horizontal,
+                itemWidth: 46,
+                minValue: 15,
+                maxValue: 120,
+                step: 1,
+                value: _durationLifting,
+                onChanged: (newDuration) {
+                  setState(() => _durationLifting = newDuration);
+                }),
+            const Text('minutes', style: Styles.header3),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Cooldown', style: Styles.header3),
+            NumberPicker(
+                axis: Axis.horizontal,
+                itemWidth: 46,
+                minValue: 0,
+                maxValue: 30,
+                step: 1,
+                value: _durationCooldown,
+                onChanged: (newDuration) {
+                  setState(() => _durationCooldown = newDuration);
+                }),
+            const Text('minutes', style: Styles.header3),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Workout Duration: ${_durationWarmup + _durationLifting + _durationCooldown} minutes',
+              style: Styles.header3,
+            )
+          ],
+        ),
+        Styles.horizontalRule(
+          top: 8,
+        ),
+        _categorySelect(),
+        _categorySelect2(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(32),
+              child: ElevatedButton(
+                onPressed: () {
+                  addWorkout();
+                  Navigator.pop(context);
+                },
+                child: const Text('Add'),
               ),
-            ],
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

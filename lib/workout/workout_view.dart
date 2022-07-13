@@ -22,14 +22,12 @@ class _WorkoutViewState extends State<WorkoutView> {
         }
       );
     } else {
-      return Container(
-        child: Column(
-          children: [
-            WorkoutInteractive(
-              day: DateTime.now(),
-            ),
-          ],
-        ),
+      return Column(
+        children: [
+          WorkoutInteractive(
+            day: DateTime.now(),
+          ),
+        ],
       );
     }
   }
