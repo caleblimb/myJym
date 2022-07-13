@@ -5,9 +5,14 @@ import 'package:myjym/tailor/ex_im_modal/import_modal.dart';
 
 import '../../auxiliary/modal.dart';
 
-class ExImButtons extends StatelessWidget {
+class ExImButtons extends StatefulWidget {
   const ExImButtons({Key? key}) : super(key: key);
 
+  @override
+  State<ExImButtons> createState() => _ExImButtonsState();
+}
+
+class _ExImButtonsState extends State<ExImButtons> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -20,6 +25,7 @@ class ExImButtons extends StatelessWidget {
               onPressed: () async {
                 // Open modal
                 await Modal.open(child: Import(), context: context);
+                setState((){});
               },
               label: Text('Import'),
               icon: Icon(Icons.download),
@@ -27,6 +33,7 @@ class ExImButtons extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: () async {
                 await Modal.open(child: Export(), context: context);
+                setState((){});
               },
               label: Text('Export'),
               icon: Icon(Icons.upload_file),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 
@@ -36,13 +38,13 @@ class _ExportState extends State<Export> {
     );
   }
   Widget exportField() => Row(
+    mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Expanded(child: TextField(controller: controller,)),
-        FloatingActionButton.small(
+        ElevatedButton(
           onPressed: (() async {
-            await FlutterClipboard.copy(controller.text);
+            await FlutterClipboard.copy(base64Encode(utf8.encode(controller.text)));
           }),
-          child: Icon(Icons.content_copy),
+          child: Row(children: [Text('Copy '), Icon(Icons.content_copy_outlined)],),
   ),
   ],
       );

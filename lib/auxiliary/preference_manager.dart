@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -149,6 +148,12 @@ class PreferenceManager {
     setPreferenceBool('setup', value);
   }
 
+  static void setWorkouts(Map<String,dynamic> workouts)
+  {
+    _workouts = workouts;
+    setPreferenceString('workout-events', jsonEncode(workouts));
+  }
+
   static void toggleWorkoutViewIsVertical() {
     _workoutViewIsVertical = !_workoutViewIsVertical;
     setPreferenceBool('workout_view_is_vertical', _workoutViewIsVertical);
@@ -172,14 +177,14 @@ class PreferenceManager {
   static bool fromJson(String json) {
     Map map = jsonDecode(json);
     try {
-      _gender = map["gender"];
-      _weight = map["weight"];
-      _units = map["units"];
-      _strengthLevel = map["strengthLevel"];
-      _equipmentSelected = EquipmentLevel.values[map["equipmentSelected"]];
-      _restLevel = (map["equipmentSelected"] as int).toDouble();
-      _setup = map["setup"];
-      _workouts = map["workouts"];
+      setGender(map["gender"]);
+      setWeight(map["weight"]);
+      setUnits(map["units"]);
+      setStrengthLevel(map["strengthLevel"]);
+      setEquipmentLevel(map["equipmentSelected"]);
+      setRestLevel(map["restLevel"]);
+      setSetup(map["setup"]);
+      setWorkouts(map["workouts"]);
     } catch (e) {
       return false;
     }
