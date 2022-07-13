@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:myjym/auxiliary/preference_manager.dart';
 import 'package:myjym/auxiliary/styles.dart';
 import 'package:myjym/workout/plan_workout.dart';
-import 'package:myjym/workout/workout_detailed.dart';
 
 import '../auxiliary/data.dart';
 import '../auxiliary/modal.dart';
@@ -10,15 +9,6 @@ import '../auxiliary/modal.dart';
 class WorkoutSummary extends StatefulWidget {
   const WorkoutSummary({Key? key, required this.day}) : super(key: key);
   final DateTime? day;
-
-  static const _backgroundColor = Colors.white;
-  static const _margin = EdgeInsets.fromLTRB(8, 4, 8, 4);
-  static const _padding = EdgeInsets.fromLTRB(8, 4, 8, 4);
-  static const _borderRadius = BorderRadius.all(Radius.circular(20));
-  static final _border = Border.all(
-    width: 2,
-    color: Styles.brown,
-  );
 
   @override
   State<WorkoutSummary> createState() => _WorkoutSummaryState();
@@ -56,79 +46,58 @@ class _WorkoutSummaryState extends State<WorkoutSummary> {
           borderRadius: const BorderRadius.all(Radius.circular(20)),
           border: Border.all(width: 2, color: Styles.brown),
         ),
-        child: InkResponse(
-          onDoubleTap: () async {
-            await Modal.openFull(
-              context: context,
-              child: WorkoutDetailed(day: widget.day),
-            );
-            setState(() {});
-          },
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  Row(
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                Text(
+                  workout['name'] as String,
+                  style: Styles.header1,
+                ),
+                Styles.horizontalRule(),
+                Text(
+                  'Warm up for ${(workout['duration_warmup']).toInt()} minutes',
+                  style: Styles.header3,
+                ),
+                ...(workout['exercises']).map((exercise) {
+                  return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      FloatingActionButton.small(
-                        onPressed: () {
-                          DateTime day = widget.day ?? DateTime.now();
-                          PreferenceManager.deleteWorkout(getHashCode(day).toString());
-                          setState(() {});
-                        },
-                        child: const Icon(Icons.delete),
+                      Text(
+                        Data.exerciseInfo[Exercise.values[exercise['type']]]![
+                            'name'] as String,
+                        style: Styles.header3,
+                      ),
+                      const Text(
+                        ' * ',
+                        style: Styles.header3,
                       ),
                       Text(
-                        workout['name'] as String,
-                        style: Styles.header1,
-                      ),
-                      FloatingActionButton.small(
-                        onPressed: () async {
-                          await Modal.openFull(
-                            context: context,
-                            child: WorkoutDetailed(day: widget.day),
-                          );
-                          setState(() {});
-                        },
-                        child: const Icon(Icons.lightbulb),
+                        (exercise['sets'] as List).length.toString(),
+                        style: Styles.header3,
                       ),
                     ],
-                  ),
-
-                  Styles.horizontalRule(),
-                  Text(
-                    'Warm up for ${(workout['duration_warmup']).toInt()} minutes',
-                    style: Styles.header3,
-                  ),
-                  ...(workout['exercises']).map((exercise) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          Data.exerciseInfo[Exercise.values[exercise['type']]]![
-                              'name'] as String,
-                          style: Styles.header3,
-                        ),
-                        const Text(
-                          ' * ',
-                          style: Styles.header3,
-                        ),
-                        Text(
-                          (exercise['sets'] as List).length.toString(),
-                          style: Styles.header3,
-                        ),
-                      ],
-                    );
-                  }).toList(),
-                  Text(
-                    'Cool down for ${(workout['duration_cooldown']).toInt()} minutes',
-                    style: Styles.header3,
-                  ),
-                ],
+                  );
+                }).toList(),
+                Text(
+                  'Cool down for ${(workout['duration_cooldown']).toInt()} minutes',
+                  style: Styles.header3,
+                ),
+              ],
+            ),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: FloatingActionButton.small(
+                onPressed: () {
+                  DateTime day = widget.day ?? DateTime.now();
+                  PreferenceManager.deleteWorkout(getHashCode(day).toString());
+                  setState(() {});
+                },
+                child: const Icon(Icons.delete),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

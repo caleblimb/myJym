@@ -8,8 +8,7 @@ import '../auxiliary/styles.dart';
 import 'instruction.dart';
 
 class WorkoutInteractive extends StatefulWidget {
-  const WorkoutInteractive({Key? key, required this.day})
-      : super(key: key);
+  const WorkoutInteractive({Key? key, required this.day}) : super(key: key);
   final DateTime? day;
 
   static const _margin = EdgeInsets.fromLTRB(8, 4, 8, 4);
@@ -21,14 +20,11 @@ class WorkoutInteractive extends StatefulWidget {
   );
 
   @override
-  State<WorkoutInteractive> createState() =>
-      _WorkoutInteractiveState();
+  State<WorkoutInteractive> createState() => _WorkoutInteractiveState();
 }
 
-class _WorkoutInteractiveState
-    extends State<WorkoutInteractive> {
-  final PageController _controllerHorizontal =
-      PageController(viewportFraction: 0.9);
+class _WorkoutInteractiveState extends State<WorkoutInteractive> {
+  PageController _controllerHorizontal = PageController(viewportFraction: 0.9);
 
   void _completeWorkout() {
     //Set workout to complete
@@ -88,7 +84,7 @@ class _WorkoutInteractiveState
     );
   }
 
-  Widget _exerciseCheckmarkButton({required exercise}) {
+  Widget _exerciseCheckmarkButton({required exercise, required workout}) {
     return Positioned(
       bottom: 0,
       right: 0,
@@ -100,7 +96,7 @@ class _WorkoutInteractiveState
         },
         child: Icon(
           Icons.done,
-          color: exercise['completed'] ? Colors.green : Colors.white,
+          color: exercise['completed'] || workout['completed'] ? Colors.green : Colors.white,
         ),
       ),
     );
@@ -284,7 +280,7 @@ class _WorkoutInteractiveState
                 child: Stack(
                   children: [
                     _exerciseInfo(exercise: exercise),
-                    _exerciseCheckmarkButton(exercise: exercise),
+                    _exerciseCheckmarkButton(exercise: exercise, workout: workout),
                     _questionMarkButton(exercise: exercise),
                   ],
                 ),
@@ -302,6 +298,15 @@ class _WorkoutInteractiveState
       scrollDirection: Axis.horizontal,
       controller: _controllerHorizontal,
       pageSnapping: !PreferenceManager.getWorkoutViewIsVertical(),
+      onPageChanged: (index) {
+        setState(() {
+          if (index == 1) {
+            workout['warmup_completed'] = true;
+          } else {
+            workout['exercises'][index - 2]['completed'] = true;
+          }
+        });
+      },
       children: [
         _warmup(workout: workout),
         ...(workout['exercises']).map((exercise) {
@@ -353,7 +358,7 @@ class _WorkoutInteractiveState
                       ],
                     ),
                   ),
-                  _exerciseCheckmarkButton(exercise: exercise),
+                  _exerciseCheckmarkButton(exercise: exercise, workout: workout),
                   _questionMarkButton(exercise: exercise),
                 ],
               ),
@@ -391,6 +396,20 @@ class _WorkoutInteractiveState
                 onPressed: () {
                   setState(() {
                     PreferenceManager.toggleWorkoutViewIsVertical();
+                    if (!PreferenceManager.getWorkoutViewIsVertical()) {
+                      var i = 0;
+                      if (workout['warmup_completed']) {
+                        i++;
+                        for (var exercise in workout['exercises']) {
+                          if (!exercise['completed']) {
+                            break;
+                          }
+                          i++;
+                        }
+                      }
+                      _controllerHorizontal =
+                          PageController(viewportFraction: 0.9, initialPage: i);
+                    }
                   });
                 },
                 child: PreferenceManager.getWorkoutViewIsVertical()

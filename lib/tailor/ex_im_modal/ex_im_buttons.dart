@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myjym/tailor/ex_im_modal/export_modal.dart';
 import 'package:myjym/tailor/ex_im_modal/import_modal.dart';
@@ -24,19 +23,19 @@ class _ExImButtonsState extends State<ExImButtons> {
             ElevatedButton.icon(
               onPressed: () async {
                 // Open modal
-                await Modal.open(child: Import(), context: context);
+                await Modal.open(child: const Import(), context: context);
                 setState((){});
               },
-              label: Text('Import'),
-              icon: Icon(Icons.download),
+              label: const Text('Import'),
+              icon: const Icon(Icons.download),
             ),
             ElevatedButton.icon(
               onPressed: () async {
-                await Modal.open(child: Export(), context: context);
+                await Modal.open(child: const Export(), context: context);
                 setState((){});
               },
-              label: Text('Export'),
-              icon: Icon(Icons.upload_file),
+              label: const Text('Export'),
+              icon: const Icon(Icons.upload_file),
             ),
           ],
         )

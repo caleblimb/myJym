@@ -21,14 +21,14 @@ class _ExportState extends State<Export> {
     String sharedPreferencesJSON = PreferenceManager.toJson();
     controller.text = sharedPreferencesJSON;
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: Column(
         children: [
-          Text(
+          const Text(
             "Export Data",
             style: Styles.header1,
           ),
-          Text(
+          const Text(
             "Press the copy button along side the text field to copy your data",
             style: Styles.header3,
           ),
@@ -44,7 +44,7 @@ class _ExportState extends State<Export> {
           onPressed: (() async {
             await FlutterClipboard.copy(base64Encode(utf8.encode(controller.text)));
           }),
-          child: Row(children: [Text('Copy '), Icon(Icons.content_copy_outlined)],),
+          child: Row(children: const [Text('Copy '), Icon(Icons.content_copy_outlined)],),
   ),
   ],
       );
