@@ -99,6 +99,7 @@ class _WorkoutInteractiveState extends State<WorkoutInteractive> {
           color: exercise['completed'] || workout['completed']
               ? Colors.green
               : Colors.white,
+          size: 36,
         ),
       ),
     );
@@ -173,6 +174,7 @@ class _WorkoutInteractiveState extends State<WorkoutInteractive> {
                     color: workout['warmup_completed']
                         ? Colors.green
                         : Colors.white,
+                    size: 36,
                   ),
                 ),
               )
