@@ -37,6 +37,7 @@ class _ImportState extends State<Import> {
                 }
                 return null;
               },
+              readOnly: true,
             ),
             ElevatedButton.icon(
                 onPressed: (() async {
