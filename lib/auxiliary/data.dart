@@ -17,7 +17,7 @@ enum Equipment {
 
 enum Exercise {
   benchPress,
-  squat,
+  barbellSquat,
   deadLift,
   shoulderPress,
   pullUps,
@@ -28,6 +28,14 @@ enum Exercise {
   pushUps,
   dumbbellShoulderPress,
   frontSquat,
+  squat,
+  lunge,
+  jumpingSquat,
+  jumpingJack,
+  reverseLunge,
+  plyoSplitSquat,
+  mountainClimber,
+  wallSit,
 }
 
 enum Category {
@@ -77,11 +85,19 @@ class Data {
 
   static const categoryInfo = {
     Category.legs: [
-      Exercise.squat,
+      Exercise.barbellSquat,
       Exercise.frontSquat,
+      Exercise.squat,
+      Exercise.lunge,
+      Exercise.jumpingSquat,
+      Exercise.jumpingJack,
+      Exercise.reverseLunge,
+      Exercise.plyoSplitSquat,
+      Exercise.mountainClimber,
+      Exercise.wallSit,
     ],
     Category.full: [
-      Exercise.squat,
+      Exercise.barbellSquat,
       Exercise.frontSquat,
       Exercise.benchPress,
       Exercise.deadLift,
@@ -96,13 +112,20 @@ class Data {
       Exercise.benchPress,
       Exercise.shoulderPress,
       Exercise.dumbbellBenchPress,
-      Exercise.pushUps,
       Exercise.dumbbellShoulderPress,
       Exercise.deadLift,
       Exercise.pullUps,
       Exercise.dumbbellCurl,
       Exercise.barbellCurl,
       Exercise.bentOverRow,
+      Exercise.squat,
+      Exercise.lunge,
+      Exercise.jumpingSquat,
+      Exercise.jumpingJack,
+      Exercise.reverseLunge,
+      Exercise.plyoSplitSquat,
+      Exercise.mountainClimber,
+      Exercise.wallSit,
     ],
     Category.torso: [
       Exercise.benchPress,
@@ -143,11 +166,11 @@ class Data {
       'female_levels': [0.25, 0.375, 0.50, 0.625, 0.75, 0.875, 1.0, 1.25, 1.50],
       'equipment': [Equipment.barbell, Equipment.bench, Equipment.rack]
     },
-    Exercise.squat: {
+    Exercise.barbellSquat: {
       'index': 1,
-      'name': 'Squat',
+      'name': 'Barbellsquat',
       'units': repUnit.bodyWeightRatio,
-      'key': 'squat',
+      'key': 'barbell_squat',
       'male_levels': [0.75, 1.00, 1.25, 1.375, 1.50, 1.875, 2.25, 2.5, 2.75],
       'female_levels': [0.50, 0.625, 0.75, 1, 1.25, 1.375, 1.50, 1.75, 2.0],
       'equipment': [Equipment.barbell, Equipment.rack]
@@ -241,7 +264,262 @@ class Data {
       'male_levels': [0.75, 0.875, 1.00, 1.125, 1.25, 1.50, 1.75, 1.875, 2.00],
       'female_levels': [0.50, 0.625, 0.75, 0.875, 1.0, 1.125, 1.25, 1.375, 1.5],
       'equipment': [Equipment.barbell, Equipment.rack]
-    }
+    },
+    Exercise.squat: {
+      'index': 12,
+      'name': 'Squat',
+      'units': repUnit.count,
+      'key': 'squat',
+      'male_levels': [1.0, 8.0, 18.0, 30.0, 41.0, 54.0, 68.0, 72.0, 99.0],
+      'female_levels': [1.0, 2.0, 5.0, 11.0, 19.0, 26.0, 35.0, 42.0, 56.0],
+      'equipment': []
+    },
+    Exercise.lunge: {
+      'index': 13,
+      'name': 'Lunge',
+      'units': repUnit.count,
+      'key': 'lunge',
+      'male_levels': [1.0, 8.0, 18.0, 30.0, 41.0, 54.0, 68.0, 72.0, 99.0],
+      'female_levels': [1.0, 2.0, 5.0, 11.0, 19.0, 26.0, 35.0, 42.0, 56.0],
+      'equipment': []
+    },
+    Exercise.jumpingJack: {
+      'index': 14,
+      'name': 'Jumping Jack',
+      'units': repUnit.count,
+      'key': 'jumping_jack',
+      'male_levels': [1.0, 8.0, 18.0, 30.0, 41.0, 54.0, 68.0, 72.0, 99.0],
+      'female_levels': [1.0, 2.0, 5.0, 11.0, 19.0, 26.0, 35.0, 42.0, 56.0],
+      'equipment': []
+    },
+    Exercise.jumpingSquat: {
+      'index': 15,
+      'name': 'Jumping Squat',
+      'units': repUnit.count,
+      'key': 'jumping_squat',
+      'male_levels': [1.0, 8.0, 18.0, 30.0, 41.0, 54.0, 68.0, 72.0, 99.0],
+      'female_levels': [1.0, 2.0, 5.0, 11.0, 19.0, 26.0, 35.0, 42.0, 56.0],
+      'equipment': []
+    },
+    Exercise.reverseLunge: {
+      'index': 16,
+      'name': 'Reverse Lunge',
+      'units': repUnit.count,
+      'key': 'reverse_lunge',
+      'male_levels': [1.0, 8.0, 18.0, 30.0, 41.0, 54.0, 68.0, 72.0, 99.0],
+      'female_levels': [1.0, 2.0, 5.0, 11.0, 19.0, 26.0, 35.0, 42.0, 56.0],
+      'equipment': []
+    },
+    Exercise.plyoSplitSquat: {
+      'index': 17,
+      'name': 'Plyo Split Squat',
+      'units': repUnit.count,
+      'key': 'plyo_split_squat',
+      'male_levels': [1.0, 8.0, 18.0, 30.0, 41.0, 54.0, 68.0, 72.0, 99.0],
+      'female_levels': [1.0, 2.0, 5.0, 11.0, 19.0, 26.0, 35.0, 42.0, 56.0],
+      'equipment': []
+    },
+    Exercise.mountainClimber: {
+      'index': 18,
+      'name': 'Mountain Climber',
+      'units': repUnit.count,
+      'key': 'mountain_climber',
+      'male_levels': [1.0, 8.0, 18.0, 30.0, 41.0, 54.0, 68.0, 72.0, 99.0],
+      'female_levels': [1.0, 2.0, 5.0, 11.0, 19.0, 26.0, 35.0, 42.0, 56.0],
+      'equipment': []
+    },
+    Exercise.wallSit: {
+      'index': 19,
+      'name': 'Wall Sit',
+      'units': repUnit.count,
+      'key': 'wall_sit',
+      'male_levels': [1.0, 8.0, 18.0, 30.0, 41.0, 54.0, 68.0, 72.0, 99.0],
+      'female_levels': [1.0, 2.0, 5.0, 11.0, 19.0, 26.0, 35.0, 42.0, 56.0],
+      'equipment': []
+    },
+  };
+
+  static final Map<Object, Map<String, Object>> exerciseInstructions = {
+    Exercise.benchPress: {
+      'title': 'Bench Press',
+      'tips': [
+        'Lay back flat down on bench',
+        'Place feet on ground',
+        'Put both arms up at the same time because we like to party a lot',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.barbellSquat: {
+      'title': 'Barbell Squat',
+      'tips': [
+        'Rest bar on shoulders',
+        'Place feet same distance as shoulders',
+        'Place hands on bar about a foot away from shoulders',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.deadLift: {
+      'title': 'Deadlift',
+      'tips': [
+        'Keep back straight',
+        'Pop chest out',
+        'Bend your knees',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.shoulderPress: {
+      'title': 'Shoulder Press',
+      'tips': [
+        'Rest bar front of shoulders',
+        'Place feet same distance as shoulders',
+        'Place hands on bar about a foot away from shoulders',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.pullUps: {
+      'title': 'Pull-Up',
+      'tips': [
+        'Rest bar on shoulders',
+        'Place feet same distance as shoulders',
+        'Place hands on bar about a foot away from shoulders',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.dumbbellBenchPress: {
+      'title': 'Dumbbell Bench Press',
+      'tips': [
+        'Rest bar on shoulders',
+        'Place feet same distance as shoulders',
+        'Place hands on bar about a foot away from shoulders',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.dumbbellCurl: {
+      'title': 'Dumbbell Curl',
+      'tips': [
+        'Rest bar on shoulders',
+        'Place feet same distance as shoulders',
+        'Place hands on bar about a foot away from shoulders',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.barbellCurl: {
+      'title': 'Barbell Curl',
+      'tips': [
+        'Keep back straight',
+        'Place feet shoulder distance',
+        'Don\'t rock with barbell; Use LESS weight',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.bentOverRow: {
+      'title': 'BentOver Row',
+      'tips': [
+        'Rest bar on shoulders',
+        'Place feet same distance as shoulders',
+        'Place hands on bar about a foot away from shoulders',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.pushUps: {
+      'title': 'Push-Up',
+      'tips': [
+        'Rest bar on shoulders',
+        'Place feet same distance as shoulders',
+        'Place hands on bar about a foot away from shoulders',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.dumbbellShoulderPress: {
+      'title': 'Dumbbell Shoulder Press',
+      'tips': [
+        'Rest bar on shoulders',
+        'Place feet same distance as shoulders',
+        'Place hands on bar about a foot away from shoulders',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.frontSquat: {
+      'title': 'Front Squat',
+      'tips': [
+        'Rest bar on shoulders',
+        'Place feet same distance as shoulders',
+        'Place hands on bar about a foot away from shoulders',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.squat: {
+      'title': 'Squat',
+      'tips': [
+        'Place feet same distance as shoulders',
+        'Keep back straight',
+        'Keep arms tucked in',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.lunge: {
+      'title': 'Lunge',
+      'tips': [
+        'Place feet same distance as shoulders',
+        'Keep back straight',
+        'Keep arms tucked in',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.jumpingSquat: {
+      'title': 'Jumping Squat',
+      'tips': [
+        'Place feet same distance as shoulders',
+        'Keep back straight',
+        'Keep arms tucked in',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.jumpingJack: {
+      'title': 'Jumping Jack',
+      'tips': [
+        'Place feet same distance as shoulders',
+        'Keep back straight',
+        'Make sure that you have enough room',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.reverseLunge: {
+      'title': 'Reverse Lunge',
+      'tips': [
+        'Place feet same distance as shoulders',
+        'Keep back straight',
+        'Keep arms tucked in',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.plyoSplitSquat: {
+      'title': 'Plyo Split Squat',
+      'tips': [
+        'Place feet same distance as shoulders',
+        'Keep back straight',
+        'Make sure that you have enough room',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.mountainClimber: {
+      'title': 'Mountain Climber',
+      'tips': [
+        'Bring knees to arms',
+        'Keep back straight',
+        'Keep arms tucked in',
+        'Don\'t over exert yourself',
+      ],
+    },
+    Exercise.wallSit: {
+      'title': 'Wall Sit',
+      'tips': [
+        'Place feet same distance as shoulders',
+        'Keep back straight',
+        'Keep arms tucked in',
+        'Don\'t over exert yourself',
+      ],
+    },
   };
 
   static const setStyleInfo = {
