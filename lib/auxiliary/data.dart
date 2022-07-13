@@ -28,6 +28,7 @@ enum Exercise {
   pushUps,
   dumbbellShoulderPress,
   frontSquat,
+  walking,
 }
 
 enum Category {
@@ -71,6 +72,7 @@ class Data {
     Category.legs: [
       Exercise.squat,
       Exercise.frontSquat,
+      Exercise.walking,
     ],
     Category.full: [
       Exercise.squat,
@@ -233,6 +235,15 @@ class Data {
       'male_levels': [0.75, 0.875, 1.00, 1.125, 1.25, 1.50, 1.75, 1.875, 2.00],
       'female_levels': [0.50, 0.625, 0.75, 0.875, 1.0, 1.125, 1.25, 1.375, 1.5],
       'equipment': [Equipment.barbell, Equipment.rack]
+    },
+    Exercise.walking: {
+      'index': 12,
+      'name': 'Walking',
+      'units': repUnit.bodyWeightRatio,
+      'key': 'walking',
+      'male_levels': [0.75, 0.875, 1.00, 1.125, 1.25, 1.50, 1.75, 1.875, 2.00],
+      'female_levels': [0.50, 0.625, 0.75, 0.875, 1.0, 1.125, 1.25, 1.375, 1.5],
+      'equipment': []
     }
   };
 
