@@ -75,10 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: Column(
-        children: [currentView['content'] as Widget],
-          // child: currentView['content'] as Widget,
-      ),
+      body: currentView['content'] as Widget,
+
       bottomNavigationBar: BottomBar(
         action: _changeView,
       ),
