@@ -66,9 +66,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: Center(
-        child: currentView['content'] as Widget,
-      ),
+      body: currentView['content'] as Widget,
+
       bottomNavigationBar: BottomBar(
         action: _changeView,
       ),
