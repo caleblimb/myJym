@@ -4,6 +4,7 @@ import '../auxiliary/styles.dart';
 import '../tailor/available_equipment.dart';
 import '../tailor/body_info.dart';
 import '../tailor/strength_level.dart';
+import '../tailor/workout_intensity.dart';
 
 class QuickStart extends StatefulWidget {
   const QuickStart({Key? key, required this.doneButtonAction})
@@ -49,7 +50,7 @@ class _QuickStartState extends State<QuickStart> {
             'Workout Intensity',
             style: Styles.header1,
           ),
-          // WorkoutIntensity(),
+          const WorkoutIntensity(),
           const StreangthLevel(),
           Expanded(child: Container()),
           SizedBox(
