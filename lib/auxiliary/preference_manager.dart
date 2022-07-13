@@ -65,6 +65,10 @@ class PreferenceManager {
     setPreferenceString('workout-events', jsonEncode(_workouts));
   }
 
+  static deleteWorkout(String hashCode){
+    _workouts.remove(hashCode);
+    setPreferenceString('workout-events', jsonEncode(_workouts));
+  }
   //Getters
   static int getGender() {
     return _gender;
