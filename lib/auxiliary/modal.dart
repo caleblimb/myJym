@@ -9,7 +9,9 @@ class Modal {
   static const _padding = EdgeInsets.fromLTRB(8, 8, 8, 8);
   static const _borderRadius = BorderRadius.all(Radius.circular(20));
 
-  static Future<void> open({required BuildContext context, required Widget child}) async {
+  // Open modal that covers whole screen
+  static Future<void> openFull(
+      {required BuildContext context, required Widget child}) async {
     await showPlatformDialog(
       context: context,
       builder: (context) => Material(
@@ -26,6 +28,38 @@ class Modal {
               child: child,
               onTap: () => {}, //Overwrites Navigation.pop for content
             ),
+          ),
+          onTap: () => Navigator.pop(context),
+        ),
+      ),
+      useRootNavigator: false,
+    );
+  }
+
+  // Open modal that sizes to content
+  static Future<void> open(
+      {required BuildContext context, required Widget child}) async {
+    await showPlatformDialog(
+      context: context,
+      builder: (context) => Material(
+        color: const Color.fromRGBO(0, 0, 0, 0),
+        child: InkResponse(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: _margin,
+                padding: _padding,
+                decoration: const BoxDecoration(
+                  color: _backgroundColor,
+                  borderRadius: _borderRadius,
+                ),
+                child: InkResponse(
+                  child: child,
+                  onTap: () => {}, //Overwrites Navigation.pop for content
+                ),
+              ),
+            ],
           ),
           onTap: () => Navigator.pop(context),
         ),

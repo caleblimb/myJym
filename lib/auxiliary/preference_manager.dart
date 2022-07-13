@@ -8,25 +8,25 @@ class PreferenceManager {
   static bool gotPreferences = false;
 
   // 0 = Female, 1 = Male
-  static int _gender = 0;
-  static int _weight = 100;
+  static int _gender = 1;
+  static int _weight = 150;
   static var _unitTypes = ['lbs', 'kg'];
   static var _units = Units.lbs.index;
-  static double _strengthLevel = 0;
+  static double _strengthLevel = 4;
   static EquipmentLevel _equipmentSelected = EquipmentLevel.none;
-  static double _restLevel = 2;
+  static double _restLevel = 2.0;
   static bool _setup = true;
   static Map<String, dynamic> _workouts = {};
   static bool _workoutViewIsVertical = false;
 
   static Future<void> getPreferences(final prefs) async {
-    _gender = prefs.getInt('gender') ?? 0;
-    _weight = prefs.getInt('weight') ?? 100;
+    _gender = prefs.getInt('gender') ?? 1;
+    _weight = prefs.getInt('weight') ?? 150;
     _units = prefs.getInt('units') ?? Units.lbs.index;
-    _strengthLevel = prefs.getDouble('strength-level') ?? 0.0;
-    int selectedEquip = prefs.getInt('EquipmentLevel') ?? 0;
+    _strengthLevel = prefs.getDouble('strength-level') ?? 4.0;
+    int selectedEquip = prefs.getInt('EquipmentLevel') ?? 2;
     _equipmentSelected = EquipmentLevel.values[selectedEquip];
-    _restLevel = prefs.getDouble('rest-level') ?? 0.0;
+    _restLevel = prefs.getDouble('rest-level') ?? 2.0;
     _setup = prefs.getBool('setup') ?? false;
     _workoutViewIsVertical = prefs.getBool('workout_view_is_vertical') ?? false;
 
@@ -148,6 +148,12 @@ class PreferenceManager {
     setPreferenceBool('setup', value);
   }
 
+  static void setWorkouts(Map<String,dynamic> workouts)
+  {
+    _workouts = workouts;
+    setPreferenceString('workout-events', jsonEncode(workouts));
+  }
+
   static void toggleWorkoutViewIsVertical() {
     _workoutViewIsVertical = !_workoutViewIsVertical;
     setPreferenceBool('workout_view_is_vertical', _workoutViewIsVertical);
@@ -157,7 +163,6 @@ class PreferenceManager {
     Map map = {
       "gender": _gender,
       "weight": _weight,
-      "unitTypes": _unitTypes,
       "units": _units,
       "strengthLevel": _strengthLevel,
       "equipmentSelected": _equipmentSelected.index,
@@ -169,23 +174,20 @@ class PreferenceManager {
     return json;
   }
 
-  static String fromJson(String json) {
+  static bool fromJson(String json) {
     Map map = jsonDecode(json);
     try {
-      _gender = map["gender"];
-      _weight = map["weight"];
-      _unitTypes = map["unitTypes"];
-      _units = map[_units];
-      _strengthLevel = map["strengthLevel"];
-      _equipmentSelected = EquipmentLevel.values[map["equipmentSelected"]];
-      _restLevel = map["equipmentSelected"];
-      _setup = map["setup"];
-      _workouts = map["workouts"];
+      setGender(map["gender"]);
+      setWeight(map["weight"]);
+      setUnits(map["units"]);
+      setStrengthLevel(map["strengthLevel"]);
+      setEquipmentLevel(map["equipmentSelected"]);
+      setRestLevel(map["restLevel"]);
+      setSetup(map["setup"]);
+      setWorkouts(map["workouts"]);
     } catch (e) {
-      //do something based off of the error
-      //Print Error to screen?
-      return "ERROR: Make sure you have the right file";
+      return false;
     }
-    return "Information Uploaded Successfully";
+    return true;
   }
 }

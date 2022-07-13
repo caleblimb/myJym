@@ -4,7 +4,6 @@ import 'package:myjym/auxiliary/data.dart';
 import 'package:myjym/auxiliary/preference_manager.dart';
 import 'package:myjym/auxiliary/styles.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:myjym/auxiliary/myjym_icons.dart';
 
 class PlanWorkout extends StatefulWidget {
@@ -61,16 +60,19 @@ class _PlanWorkoutState extends State<PlanWorkout> {
     var duration = _durationLifting.toDouble();
     var exercises = populateWorkout(duration);
 
-    var _workout = {
+    var workout = {
       'name':
-          _name == '' ? weekday[widget.date.weekday - 1] + "'s Workout" : _name,
+          _name == '' ? "${weekday[widget.date.weekday - 1]}'s Workout" : _name,
       'duration_warmup': _durationWarmup.toDouble(),
+      'warmup_completed': false,
       'duration_lifting': duration,
       'duration_cooldown': _durationCooldown.toDouble(),
+      'cooldown_completed': false,
       'exercises': exercises,
+      'completed': false,
     };
     String hashCode = getHashCode(widget.date).toString();
-    PreferenceManager.addWorkout(hashCode, _workout);
+    PreferenceManager.addWorkout(hashCode, workout);
   }
 
   List<Map<String, Object>> populateWorkout(double duration) {
@@ -133,7 +135,7 @@ class _PlanWorkoutState extends State<PlanWorkout> {
               });
             });
           }
-          exercises.add({'type': type.index, 'sets': sets});
+          exercises.add({'type': type.index, 'sets': sets, 'completed': false});
           time += 5.0;
         }
 
@@ -218,18 +220,12 @@ class _PlanWorkoutState extends State<PlanWorkout> {
             style: Styles.header1,
           ),
           Text(
-              weekday[widget.date.weekday - 1] +
-                  ' - ' +
-                  month[widget.date.month] +
-                  ' ' +
-                  widget.date.day.toString() +
-                  ', ' +
-                  widget.date.year.toString(),
+              '${weekday[widget.date.weekday - 1]} - ${month[widget.date.month]} ${widget.date.day}, ${widget.date.year}',
               style: Styles.header3),
           TextField(
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
-              hintText: weekday[widget.date.weekday - 1] + "'s Workout",
+              hintText: "${weekday[widget.date.weekday - 1]}'s Workout",
             ),
             onChanged: (text) {
               _name = text;
@@ -294,10 +290,7 @@ class _PlanWorkoutState extends State<PlanWorkout> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Workout Duration: ' +
-                    (_durationWarmup + _durationLifting + _durationCooldown)
-                        .toString() +
-                    ' minutes',
+                'Workout Duration: ${_durationWarmup + _durationLifting + _durationCooldown} minutes',
                 style: Styles.header3,
               )
             ],
